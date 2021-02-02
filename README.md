@@ -1,6 +1,6 @@
 <p align="center"><img src="https://github.com/musurca/IKE/raw/main/ike_logo.png" /></p>
 
-## A framework for adding PBEM/hotseat multiplayer to *Command: Modern Operations* scenarios
+## PBEM/hotseat multiplayer for *Command: Modern Operations* scenarios
 [**DOWNLOAD LATEST RELEASE HERE (v1.1)**](https://github.com/musurca/IKE/releases/download/v1.1/IKE_v1.1.zip)
 
 If you're a scenario author or player looking to convert a new or existing scenario for multiplayer use, you only need to download the release using the link above. Make sure you read the manual before trying to apply **IKE**.
