@@ -37,7 +37,7 @@ cat $IKE_SRC_PATH/$IKE_STARTTURN >> tmp/loader.lua
 luamin -f tmp/loader.lua > tmp/loader_min.lua
 
 # build the escape string for loading
-python escape.py tmp/loader_min.lua tmp/loader_escaped.txt
+python3 escape.py tmp/loader_min.lua tmp/loader_escaped.txt
 
 # build IKE wizard
 for f in ${IKE_WIZARD_INCLUDE[@]}; do

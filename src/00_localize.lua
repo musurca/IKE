@@ -36,7 +36,7 @@ IKE_LOCALIZATIONS = {
         ["WIZARD_TURN_LENGTH"]      = "Enter the desired TURN LENGTH in minutes:",
         ["WIZARD_PLAYABLE_SIDE"]    = "Should the %1 side be PLAYABLE?",
         ["WIZARD_GO_FIRST"]         = "Should the %1 side go FIRST?",
-        ["WIZARD_CLEAR_MISSIONS"]   = "Clear any existing missions for the %1 side?"
+        ["WIZARD_CLEAR_MISSIONS"]   = "Clear any existing missions for the %1 side?",
         ["WIZARD_SETUP_PHASE"]      = "Should the game start with a SETUP PHASE?",
         ["WIZARD_SUCCESS"]          = "Success! Your PBEM/hotseat scenario has been initialized. Go to FILE -> SAVE AS... to save it under a new name. It will be ready to play when next loaded.\n\n(If you're planning to publish it to the Steam Workshop, you should do it now, before you close this scenario.)\n\nThanks for using IKE!"
     }
