@@ -1,6 +1,6 @@
 # IKE
 ## A framework for adding PBEM/hotseat multiplayer to *Command: Modern Operations* scenarios
-[**DOWNLOAD LATEST RELEASE HERE (v1.1)**](https://www.dropbox.com/s/1fhc2cm1684vpt2/IKE_v1.1.zip?dl=1)
+[**DOWNLOAD LATEST RELEASE HERE (v1.1)**](https://github.com/musurca/IKE/releases/download/v1.1/IKE_v1.1.zip)
 
 If you're a scenario author or player looking to convert a new or existing scenario for multiplayer use, you only need to download the release using the link above. Make sure you read the manual before trying to apply **IKE**.
 
@@ -24,7 +24,7 @@ The compiled, minified Lua code will be placed in `release/ike_min.lua`.
 **IKE** adds PBEM (Play by E-Mail) or Hotseat play to any *Command: Modern Operations* scenario, allowing you to engage in a turn-based multiplayer game with one or more opponents by exchanging .save files.
 
 ### What does it do?
-IKE...
+**IKE**...
 * keeps track of turn order and length, and stops the scenario automatically when a player’s turn is over.
 * provides a summary of any losses sustained during the last turn.
 * adds an (optional) Setup Phase, allowing players to configure loadouts, missions, and orders before the game begins.
@@ -36,14 +36,14 @@ IKE...
 **IKE** is designed primarily for scenario authors who want to create a multiplayer version of their existing scenario, but it may also be used productively by players who want to convert their favorite scenario for use with a friend.
 
 ### How do I use it?
-For detailed instructions, please refer to the manual included with the [latest official release](https://www.dropbox.com/s/1fhc2cm1684vpt2/IKE_v1.1.zip?dl=1).
+For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.1/IKE_v1.1.zip).
 
 ### Why is the build process so complicated?
 **IKE** works by injecting its own code into a *CMO* LuaScript event action which is executed upon every scenario load. The build process converts the **IKE** source into a minified, escaped string which is then re-embedded into its own code. (IKE-ception!)
 
 ### Limitations / known issues
-* If your scenario code calls ScenEdit_SetTime(...), you will almost certainly trip the anti-cheat system. Try to avoid changing the current scenario time in Lua if possible.
-* Currently (as of CMO build 1147.16) there is an internal engine bug that prevents **IKE** from automatically determining when the scenario is over (specifically, that the ‘ScenEnded’ event trigger never fires). When this is fixed, **IKE** will also print a nice score summary for the players at the end of the scenario and mark it as over. Until then, you may optionally add a call to `PBEM_ScenarioOver()` in any event that ends the scenario to get the score summary.
+* If your scenario code calls `ScenEdit_SetTime(...)`, you will almost certainly trip the anti-cheat system. Try to avoid changing the current scenario time in Lua if possible.
+* Currently (as of *CMO* build 1147.16) there is an internal engine bug that prevents **IKE** from automatically determining when the scenario is over (specifically, that the ‘ScenEnded’ event trigger never fires). When this is fixed, **IKE** will also print a nice score summary for the players at the end of the scenario and mark it as over. Until then, you may optionally add a call to `PBEM_ScenarioOver()` in any event that ends the scenario to get the score summary.
 
 ### VERSION HISTORY
 v1.1 (2/1/2021):
