@@ -40,7 +40,7 @@ The compiled, minified Lua code will be placed in `release/ike_min.lua`. This is
 ./build.sh debug
 ```
 
-This will produce compiled but unminified Lua code in `release/ike_debug.lua`. _Do not use this in a released scenario._ This is mostly useful to observe how the final released Lua is composed from the source files.
+This will produce compiled but unminified Lua code in `debug/ike_debug.lua`. _Do not use this in a released scenario._ This is mostly useful to observe how the final released Lua is composed from the source files.
 
 #### Why is the build process so complicated?
 **IKE** works by injecting its own code into a *CMO* LuaScript event action which is executed upon every scenario load. The build process converts the **IKE** source into a minified, escaped string which is then re-embedded into its own code. (IKE-ception!)

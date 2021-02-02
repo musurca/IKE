@@ -1,9 +1,11 @@
 #!/bin/bash
 # IKE - BUILD SCRIPT
 
-# The final path of the compiled, minified file
-IKE_BUILD_PATH="./release"
+# Release path: compiled, minified
+IKE_RELEASE_PATH="./release"
 IKE_RELEASE_NAME="ike_min.lua"
+# Debug path: compiled, unminified
+IKE_DEBUG_PATH="./debug"
 IKE_DEBUG_NAME="ike_debug.lua"
 
 # The path to the source files
@@ -21,9 +23,11 @@ IKE_COMMENTS="xx_comments.lua"
 IKE_FINALINIT="xx_finalinit.lua"
 
 if [ "$1" = "debug" ]; then
-    IKE_FINAL_PATH="$IKE_BUILD_PATH/$IKE_DEBUG_NAME"
+    IKE_BUILD_PATH="$IKE_DEBUG_PATH"
+    IKE_FINAL_PATH="$IKE_DEBUG_PATH/$IKE_DEBUG_NAME"
 else
-    IKE_FINAL_PATH="$IKE_BUILD_PATH/$IKE_RELEASE_NAME"
+    IKE_BUILD_PATH="$IKE_RELEASE_PATH"
+    IKE_FINAL_PATH="$IKE_RELEASE_PATH/$IKE_RELEASE_NAME"
 fi
 
 mkdir tmp
