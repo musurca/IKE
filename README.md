@@ -15,7 +15,7 @@ Pull requests for new features welcome! Please note that IKE is licensed under [
 
 ### How to compile
 ```
-./build
+./build.sh
 ```
 
 The compiled, minified Lua code will be placed in `release/ike_min.lua`.

@@ -1,3 +1,4 @@
+#!/bin/bash
 # IKE - BUILD SCRIPT
 
 # The final path of the compiled, minified file
