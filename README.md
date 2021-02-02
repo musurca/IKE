@@ -11,7 +11,7 @@ _Pull requests welcome!_ Please note that IKE is licensed under [GNU GPL v3](htt
 ### Build prerequisites
 * [luamin](https://github.com/mathiasbynens/luamin)
 * [Python 3](https://www.python.org/downloads/)
-* A Bash-capable shell (Windows PowerShell should be okay)
+* A Bash shell (on Windows 10, install the [WSL](https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/))
 
 ### How to compile
 ```
