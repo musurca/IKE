@@ -10,9 +10,9 @@ This code repository is intended only for those who are curious about how **IKE*
 _Pull requests welcome!_ Please note that **IKE** is licensed under [GNU GPL v3](https://www.gnu.org/licenses/gpl-3.0-standalone.html), so if you intend to make and distribute changes, please make the source freely available or submit a pull request to this repository promptly.
 
 ### Build prerequisites
+* A Bash shell (on Windows 10, install the [WSL](https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/))
 * [luamin](https://github.com/mathiasbynens/luamin)
 * [Python 3](https://www.python.org/downloads/)
-* A Bash shell (on Windows 10, install the [WSL](https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/))
 
 ### How to compile
 ```
