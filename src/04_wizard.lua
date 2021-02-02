@@ -12,7 +12,7 @@ code.
 ----------------------------------------------
 ]]--
 
-IKE_VERSION = "1.1"
+IKE_VERSION = "1.2"
 
 function PBEM_Init()
     --wizard intro
