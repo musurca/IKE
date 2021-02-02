@@ -6,7 +6,7 @@ If you're a scenario author or player looking to convert a new or existing scena
 
 This code repository is intended only for those who are curious about how **IKE** works internally, want to add more features, or want to localize the text for a language other than English.
 
-_Pull requests welcome!_ Please note that **IKE** is licensed under [GNU GPL v3](https://www.gnu.org/licenses/gpl-3.0-standalone.html), so if you make changes, please make them freely available or submit a pull request to this repository promptly. 
+_Pull requests welcome!_ Please note that **IKE** is licensed under [GNU GPL v3](https://www.gnu.org/licenses/gpl-3.0-standalone.html), so if you intend to make and distribute changes, please make the source freely available or submit a pull request to this repository promptly.
 
 ### Build prerequisites
 * [luamin](https://github.com/mathiasbynens/luamin)
