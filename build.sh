@@ -10,8 +10,8 @@ IKE_SRC_PATH="./src"
 
 # Edit these lines to add new source files to the build.
 # Files are added in the order that they are listed.
-IKE_LOADER_INCLUDE=("00_md5.lua" "01_util.lua" "02_pbem.lua")
-IKE_WIZARD_INCLUDE=("03_wizard.lua")
+IKE_LOADER_INCLUDE=("00_localize.lua" "01_md5.lua" "02_util.lua" "03_pbem.lua")
+IKE_WIZARD_INCLUDE=("04_wizard.lua")
 
 # -------DO NOT EDIT BELOW THIS LINE--------
 IKE_STARTTURN="xx_startturn.lua"

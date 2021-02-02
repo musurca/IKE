@@ -1,7 +1,7 @@
 --[[
 ----------------------------------------------
 IKE
-01_util.lua
+02_util.lua
 ----------------------------------------------
 
 General utility functions for working with CMO
@@ -23,6 +23,18 @@ function PadDigits(num)
         numStr = '0'..numStr
     end
     return numStr
+end
+
+--[[
+Formats a string by inserting array elements.
+e.g.
+Format("%1 %2 %3", {"ten", "little", "indians"}) == "ten little indians"
+]]--
+function Format(str, arg)
+    for i=1, #arg do
+        str = string.gsub(str, "[%%]["..i.."]", arg[i])
+    end
+    return str
 end
 
 --[[

@@ -1,7 +1,7 @@
 --[[
 ----------------------------------------------
 IKE
-02_pbem.lua
+03_pbem.lua
 ----------------------------------------------
 
 This file contains most of the important logic
@@ -57,7 +57,8 @@ function PBEM_CheckSideSecurity()
             -- End turn
             Turn_NextSide()
             ScenEdit_PlaySound("radioChirp5.mp3")
-            local msg = Message_Header('End of '..curPlayerSide..' Turn '..turnnum)..'Go to <b>File -> Save As...</b>, save this game, and send the save file to the <b>'..Turn_GetCurSideName()..'</b> player via email or another transfer service.<br/><br/><u>IMPORTANT:</u> Do <b>NOT</b> close this window or resume the game before saving, or you will have to replay your turn.'
+            local msg = Message_Header(Format(Localize("END_OF_TURN_HEADER"), {curPlayerSide, turnnum}))
+            msg = msg..Format(Localize("END_OF_TURN_MESSAGE"), {Turn_GetCurSideName()})
             ScenEdit_SpecialMessage('playerside', msg)
             PBEM_EndRandom()
         else
@@ -79,7 +80,7 @@ end
 
 function PBEM_ShowRemainingTime()
     if Turn_GetTurnNumber() == 0 and PBEM_SETUP_PHASE then
-        Input_OK("This is the setup phase.")
+        Input_OK(Localize("SHOW_REMAINING_SETUP"))
     else
         local timeLeft = PBEM_GetNextTurnStartTime() - ScenEdit_CurrentTime()
         local timeStrings = {}
@@ -88,7 +89,8 @@ function PBEM_ShowRemainingTime()
         local min = math.floor((timeLeft - hrs*60*60) / 60)
         local sec = math.floor(timeLeft - hrs*60*60 - min*60)
         
-        Input_OK("Time remaining in your turn: "..PadDigits(hrs)..":"..PadDigits(min)..":"..PadDigits(sec)..".")
+        local msg = Format(Localize("SHOW_REMAINING_TIME"), {PadDigits(hrs), PadDigits(min), PadDigits(sec)})
+        Input_OK(msg)
     end
 end
 
@@ -153,7 +155,7 @@ end
 function PBEM_ScenarioOver()
     ScenEdit_SetSideOptions({side=PBEM_DUMMY_SIDE, awareness='OMNI'})
     local scores = PBEM_ScoreSummary()
-    local msg = Message_Header('End of Scenario')..scores..'Go to <b>File -> Save As...</b>, save this game, and send the save file to the other players via email or another transfer service.<br/><br/>'
+    local msg = Message_Header(Localize("END_OF_SCENARIO_HEADER"))..scores..Localize("END_OF_SCENARIO_MESSAGE")
     ScenEdit_SpecialMessage('playerside', msg)
 end
 
@@ -224,12 +226,13 @@ function PBEM_ShowTurnIntro()
         -- show losses from previous turn
         local losses = PBEM_GetKillRegister(cursidenum)
         if losses == '' then
-            losses = "None."
+            losses = Localize("LOSSES_NONE")
         end
-        lossreport = '<br/><u>Losses reported:</u><br/><br/>'..losses
+        lossreport = "<br/><u>"..Localize("LOSSES_REPORTED").."</u><br/><br/>"..losses
     end
     PBEM_SetKillRegister(cursidenum, "")
-    ScenEdit_SpecialMessage('playerside', Message_Header(Turn_GetCurSideName()..' Turn '..tostring(turnnum))..lossreport)
+    local msg = Format(Localize("START_OF_TURN_HEADER"), {Turn_GetCurSideName(), tostring(turnnum)})
+    ScenEdit_SpecialMessage('playerside', Message_Header(msg)..lossreport)
 end
 
 function PBEM_RandomSeed(a)
@@ -289,7 +292,7 @@ function PBEM_StartTurn()
 
     --see if scenario  is over
     if ScenEdit_GetSideOptions({side=PBEM_DUMMY_SIDE}).awareness == 'Omniscient' then
-        local msg = Message_Header("End of Scenario (Turn "..turnnum..')')..PBEM_ScoreSummary()
+        local msg = Message_Header(Format(Localize("END_OF_SCENARIO_SUMMARY"), {turnnum}))..PBEM_ScoreSummary()
         ScenEdit_SpecialMessage('playerside', msg)
         return
     end
@@ -313,12 +316,12 @@ function PBEM_StartTurn()
             attemptNum = attemptNum + 1
             local msg = ""
             if attemptNum > 1 then
-                msg = "Passwords didn\'t match! Please enter your password again:"
+                msg = Localize("PASSWORDS_DIDNT_MATCH")
             else
-                msg = sidename..", please choose a password:"
+                msg = Format(Localize("CHOOSE_PASSWORD"), {sidename})
             end
             pass = Input_String(msg)
-            local passcheck = Input_String("Enter password again to confirm:")
+            local passcheck = Input_String(Localize("CONFIRM_PASSWORD"))
             if pass == passcheck then
                 passwordsMatch = true
             end
@@ -337,12 +340,12 @@ function PBEM_StartTurn()
         -- Check our password
         local passwordAccepted = false
         while not passwordAccepted do
-            local pass = Input_String(sidename..", enter your password to start turn "..turnnum..":")
+            local pass = Input_String(Format(Localize("ENTER_PASSWORD"), {sidename, turnnum}))
             if PBEM_CheckPassword(Turn_GetCurSide(), pass) then
                 ScenEdit_SetSideOptions({side=sidename, switchto=true})
                 passwordAccepted = true
             else
-                local choice = ScenEdit_MsgBox("The password was incorrect.", 5)
+                local choice = ScenEdit_MsgBox(Localize("WRONG_PASSWORD"), 5)
                 if choice ~= 'Retry' then
                     PBEM_SelfDestruct()
                     return
@@ -360,15 +363,15 @@ function PBEM_StartTurn()
 end
 
 function PBEM_StartSetupPhase()
-    local sidename = ScenEdit_PlayerSide()
-    Input_OK("This is the "..sidename.." setup phase.\n\nLeave the game paused until you've finished setting up your loadouts and missions.\n\nWhen you're done, click Play to end your turn.")
+    local msg = Format(Localize("SETUP_PHASE_INTRO"), {ScenEdit_PlayerSide()})
+    Input_OK(msg)
 end
 
 function PBEM_EndSetupPhase()
     local sidename = ScenEdit_PlayerSide()
     Turn_NextSide()
     ScenEdit_PlaySound("radioChirp5.mp3")
-    local msg = Message_Header('End of '..sidename..' Setup Phase')..'Go to <b>File -> Save As...</b>, save this game, and send the save file to the <b>'..Turn_GetCurSideName()..'</b> player via email or another transfer service.<br/><br/><u>IMPORTANT:</u> Do <b>NOT</b> close this window or resume the game before saving, or you will have to replay your turn.'
+    local msg = Message_Header(Format(Localize("END_OF_SETUP_HEADER"), {sidename}))..Format(Localize("END_OF_TURN_MESSAGE"), {sidename})
     ScenEdit_SpecialMessage('playerside', msg)
     --ScenEdit_SetTime(PBEM_StartTimeToUTC())
 

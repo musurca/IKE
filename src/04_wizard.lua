@@ -1,7 +1,7 @@
 --[[
 ----------------------------------------------
 IKE
-03_wizard.lua
+04_wizard.lua
 ----------------------------------------------
 
 This source file contains the IKE Wizard that 
@@ -12,24 +12,16 @@ code.
 ----------------------------------------------
 ]]--
 
-PBEM_INTRO_MSG = [[Welcome to IKE v1.1! This tool adds PBEM/hotseat play to any Command: Modern Operations scenario.
-
-Running this tool cannot be undone. Have you saved a backup of this scenario?]]
-
-PBEM_LAST_MSG = [[Success! Your PBEM/hotseat scenario has been initialized. Go to FILE -> SAVE AS... to save it under a new name. It will be ready to play when next loaded.
-
-(If you're planning to publish it to the Steam Workshop, you should do it now, before you close this scenario.)
-
-Thanks for using IKE!]]
+IKE_VERSION = "1.1"
 
 function PBEM_Init()
     --wizard intro
-    if not Input_YesNo(PBEM_INTRO_MSG) then
-        Input_OK("Please save a backup first, then RUN this tool again.")
+    if not Input_YesNo(Format(Localize("WIZARD_INTRO_MESSAGE"), {IKE_VERSION})) then
+        Input_OK(Localize("WIZARD_BACKUP"))
         return
     end
     -- length of turn
-    local turnLength = Input_Number("Enter the desired TURN LENGTH in minutes:")
+    local turnLength = Input_Number(Localize("WIZARD_TURN_LENGTH"))
     if not turnLength then
         return
     end
@@ -38,7 +30,7 @@ function PBEM_Init()
     local sides = VP_GetSides()
     local playableSides = {}
     for i=1,#sides do
-        if Input_YesNo("Should the "..sides[i].name.." side be PLAYABLE?") then
+        if Input_YesNo(Format(Localize("WIZARD_PLAYABLE_SIDE"), {sides[i].name})) then
             table.insert(playableSides, sides[i].name)
         end
     end
@@ -46,7 +38,7 @@ function PBEM_Init()
     local order_set = false
     while not order_set do
         for i=1,#playableSides do
-            if Input_YesNo("Should the "..playableSides[i].." side go FIRST?") then
+            if Input_YesNo(Format(Localize("WIZARD_GO_FIRST"), {playableSides[i]})) then
                 local temp_side = playableSides[1]
                 playableSides[1] = playableSides[i]
                 playableSides[i] = temp_side
@@ -62,7 +54,7 @@ function PBEM_Init()
             local side = sides[j]
             if side.name == sname then
                 if #side.missions > 0 then
-                    if Input_YesNo("Clear any existing missions for the "..sname.." side?") then
+                    if Input_YesNo(Format(Localize("WIZARD_CLEAR_MISSIONS"), {sname})) then
                         while #side.missions > 0 do
                             local m = side.missions[1]
                             ScenEdit_DeleteMission(m.side, m.name)
@@ -74,7 +66,7 @@ function PBEM_Init()
         end
     end
     --setup phase
-    local setupPhase = Input_YesNo("Should the game start with a SETUP PHASE?")
+    local setupPhase = Input_YesNo(Localize("WIZARD_SETUP_PHASE"))
 
     PBEM_SETUP_PHASE = setupPhase
     PBEM_TURN_LENGTH = turnLength*60
@@ -142,7 +134,7 @@ function PBEM_Init()
     StoreNumber('__TURN_CURNUM', start_turn)
     ScenEdit_SetSideOptions({side=PBEM_DUMMY_SIDE, switchto=true})
 
-    Input_OK(PBEM_LAST_MSG)
+    Input_OK(Localize("WIZARD_SUCCESS"))
 end
 
 --[[!! LEAVE TWO CARRIAGE RETURNS AFTER SOURCE FILE !!]]--
