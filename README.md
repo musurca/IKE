@@ -1,6 +1,7 @@
 <p align="center">
   <img src="https://github.com/musurca/IKE/raw/main/ike_logo.png" />
 </p>
+
 ## A framework for adding PBEM/hotseat multiplayer to *Command: Modern Operations* scenarios
 [**DOWNLOAD LATEST RELEASE HERE (v1.1)**](https://github.com/musurca/IKE/releases/download/v1.1/IKE_v1.1.zip)
 
