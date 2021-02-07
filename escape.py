@@ -48,4 +48,4 @@ if __name__ == "__main__":
 
     # write to the outfile
     o = open(outname,'w')
-    o.write("\""+text+"\"\r\n\r\n")
+    o.write("\""+text+"\"\n\n")
