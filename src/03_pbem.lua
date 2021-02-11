@@ -60,7 +60,8 @@ function PBEM_CheckSideSecurity()
             local msg = Message_Header(Format(Localize("END_OF_TURN_HEADER"), {curPlayerSide, turnnum}))
             msg = msg..Format(Localize("END_OF_TURN_MESSAGE"), {Turn_GetCurSideName()})
             ScenEdit_SpecialMessage('playerside', msg)
-            PBEM_EndRandom()
+            
+            PBEM_EndAPIReplace()
         else
             -- Check for funny business
             local timeOffset = scenCurTime - scenStartTime
@@ -152,11 +153,44 @@ function PBEM_TurnLength()
     return GetNumber('__TURN_LENGTH')
 end
 
+function PBEM_InitAPIReplace()
+    PBEM_InitScenarioOver()
+    PBEM_InitRandom()
+end
+
+function PBEM_EndAPIReplace()
+    PBEM_EndScenarioOver()
+    PBEM_EndRandom()
+end
+
+function PBEM_InitScenarioOver()
+    if not __PBEM_FN_ENDSCENARIO then
+        __PBEM_FN_ENDSCENARIO = ScenEdit_EndScenario
+    end
+    ScenEdit_EndScenario = PBEM_ScenarioOver
+end
+
+function PBEM_EndScenarioOver()
+    if __PBEM_FN_ENDSCENARIO then
+        ScenEdit_EndScenario = __PBEM_FN_ENDSCENARIO
+    end
+end
+
 function PBEM_ScenarioOver()
+    --clean ourselves up if we haven't already
+    if PBEM_TurnLength() == 0 then
+        PBEM_EndScenarioOver()
+        ScenEdit_EndScenario()
+        return
+    end
+
     ScenEdit_SetSideOptions({side=PBEM_DUMMY_SIDE, awareness='OMNI'})
     local scores = PBEM_ScoreSummary()
     local msg = Message_Header(Localize("END_OF_SCENARIO_HEADER"))..scores..Localize("END_OF_SCENARIO_MESSAGE")
     ScenEdit_SpecialMessage('playerside', msg)
+    __PBEM_FN_ENDSCENARIO()
+
+    PBEM_EndAPIReplace()
 end
 
 function PBEM_SetPassword(sidenum, password)
@@ -215,7 +249,7 @@ function PBEM_SelfDestruct()
         StoreString("__SIDE_"..tostring(i).."_PASSWD","")
         ScenEdit_RemoveSide({side=sides[i].name})
     end
-    PBEM_EndRandom()
+    PBEM_EndAPIReplace()
 end
 
 function PBEM_ShowTurnIntro()
@@ -255,7 +289,13 @@ function PBEM_Random(lower, upper)
         rval = __PBEM_FN_RANDOM()
     end
 
-    PBEM_NextRandomSeed()
+    if PBEM_TurnLength() == 0 then
+        --Clean ourselves up if we're still loaded
+        --in a non-IKE context
+        PBEM_EndRandom()
+    else
+        PBEM_NextRandomSeed()
+    end
     return rval
 end
 
@@ -275,8 +315,12 @@ function PBEM_InitRandom()
 end
 
 function PBEM_EndRandom()
-    math.randomseed = __PBEM_FN_RANDOMSEED
-    math.random = __PBEM_FN_RANDOM
+    if __PBEM_FN_RANDOMSEED then
+        math.randomseed = __PBEM_FN_RANDOMSEED
+    end
+    if __PBEM_FN_RANDOM then
+        math.random = __PBEM_FN_RANDOM
+    end
 end
 
 function PBEM_StartTurn()
@@ -306,7 +350,7 @@ function PBEM_StartTurn()
                 PBEM_OnInitialSetup()
             end
         end
-        PBEM_InitRandom()
+        PBEM_InitAPIReplace()
         
         -- Enter a password
         local passwordsMatch = false
@@ -335,7 +379,7 @@ function PBEM_StartTurn()
             PBEM_ShowTurnIntro()
         end
     else
-        PBEM_InitRandom()
+        PBEM_InitAPIReplace()
 
         -- Check our password
         local passwordAccepted = false
@@ -371,11 +415,11 @@ function PBEM_EndSetupPhase()
     local sidename = ScenEdit_PlayerSide()
     Turn_NextSide()
     ScenEdit_PlaySound("radioChirp5.mp3")
-    local msg = Message_Header(Format(Localize("END_OF_SETUP_HEADER"), {sidename}))..Format(Localize("END_OF_TURN_MESSAGE"), {sidename})
+    local msg = Message_Header(Format(Localize("END_OF_SETUP_HEADER"), {sidename}))..Format(Localize("END_OF_TURN_MESSAGE"), {Turn_GetCurSideName()})
     ScenEdit_SpecialMessage('playerside', msg)
     --ScenEdit_SetTime(PBEM_StartTimeToUTC())
 
-    PBEM_EndRandom()
+    PBEM_EndAPIReplace()
 end
 
 --[[!! LEAVE TWO CARRIAGE RETURNS AFTER SOURCE FILE !!]]--

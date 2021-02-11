@@ -65,9 +65,14 @@ For detailed instructions, please refer to the manual included with the [latest 
 
 ### Limitations / known issues
 * If your scenario code calls `ScenEdit_SetTime(...)`, you will almost certainly trip the anti-cheat system. Try to avoid changing the current scenario time in Lua if possible.
-* Currently (as of *CMO* build 1147.16) there is an internal engine bug that prevents **IKE** from automatically determining when the scenario is over (specifically, that the ‘ScenEnded’ event trigger never fires). When this is fixed, **IKE** will also print a nice score summary for the players at the end of the scenario and mark it as over. Until then, you may optionally add a call to `PBEM_ScenarioOver()` in any event that ends the scenario to get the score summary.
 
 ### VERSION HISTORY
+v1.2 ?:
+* added: localization support
+* fix: end of setup phase message
+* fix: API replacements clean themselves up
+* fix: workaround for broken ScenEnded trigger
+
 v1.1 (2/1/2021):
 * fix: edge case for ScenEdit_SetTime() 
 * fix: use os.date("!") to format scenario times

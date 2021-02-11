@@ -103,13 +103,6 @@ function PBEM_Init()
         ScenEdit_SetAction({name='PBEM: Register Unit Killed', mode='add', type='LuaScript', ScriptText='PBEM_RegisterUnitKilled()'})
         ScenEdit_SetEventAction('PBEM: Turn Event Tracker', {mode='add', name='PBEM: Register Unit Killed'})
 
-        -- track scenario end
-        ScenEdit_SetEvent('PBEM: Scenario Over', {mode='add', IsRepeatable=false, IsShown=false})
-        ScenEdit_SetTrigger({name='PBEM_On_Scenario_End', mode='add', type='ScenEnded'})
-        ScenEdit_SetEventTrigger('PBEM: Scenario Over', {mode='add', name='PBEM_On_Scenario_End'})
-        ScenEdit_SetAction({name='PBEM: End the Scenario', mode='add', type='LuaScript', ScriptText='PBEM_ScenarioOver()'})
-        ScenEdit_SetEventAction('PBEM: Scenario Over', {mode='add', name='PBEM: End the Scenario'})
-
         for i=1,#PBEM_PLAYABLE_SIDES do
             ScenEdit_AddSpecialAction({
                 ActionNameOrID='PBEM: Show remaining time in turn',
