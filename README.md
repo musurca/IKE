@@ -68,6 +68,7 @@ For detailed instructions, please refer to the manual included with the [latest 
 
 ### VERSION HISTORY
 v1.2 ?:
+* added: limited order mode
 * added: localization support
 * fix: end of setup phase message
 * fix: API replacements clean themselves up

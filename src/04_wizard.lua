@@ -24,8 +24,26 @@ function PBEM_Init()
     local turnLength = Input_Number(Localize("WIZARD_TURN_LENGTH"))
     if not turnLength then
         return
+    else
+        turnLength = math.max(0, math.floor(turnLength))
+        if turnLength == 0 then
+            Input_OK(Localize("WIZARD_ZERO_LENGTH"))
+            return
+        end
     end
-    turnLength = math.floor(turnLength)
+    --unlimited orders?
+    unlimitedOrders = Input_YesNo(Localize("WIZARD_UNLIMITED_ORDERS"))
+    if not unlimitedOrders then
+        --number of orders per turn
+        orderNumber = Input_Number(Format(Localize("WIZARD_ORDER_NUMBER"), {
+            turnLength
+        }))
+        orderNumber = math.max(0, math.floor(orderNumber))
+        if orderNumber == 0 then
+            Input_OK(Localize("WIZARD_ZERO_ORDER"))
+            return
+        end
+    end
     --designate playable sides
     local sides = VP_GetSides()
     local playableSides = {}
@@ -74,10 +92,14 @@ function PBEM_Init()
     StoreStringArray("__SCEN_PLAYABLESIDES", PBEM_PLAYABLE_SIDES)
     StoreNumber('__TURN_LENGTH', PBEM_TURN_LENGTH)
     StoreBoolean('__SCEN_SETUPPHASE', PBEM_SETUP_PHASE)
+    StoreBoolean('__SCEN_UNLIMITEDORDERS', unlimitedOrders)
+    if not unlimitedOrders then
+        StoreNumber('__SCEN_ORDERINTERVAL', math.floor(PBEM_TURN_LENGTH / orderNumber))
+    end
     
     if not PBEM_EventExists('PBEM: Scenario Loaded') then
         ScenEdit_AddSide({name=PBEM_DUMMY_SIDE})
-        ScenEdit_SetSideOptions({side=PBEM_DUMMY_SIDE, awareness='BLIND'})
+        --ScenEdit_SetSideOptions({side=PBEM_DUMMY_SIDE, awareness='BLIND'})
 
         -- initialize IKE on load by injecting its own code into the VM
         ScenEdit_SetEvent('PBEM: Scenario Loaded', {mode='add', IsRepeatable=true, IsShown=false})

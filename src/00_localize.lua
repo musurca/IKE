@@ -14,7 +14,7 @@ language isn't yet supported.
 
 IKE_LOCALIZATIONS = {
     ["English"] = {
-        ["START_OF_TURN_HEADER"]    = "%1 Turn %2",
+        ["START_OF_TURN_HEADER"]    = "%1 Turn %2<br/>(%3 minutes)",
         ["END_OF_TURN_HEADER"]      = "End of %1 Turn %2",
         ["END_OF_TURN_MESSAGE"]     = "Go to <b>File -> Save As...</b>, save this game, and send the save file to the <b>%1</b> player via email or another transfer service.<br/><br/><u>IMPORTANT:</u> Do <b>NOT</b> close this window or resume the game before saving, or you will have to replay your turn.",
         ["SHOW_REMAINING_SETUP"]    = "This is the setup phase.",
@@ -31,9 +31,16 @@ IKE_LOCALIZATIONS = {
         ["CONFIRM_PASSWORD"]        = "Enter password again to confirm:",
         ["ENTER_PASSWORD"]          = "%1, enter your password to start turn %2:",
         ["WRONG_PASSWORD"]          = "The password was incorrect.",
+        ["START_ORDER_HEADER"]      = "%1 Turn %2<br/>(%3 minutes)<br/><br/>Order Phase %4",
+        ["NEXT_ORDER_HEADER"]       = "%1 Turn %2<br/>(%3 minutes left)<br/><br/>Order Phase %4",
+        ["START_ORDER_MESSAGE"]     = "Give orders to your units as needed. When you're ready, press Play to execute them.",
         ["WIZARD_INTRO_MESSAGE"]    = "Welcome to IKE v%1! This tool adds PBEM/hotseat play to any Command: Modern Operations scenario.\n\nRunning this tool cannot be undone. Have you saved a backup of this scenario?",
         ["WIZARD_BACKUP"]           = "Please save a backup first, then RUN this tool again.",
         ["WIZARD_TURN_LENGTH"]      = "Enter the desired TURN LENGTH in minutes:",
+        ["WIZARD_ZERO_LENGTH"]      = "ERROR: The turn length must be greater than 0!",
+        ["WIZARD_UNLIMITED_ORDERS"] = "Should each side be able to give UNLIMITED orders during a turn?",
+        ["WIZARD_ORDER_NUMBER"]     = "HOW MANY orders can a side give per %1 minute turn?",
+        ["WIZARD_ZERO_ORDER"]       = "ERROR: The number of orders must be greater than 0!",
         ["WIZARD_PLAYABLE_SIDE"]    = "Should the %1 side be PLAYABLE?",
         ["WIZARD_GO_FIRST"]         = "Should the %1 side go FIRST?",
         ["WIZARD_CLEAR_MISSIONS"]   = "Clear any existing missions for the %1 side?",
