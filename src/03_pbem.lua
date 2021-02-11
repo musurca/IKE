@@ -26,6 +26,12 @@ function PBEM_StartTimeToUTC()
     return {Date=date_str, Time=time_str}
 end
 
+function PBEM_CustomTimeToUTC(time_secs)
+    local date_str = os.date("!%m.%d.%Y", time_secs)
+    local time_str = os.date("!%H.%M.%S", time_secs)
+    return {Date=date_str, Time=time_str}
+end
+
 function PBEM_CurrentTimeMilitary()
     return os.date("!%m/%d/%Y %H:%M:%S", VP_GetScenario().CurrentTimeNum)
 end
@@ -60,7 +66,8 @@ function PBEM_CheckSideSecurity()
             local msg = Message_Header(Format(Localize("END_OF_TURN_HEADER"), {curPlayerSide, turnnum}))
             msg = msg..Format(Localize("END_OF_TURN_MESSAGE"), {Turn_GetCurSideName()})
             ScenEdit_SpecialMessage('playerside', msg)
-            
+            ScenEdit_SetTime(PBEM_CustomTimeToUTC(scenCurTime)) 
+
             PBEM_EndAPIReplace()
         else
             -- Check for funny business
@@ -400,7 +407,7 @@ function PBEM_StartTurn()
         local turnStartTime = PBEM_GetCurTurnStartTime()
         local curTime = ScenEdit_CurrentTime()
 
-        if (PBEM_SETUP_PHASE and turnnum == 1 and curTime == (turnStartTime+#PBEM_PLAYABLE_SIDES)) or (curTime == turnStartTime) then
+        if curTime == turnStartTime then
             PBEM_ShowTurnIntro()
         end
     end
@@ -417,7 +424,7 @@ function PBEM_EndSetupPhase()
     ScenEdit_PlaySound("radioChirp5.mp3")
     local msg = Message_Header(Format(Localize("END_OF_SETUP_HEADER"), {sidename}))..Format(Localize("END_OF_TURN_MESSAGE"), {Turn_GetCurSideName()})
     ScenEdit_SpecialMessage('playerside', msg)
-    --ScenEdit_SetTime(PBEM_StartTimeToUTC())
+    ScenEdit_SetTime(PBEM_StartTimeToUTC())
 
     PBEM_EndAPIReplace()
 end

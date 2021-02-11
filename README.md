@@ -72,6 +72,7 @@ v1.2 ?:
 * fix: end of setup phase message
 * fix: API replacements clean themselves up
 * fix: workaround for broken ScenEnded trigger
+* fix: set clock precisely to turn boundaries
 
 v1.1 (2/1/2021):
 * fix: edge case for ScenEdit_SetTime() 
