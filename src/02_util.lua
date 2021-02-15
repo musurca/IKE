@@ -11,6 +11,15 @@ scenarios.
 ]]--
 
 --[[
+iterates through table, calling func(e) on each e in table
+]]--
+function ForEachDo(table, func)
+    for i=1,#table do
+        func(table[i])
+    end
+end
+
+--[[
 If a number is only a single digit, this function
 adds a zero to the left side. Also converts to a string.
 e.g. 
@@ -191,6 +200,30 @@ function GetStringArray(id)
     end
     return arr
 end
+
+--[[
+Stores an array of strings persistently. 
+]]--
+function StoreNumberArray(id, arr)
+    local arraylength = id.."_LENGTH"
+    StoreNumber(arraylength, #arr)
+    for i=1,#arr do
+        StoreNumber(id.."_"..i, arr[i])
+    end
+end
+
+--[[
+Retrieves a stored array of strings. 
+]]--
+function GetNumberArray(id)
+    local arr = {}
+    local arraylength = GetNumber(id.."_LENGTH")
+    for i=1,arraylength do
+        table.insert(arr, GetNumber(id.."_"..i))
+    end
+    return arr
+end
+
 
 --[[!! LEAVE TWO CARRIAGE RETURNS AFTER SOURCE FILE !!]]--
 

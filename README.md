@@ -68,12 +68,14 @@ For detailed instructions, please refer to the manual included with the [latest 
 
 ### VERSION HISTORY
 v1.2 ?:
+* added: variable turn length mode
 * added: limited order mode
 * added: localization support
 * fix: end of setup phase message
 * fix: API replacements clean themselves up
 * fix: workaround for broken ScenEnded trigger
 * fix: set clock precisely to turn boundaries
+* fix: special message order hiding IKE messages
 
 v1.1 (2/1/2021):
 * fix: edge case for ScenEdit_SetTime() 

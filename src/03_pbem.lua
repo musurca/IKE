@@ -12,14 +12,6 @@ for the IKE system.
 
 PBEM_DUMMY_SIDE = 'PBEM'
 
-PBEM_UNITYPES = {
-    1, --aircraft
-    2, --ship
-    3, --submarine
-    4, --facility
-    7 --satellite
-}
-
 function PBEM_StartTimeToUTC()
     local date_str = os.date("!%m.%d.%Y", VP_GetScenario().StartTimeNum)
     local time_str = os.date("!%H.%M.%S", VP_GetScenario().StartTimeNum)
@@ -40,17 +32,88 @@ function PBEM_ScenarioStartTime()
     return GetNumber("__PBEM_STARTTIME")
 end
 
+--[[
+determines what the current side SHOULD be from the current time
+]]--
+function PBEM_GetCurSideFromTime()
+    local scenStartTime = VP_GetScenario().StartTimeNum
+    local scenCurTime = ScenEdit_CurrentTime()
+    local round_length = PBEM_RoundLength()
+
+    local offset = scenCurTime - scenStartTime
+    local turn_num = math.floor(offset / round_length)
+
+    local turn_start_time = scenStartTime + turn_num*round_length
+    for k,v in ipairs(PBEM_TURN_LENGTHS) do
+        turn_start_time = turn_start_time + v
+        if turn_start_time > scenCurTime then
+            return k    
+        end
+    end
+    -- should never happen unless we're messing with the time
+    return 999
+end
+
+--[[
+returns the start time of the current turn in seconds
+]]--
+function PBEM_GetCurTurnStartTime()
+    local scenStartTime = VP_GetScenario().StartTimeNum
+    local turnNumber = Turn_GetTurnNumber()
+    if turnNumber == 0 then
+        -- setup phase
+        return scenStartTime
+    end
+    local round_length = PBEM_RoundLength()
+    local offset = (turnNumber-1)*round_length
+    for i=1,(Turn_GetCurSide()-1) do
+        offset = offset + PBEM_TURN_LENGTHS[i]
+    end
+    
+    --return PBEM_GetNextTurnStartTime() - PBEM_TURN_LENGTH
+    return scenStartTime + offset
+end
+
+--[[
+return the start time of the next turn in seconds
+]]--
 function PBEM_GetNextTurnStartTime()
+    --[[
     local scenStartTime = VP_GetScenario().StartTimeNum
     local numSides = #PBEM_PLAYABLE_SIDES
     local sideNum = Turn_GetCurSide()
     local turnNumber = Turn_GetTurnNumber()
 
     return scenStartTime + PBEM_TURN_LENGTH*(turnNumber-1)*numSides + PBEM_TURN_LENGTH*sideNum
+    ]]--
+    return PBEM_TURN_START_TIME + PBEM_TURN_LENGTH
 end
 
-function PBEM_GetCurTurnStartTime()
-    return PBEM_GetNextTurnStartTime() - PBEM_TURN_LENGTH
+function PBEM_EndTurn()
+    local next_turn_time = PBEM_GetNextTurnStartTime()
+    local turn_num = Turn_GetTurnNumber()
+    local player_side = PBEM_SIDENAME
+
+    if not PBEM_UNLIMITED_ORDERS then
+        ScenEdit_SetScore(PBEM_DUMMY_SIDE, 0, "----------------")
+        --remove the dummy sensor unit if it exists
+        PBEM_RemoveDummyUnit()
+        PBEM_RemoveRTSide(PBEM_DUMMY_SIDE)
+    end
+    Turn_NextSide()
+    ScenEdit_PlaySound("radioChirp5.mp3")
+    local msg = Message_Header(Format(Localize("END_OF_TURN_HEADER"), {
+        player_side, 
+        turn_num
+    }))
+    msg = msg..Format(Localize("END_OF_TURN_MESSAGE"), {
+        Turn_GetCurSideName()
+    })
+    PBEM_SpecialMessage('playerside', msg, nil, true)
+    ScenEdit_SetTime(PBEM_CustomTimeToUTC(next_turn_time)) 
+
+    PBEM_EndAPIReplace()
+    PBEM_TURNOVER = true
 end
 
 function PBEM_CheckSideSecurity()
@@ -58,59 +121,47 @@ function PBEM_CheckSideSecurity()
     local scenStartTime = VP_GetScenario().StartTimeNum
     local scenCurTime = ScenEdit_CurrentTime()
     local turnnum = Turn_GetTurnNumber()
+
     if Turn_GetTurnNumber() > 0 then
-        if PBEM_GetNextTurnStartTime() == scenCurTime then
-            -- End turn
-            if not PBEM_UNLIMITED_ORDERS then
-                curPlayerSide = PBEM_SIDENAME
-                ScenEdit_SetScore(PBEM_DUMMY_SIDE, 0, "----------------")
-
-                --remove the dummy sensor unit if it exists
-                PBEM_RemoveDummyUnit()
+        if scenCurTime >= PBEM_GetNextTurnStartTime() then
+            if not PBEM_TURNOVER then
+                PBEM_EndTurn()
+            else
+                PBEM_SelfDestruct()
+                return
             end
-            Turn_NextSide()
-            ScenEdit_PlaySound("radioChirp5.mp3")
-            local msg = Message_Header(Format(Localize("END_OF_TURN_HEADER"), {curPlayerSide, turnnum}))
-            msg = msg..Format(Localize("END_OF_TURN_MESSAGE"), {PBEM_SIDENAME})
-            ScenEdit_SpecialMessage('playerside', msg)
-            ScenEdit_SetTime(PBEM_CustomTimeToUTC(scenCurTime)) 
-
-            PBEM_EndAPIReplace()
         else
-            -- Check for funny business
-            local timeOffset = scenCurTime - scenStartTime
+            -- Make sure the player isn't trying to modify another side's orders
+            local cur_side_check = PBEM_GetCurSideFromTime()
+            local cur_side_name = PBEM_PLAYABLE_SIDES[cur_side_check] or "!!CHEATER!!"
+            if cur_side_name ~= curPlayerSide and curPlayerSide ~= PBEM_DUMMY_SIDE then
+                --probably attempting to cheat
+                PBEM_SelfDestruct()
+                return
+            elseif not PBEM_UNLIMITED_ORDERS then
+                -- handle limited orders
 
-            if timeOffset % PBEM_TURN_LENGTH ~= 0 then
-                local curTurnNumber = (math.floor(timeOffset / PBEM_TURN_LENGTH) % #PBEM_PLAYABLE_SIDES) + 1
-                if curPlayerSide ~= PBEM_PLAYABLE_SIDES[curTurnNumber] and curPlayerSide ~= PBEM_DUMMY_SIDE then
-                    PBEM_SelfDestruct()
-                    return
-                elseif not PBEM_UNLIMITED_ORDERS then
-                    --mirror side score
-                    local sidescore = ScenEdit_GetScore(PBEM_SIDENAME)
-                    if ScenEdit_GetScore(PBEM_DUMMY_SIDE) ~= sidescore then
-                        ScenEdit_SetScore(PBEM_DUMMY_SIDE, sidescore, PBEM_SIDENAME)
-                    end
-                    
-                    --check for order phase
-                    local time_check = scenCurTime - PBEM_GetCurTurnStartTime()
-                    if curPlayerSide ~= PBEM_DUMMY_SIDE then
-                        if time_check % PBEM_ORDER_INTERVAL == 1 then
-                            PBEM_EndOrderPhase()
-                            -- register unit to trigger contact sharing
-                            PBEM_AddDummyUnit()
-                        else
-                            --probably attempting to cheat
-                            PBEM_SelfDestruct()
-                            return
-                        end
-                    elseif time_check % PBEM_ORDER_INTERVAL == 0 then
-                        -- start giving orders again
-                        PBEM_StartOrderPhase((time_check / PBEM_ORDER_INTERVAL) + 1)
-                        
-                        --remove the dummy sensor unit if it exists
-                        PBEM_RemoveDummyUnit()
-                    end
+                --mirror side score
+                local sidescore = ScenEdit_GetScore(PBEM_SIDENAME)
+                if ScenEdit_GetScore(PBEM_DUMMY_SIDE) ~= sidescore then
+                    ScenEdit_SetScore(PBEM_DUMMY_SIDE, sidescore, PBEM_SIDENAME)
+                end
+                
+                --check for order phase
+                local time_check = scenCurTime - PBEM_TURN_START_TIME
+                if curPlayerSide ~= PBEM_DUMMY_SIDE then
+                    PBEM_EndOrderPhase()
+                    -- register unit to trigger contact sharing
+                    PBEM_AddDummyUnit()
+                    --add special actions to dummy side
+                    PBEM_AddRTSide(PBEM_DUMMY_SIDE)
+                elseif time_check % PBEM_ORDER_INTERVAL == 0 then
+                    -- start giving orders again
+                    PBEM_StartOrderPhase((time_check / PBEM_ORDER_INTERVAL) + 1)
+                    --remove the dummy sensor unit if it exists
+                    PBEM_RemoveDummyUnit()
+                    --remove special actions from dummy side
+                    PBEM_RemoveRTSide(PBEM_DUMMY_SIDE)
                 end
             end
         end
@@ -118,6 +169,9 @@ function PBEM_CheckSideSecurity()
         -- ending a setup phase
         PBEM_EndSetupPhase()
     end
+
+    -- display all special messages at once
+    PBEM_FlushSpecialMessages()
 end
 
 function PBEM_ShowRemainingTime()
@@ -134,6 +188,25 @@ function PBEM_ShowRemainingTime()
         local msg = Format(Localize("SHOW_REMAINING_TIME"), {PadDigits(hrs), PadDigits(min), PadDigits(sec)})
         Input_OK(msg)
     end
+end
+
+function PBEM_AddRTSide(side)
+    ScenEdit_AddSpecialAction({
+        ActionNameOrID='PBEM: Show remaining time in turn',
+        Description="Display the remaining time before your PBEM turn ends.",
+        Side=side,
+        IsActive=true, 
+        IsRepeatable=true,
+        ScriptText='PBEM_ShowRemainingTime()'
+    })
+end
+
+function PBEM_RemoveRTSide(side)
+    pcall(ScenEdit_SetSpecialAction, {
+        ActionNameOrID='PBEM: Show remaining time in turn',
+        Side=side,
+        mode="remove"
+    })
 end
 
 function PBEM_SideNumberByName(sidename)
@@ -190,18 +263,84 @@ function PBEM_PlayableSides()
     return GetStringArray('__SCEN_PLAYABLESIDES')
 end
 
+function PBEM_GetTurnLengths()
+    return GetNumberArray("__SCEN_TURN_LENGTHS")
+end
+
 function PBEM_TurnLength()
-    return GetNumber('__TURN_LENGTH')
+    return PBEM_TURN_LENGTHS[Turn_GetCurSide()]
+end
+
+function PBEM_RoundLength()
+    local length = 0
+    for k,v in ipairs(PBEM_TURN_LENGTHS) do
+        length = length + v
+    end
+    return length
 end
 
 function PBEM_InitAPIReplace()
     PBEM_InitScenarioOver()
     PBEM_InitRandom()
+    PBEM_InitSpecialMessage()
 end
 
 function PBEM_EndAPIReplace()
+    PBEM_FlushSpecialMessages()
+
     PBEM_EndScenarioOver()
     PBEM_EndRandom()
+    PBEM_EndSpecialMessage()
+end
+
+function PBEM_SpecialMessage(side, message, location, priority)
+    --clean up if haven't been already
+    if PBEM_TurnLength() == 0 then
+        PBEM_EndSpecialMessage()
+        ScenEdit_SpecialMessage(side, message, location)
+        return
+    end
+
+    priority = priority or false
+    if not PBEM_MESSAGEQUEUE then
+        PBEM_MESSAGEQUEUE = {}
+    end
+    local new_msg = {
+        side=side,
+        message=message,
+        location=location
+    }
+    if priority then
+        table.insert(PBEM_MESSAGEQUEUE, 1, new_msg)
+    else
+        table.insert(PBEM_MESSAGEQUEUE, new_msg)
+    end
+end
+
+function PBEM_FlushSpecialMessages()
+    if PBEM_MESSAGEQUEUE then
+        for k,v in ipairs(PBEM_MESSAGEQUEUE) do
+            if v.location then
+                __PBEM_FN_SPECIALMESSAGE(v.side, v.message, v.location)
+            else
+                __PBEM_FN_SPECIALMESSAGE(v.side, v.message)
+            end
+        end
+        PBEM_MESSAGEQUEUE = nil
+    end
+end
+
+function PBEM_InitSpecialMessage()
+    if not __PBEM_FN_SPECIALMESSAGE then
+        __PBEM_FN_SPECIALMESSAGE = ScenEdit_SpecialMessage
+    end
+    ScenEdit_SpecialMessage = PBEM_SpecialMessage
+end
+
+function PBEM_EndSpecialMessage()
+    if __PBEM_FN_SPECIALMESSAGE then
+        ScenEdit_SpecialMessage = __PBEM_FN_SPECIALMESSAGE
+    end
 end
 
 function PBEM_InitScenarioOver()
@@ -229,7 +368,7 @@ function PBEM_ScenarioOver()
     PBEM_MirrorSide(PBEM_SIDENAME)
     local scores = PBEM_ScoreSummary()
     local msg = Message_Header(Localize("END_OF_SCENARIO_HEADER"))..scores..Localize("END_OF_SCENARIO_MESSAGE")
-    ScenEdit_SpecialMessage('playerside', msg)
+    PBEM_SpecialMessage('playerside', msg, nil, true)
     __PBEM_FN_ENDSCENARIO()
 
     PBEM_EndAPIReplace()
@@ -321,7 +460,10 @@ function PBEM_ShowTurnIntro()
         if PBEM_ORDER_INTERVAL == PBEM_TURN_LENGTH then
             orderNumStr = ""
         else
-            orderNumStr = "1 / "..math.floor(PBEM_TURN_LENGTH / PBEM_ORDER_INTERVAL)
+            orderNumStr = Format(Localize("ORDER_PHASE_DIVIDER"), {
+                "1",
+                math.floor(PBEM_TURN_LENGTH / PBEM_ORDER_INTERVAL)
+            })
         end
         msg_header = Format(Localize("START_ORDER_HEADER"), {
             PBEM_SIDENAME,
@@ -340,7 +482,7 @@ function PBEM_ShowTurnIntro()
         end
         msg = msg..divider..Localize("START_ORDER_MESSAGE")
     end
-    ScenEdit_SpecialMessage('playerside', msg)
+    PBEM_SpecialMessage('playerside', msg, nil, true)
 end
 
 function PBEM_RandomSeed(a)
@@ -402,7 +544,7 @@ function PBEM_OrdersUnlimited()
 end
 
 function PBEM_OrderInterval()
-    return GetNumber('__SCEN_ORDERINTERVAL')
+    return math.floor(PBEM_TURN_LENGTH / GetNumber('__SCEN_ORDERINTERVAL'))
 end
 
 function PBEM_MirrorSide(sidename)
@@ -480,7 +622,10 @@ end
 function PBEM_StartOrderPhase(phase_num)
     ScenEdit_SetSideOptions({side=PBEM_SIDENAME, switchto=true})
     local turn_len_min = math.floor((PBEM_GetNextTurnStartTime() - ScenEdit_CurrentTime()) / 60)
-    local phase_str = math.floor(phase_num).." / "..math.floor(PBEM_TURN_LENGTH / PBEM_ORDER_INTERVAL)
+    local phase_str = Format(Localize("ORDER_PHASE_DIVIDER"), {
+        math.floor(phase_num),
+        math.floor(PBEM_TURN_LENGTH / PBEM_ORDER_INTERVAL)
+    })
     local msg = Message_Header(
         Format(
             Localize("NEXT_ORDER_HEADER"), {
@@ -491,18 +636,26 @@ function PBEM_StartOrderPhase(phase_num)
             }
         )
     )..Localize("START_ORDER_MESSAGE")
-    ScenEdit_SpecialMessage('playerside', msg)
+    PBEM_SpecialMessage('playerside', msg, nil, true)
 end
 
-function PBEM_StartTurn()
-    -- necessary to load these right away
+function PBEM_InitScenGlobals()
+    PBEM_TURNOVER = false
     PBEM_SETUP_PHASE = PBEM_HasSetupPhase()
+    PBEM_TURN_LENGTHS = PBEM_GetTurnLengths()
     PBEM_TURN_LENGTH = PBEM_TurnLength()
+    PBEM_ROUND_LENGTH = PBEM_RoundLength()
     PBEM_PLAYABLE_SIDES = PBEM_PlayableSides()
     PBEM_UNLIMITED_ORDERS = PBEM_OrdersUnlimited()
     PBEM_ORDER_INTERVAL = PBEM_OrderInterval()
     PBEM_SIDENAME = Turn_GetCurSideName()
+    PBEM_TURN_START_TIME = PBEM_GetCurTurnStartTime()
+end
 
+function PBEM_StartTurn()
+    -- necessary to load these right away
+    PBEM_InitScenGlobals()
+    
     ScenEdit_SetSideOptions({side=PBEM_DUMMY_SIDE, switchto=true})
     local sidename = PBEM_SIDENAME
     local turnnum = Turn_GetTurnNumber()
@@ -515,7 +668,9 @@ function PBEM_StartTurn()
         return
     end
 
-    if (turnnum == 1 and not PBEM_SETUP_PHASE and curtime == PBEM_GetCurTurnStartTime()) or (turnnum == 0 and PBEM_SETUP_PHASE) then
+    PBEM_InitAPIReplace()
+
+    if (turnnum == 1 and not PBEM_SETUP_PHASE and curtime == PBEM_TURN_START_TIME) or (turnnum == 0 and PBEM_SETUP_PHASE) then
         -- do initial senario setup if this is the first run
         if Turn_GetCurSide() == 1 then
             PBEM_RandomSeed(os.time())
@@ -524,8 +679,7 @@ function PBEM_StartTurn()
                 PBEM_OnInitialSetup()
             end
         end
-        PBEM_InitAPIReplace()
-        
+
         -- Enter a password
         local passwordsMatch = false
         local attemptNum = 0
@@ -553,8 +707,6 @@ function PBEM_StartTurn()
             PBEM_ShowTurnIntro()
         end
     else
-        PBEM_InitAPIReplace()
-
         -- Check our password
         local passwordAccepted = false
         while not passwordAccepted do
@@ -571,13 +723,15 @@ function PBEM_StartTurn()
             end
         end
         
-        local turnStartTime = PBEM_GetCurTurnStartTime()
+        local turnStartTime = PBEM_TURN_START_TIME
         local curTime = ScenEdit_CurrentTime()
 
         if curTime == turnStartTime then
             PBEM_ShowTurnIntro()
         end
     end
+
+    PBEM_FlushSpecialMessages()
 end
 
 function PBEM_StartSetupPhase()
@@ -589,8 +743,8 @@ function PBEM_EndSetupPhase()
     local sidename = ScenEdit_PlayerSide()
     Turn_NextSide()
     ScenEdit_PlaySound("radioChirp5.mp3")
-    local msg = Message_Header(Format(Localize("END_OF_SETUP_HEADER"), {sidename}))..Format(Localize("END_OF_TURN_MESSAGE"), {PBEM_SIDENAME})
-    ScenEdit_SpecialMessage('playerside', msg)
+    local msg = Message_Header(Format(Localize("END_OF_SETUP_HEADER"), {sidename}))..Format(Localize("END_OF_TURN_MESSAGE"), {Turn_GetCurSideName()})
+    PBEM_SpecialMessage('playerside', msg, nil, true)
     ScenEdit_SetTime(PBEM_StartTimeToUTC())
 
     PBEM_EndAPIReplace()

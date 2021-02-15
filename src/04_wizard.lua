@@ -14,35 +14,19 @@ code.
 
 IKE_VERSION = "1.2"
 
+PBEM_UNITYPES = {
+    1, --aircraft
+    2, --ship
+    3, --submarine
+    4, --facility
+    7 --satellite
+}
+
 function PBEM_Init()
     --wizard intro
     if not Input_YesNo(Format(Localize("WIZARD_INTRO_MESSAGE"), {IKE_VERSION})) then
         Input_OK(Localize("WIZARD_BACKUP"))
         return
-    end
-    -- length of turn
-    local turnLength = Input_Number(Localize("WIZARD_TURN_LENGTH"))
-    if not turnLength then
-        return
-    else
-        turnLength = math.max(0, math.floor(turnLength))
-        if turnLength == 0 then
-            Input_OK(Localize("WIZARD_ZERO_LENGTH"))
-            return
-        end
-    end
-    --unlimited orders?
-    unlimitedOrders = Input_YesNo(Localize("WIZARD_UNLIMITED_ORDERS"))
-    if not unlimitedOrders then
-        --number of orders per turn
-        orderNumber = Input_Number(Format(Localize("WIZARD_ORDER_NUMBER"), {
-            turnLength
-        }))
-        orderNumber = math.max(0, math.floor(orderNumber))
-        if orderNumber == 0 then
-            Input_OK(Localize("WIZARD_ZERO_ORDER"))
-            return
-        end
     end
     --designate playable sides
     local sides = VP_GetSides()
@@ -50,6 +34,55 @@ function PBEM_Init()
     for i=1,#sides do
         if Input_YesNo(Format(Localize("WIZARD_PLAYABLE_SIDE"), {sides[i].name})) then
             table.insert(playableSides, sides[i].name)
+        end
+    end
+    local turn_lengths = {}
+    if Input_YesNo(Localize("WIZARD_FIXED_TURNLENGTH")) then
+        -- length of turn
+        local turnLength = 0
+        while turnLength == 0 do
+            turnLength = Input_Number(Localize("WIZARD_TURN_LENGTH"))
+            if not turnLength then
+                return
+            else
+                turnLength = math.max(0, math.floor(turnLength))
+                if turnLength == 0 then
+                    Input_OK(Localize("WIZARD_ZERO_LENGTH"))
+                end
+            end
+        end
+        -- same length for each side
+        for k,v in ipairs(playableSides) do
+            table.insert(turn_lengths, turnLength*60)
+        end
+    else
+        -- length of turns
+        ForEachDo(playableSides, function(sidename)
+            local turnLength = 0
+            while turnLength == 0 do
+                turnLength = Input_Number(Format(Localize("WIZARD_TURN_LENGTH_SIDE"), {sidename}))
+                if not turnLength then
+                    return
+                else
+                    turnLength = math.max(0, math.floor(turnLength))
+                    if turnLength == 0 then
+                        Input_OK(Localize("WIZARD_ZERO_LENGTH"))
+                    end
+                end
+            end
+            -- insert turn length for that side
+            table.insert(turn_lengths, turnLength*60)
+        end)
+    end
+    --unlimited orders?
+    unlimitedOrders = Input_YesNo(Localize("WIZARD_UNLIMITED_ORDERS"))
+    if not unlimitedOrders then
+        --number of orders per turn
+        orderNumber = Input_Number(Localize("WIZARD_ORDER_NUMBER"))
+        orderNumber = math.max(0, math.floor(orderNumber))
+        if orderNumber == 0 then
+            Input_OK(Localize("WIZARD_ZERO_ORDER"))
+            return
         end
     end
     --turn order
@@ -86,15 +119,15 @@ function PBEM_Init()
     --setup phase
     local setupPhase = Input_YesNo(Localize("WIZARD_SETUP_PHASE"))
 
+    --Store choices in the scenario
     PBEM_SETUP_PHASE = setupPhase
-    PBEM_TURN_LENGTH = turnLength*60
     PBEM_PLAYABLE_SIDES = playableSides
     StoreStringArray("__SCEN_PLAYABLESIDES", PBEM_PLAYABLE_SIDES)
-    StoreNumber('__TURN_LENGTH', PBEM_TURN_LENGTH)
+    StoreNumberArray("__SCEN_TURN_LENGTHS", turn_lengths)
     StoreBoolean('__SCEN_SETUPPHASE', PBEM_SETUP_PHASE)
     StoreBoolean('__SCEN_UNLIMITEDORDERS', unlimitedOrders)
     if not unlimitedOrders then
-        StoreNumber('__SCEN_ORDERINTERVAL', math.floor(PBEM_TURN_LENGTH / orderNumber))
+        StoreNumber('__SCEN_ORDERINTERVAL', orderNumber)
     end
     
     if not PBEM_EventExists('PBEM: Scenario Loaded') then
@@ -126,14 +159,8 @@ function PBEM_Init()
         ScenEdit_SetEventAction('PBEM: Turn Event Tracker', {mode='add', name='PBEM: Register Unit Killed'})
 
         for i=1,#PBEM_PLAYABLE_SIDES do
-            ScenEdit_AddSpecialAction({
-                ActionNameOrID='PBEM: Show remaining time in turn',
-                Description="Display the remaining time before your PBEM turn ends.",
-                Side=PBEM_PLAYABLE_SIDES[i],
-                IsActive=true, 
-                IsRepeatable=true,
-                ScriptText='PBEM_ShowRemainingTime()'
-            })
+            -- add special actions
+            PBEM_AddRTSide(PBEM_PLAYABLE_SIDES[i])
 
             -- initialize kill register
             PBEM_SetKillRegister(i, "")
