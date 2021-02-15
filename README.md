@@ -70,6 +70,8 @@ For detailed instructions, please refer to the manual included with the [latest 
 v1.2 ?:
 * added: variable turn length mode
 * added: limited order mode
+* added: option to prevent editor mode
+* added: losses marked with RPs
 * added: localization support
 * fix: end of setup phase message
 * fix: API replacements clean themselves up

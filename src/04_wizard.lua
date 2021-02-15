@@ -118,6 +118,8 @@ function PBEM_Init()
     end
     --setup phase
     local setupPhase = Input_YesNo(Localize("WIZARD_SETUP_PHASE"))
+    --editor mode
+    local prevent_editor = Input_YesNo(Localize("WIZARD_PREVENT_EDITOR"))
 
     --Store choices in the scenario
     PBEM_SETUP_PHASE = setupPhase
@@ -126,6 +128,7 @@ function PBEM_Init()
     StoreNumberArray("__SCEN_TURN_LENGTHS", turn_lengths)
     StoreBoolean('__SCEN_SETUPPHASE', PBEM_SETUP_PHASE)
     StoreBoolean('__SCEN_UNLIMITEDORDERS', unlimitedOrders)
+    StoreBoolean("__SCEN_PREVENTEDITOR", prevent_editor)
     if not unlimitedOrders then
         StoreNumber('__SCEN_ORDERINTERVAL', orderNumber)
     end

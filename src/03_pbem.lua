@@ -243,6 +243,15 @@ function PBEM_RegisterUnitKilled()
     end
     losses = losses..killtime..' // '..unitname..'<br/>'
     PBEM_SetKillRegister(sidenum, losses)
+
+    --mark loss on the map
+    ScenEdit_AddReferencePoint({
+        side=killed.side, 
+        name=Format(Localize("LOSS_MARKER"), {killed.name}), 
+        lat=killed.latitude, 
+        lon=killed.longitude, 
+        highlighted=true
+    })
 end
 
 function PBEM_ScoreSummary()
@@ -305,8 +314,13 @@ function PBEM_SpecialMessage(side, message, location, priority)
     if not PBEM_MESSAGEQUEUE then
         PBEM_MESSAGEQUEUE = {}
     end
+    local side_name = side
+    if side_name == Turn_GetCurSideName() then
+        --make sure messages are properly delivered
+        side_name = "playerside"
+    end
     local new_msg = {
-        side=side,
+        side=side_name,
         message=message,
         location=location
     }
@@ -669,6 +683,15 @@ function PBEM_StartTurn()
     end
 
     PBEM_InitAPIReplace()
+
+    if tonumber(GetBuildNumber()) >= 1147.17 then
+        if VP_GetScenario().GameMode == 2 and GetBoolean("__SCEN_PREVENTEDITOR") then
+            --can't open a PBEM session in Editor mode until it's over
+            Input_OK(Localize("NO_EDITOR_MODE"))
+            PBEM_SelfDestruct()
+            return
+        end
+    end
 
     if (turnnum == 1 and not PBEM_SETUP_PHASE and curtime == PBEM_TURN_START_TIME) or (turnnum == 0 and PBEM_SETUP_PHASE) then
         -- do initial senario setup if this is the first run

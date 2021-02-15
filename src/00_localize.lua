@@ -35,6 +35,8 @@ IKE_LOCALIZATIONS = {
         ["NEXT_ORDER_HEADER"]       = "%1 Turn %2<br/>(%3 minutes left)<br/><br/>Order Phase %4",
         ["START_ORDER_MESSAGE"]     = "Give orders to your units as needed. When you're ready, press Play to execute them.",
         ["ORDER_PHASE_DIVIDER"]     = "%1 of %2",
+        ["LOSS_MARKER"]             = "Loss of %1",
+        ["NO_EDITOR_MODE"]          = "You can't open a PBEM game in Editor mode until the scenario has ended.\n\nPlay this scenario using Start New Game or Load Saved Game from the main menu.",
         ["WIZARD_INTRO_MESSAGE"]    = "Welcome to IKE v%1! This tool adds PBEM/hotseat play to any Command: Modern Operations scenario.\n\nRunning this tool cannot be undone. Have you saved a backup of this scenario?",
         ["WIZARD_BACKUP"]           = "Please save a backup first, then RUN this tool again.",
         ["WIZARD_FIXED_TURNLENGTH"] = "Do you want to use a FIXED turn length?\n(Click No for VARIABLE turn lengths by side.)",
@@ -48,6 +50,7 @@ IKE_LOCALIZATIONS = {
         ["WIZARD_GO_FIRST"]         = "Should the %1 side go FIRST?",
         ["WIZARD_CLEAR_MISSIONS"]   = "Clear any existing missions for the %1 side?",
         ["WIZARD_SETUP_PHASE"]      = "Should the game start with a SETUP PHASE?",
+        ["WIZARD_PREVENT_EDITOR"]   = "Do you want to PREVENT players from opening the game in EDITOR MODE until it's over?\n(Click no to ALLOW EDITOR MODE.)",
         ["WIZARD_SUCCESS"]          = "Success! Your PBEM/hotseat scenario has been initialized. Go to FILE -> SAVE AS... to save it under a new name. It will be ready to play when next loaded.\n\n(If you're planning to publish it to the Steam Workshop, you should do it now, before you close this scenario.)\n\nThanks for using IKE!"
     }
 }
