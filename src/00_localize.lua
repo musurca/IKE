@@ -24,7 +24,6 @@ IKE_LOCALIZATIONS = {
         ["END_OF_SCENARIO_MESSAGE"] = "Go to <b>File -> Save As...</b>, save this game, and send the save file to the other players via email or another transfer service.<br/><br/>",
         ["MESSAGES_RECEIVED"]       = "Messages received:",
         ["LOSSES_REPORTED"]         = "Losses reported:",
-        ["LOSSES_NONE"]             = "None.",
         ["SETUP_PHASE_INTRO"]       = "This is the %1 setup phase.\n\nLeave the game paused until you've finished setting up your loadouts and missions.\n\nWhen you're done, click Play to end your turn.",
         ["END_OF_SETUP_HEADER"]     = "End of %1 Setup Phase",        
         ["PASSWORDS_DIDNT_MATCH"]   = "Passwords didn\'t match! Please enter your password again:",

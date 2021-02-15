@@ -108,7 +108,7 @@ function PBEM_EndTurn()
 end
 
 function PBEM_CheckSideSecurity()
-    local curPlayerSide = ScenEdit_PlayerSide()
+    local curPlayerSide = __PBEM_FN_PLAYERSIDE()
     local scenStartTime = VP_GetScenario().StartTimeNum
     local scenCurTime = ScenEdit_CurrentTime()
     local turnnum = Turn_GetTurnNumber()
@@ -291,6 +291,7 @@ function PBEM_InitAPIReplace()
     PBEM_InitScenarioOver()
     PBEM_InitRandom()
     PBEM_InitSpecialMessage()
+    PBEM_InitPlayerSide()
 end
 
 function PBEM_EndAPIReplace()
@@ -299,6 +300,34 @@ function PBEM_EndAPIReplace()
     PBEM_EndScenarioOver()
     PBEM_EndRandom()
     PBEM_EndSpecialMessage()
+    PBEM_EndPlayerSide()
+end
+
+function PBEM_InitPlayerSide()
+    if not __PBEM_FN_PLAYERSIDE then
+        __PBEM_FN_PLAYERSIDE = ScenEdit_PlayerSide
+    end
+    ScenEdit_PlayerSide = PBEM_PlayerSide
+end
+
+function PBEM_EndPlayerSide()
+    if __PBEM_FN_PLAYERSIDE then
+        ScenEdit_PlayerSide = __PBEM_FN_PLAYERSIDE
+    end
+end
+
+function PBEM_PlayerSide()
+    --clean up if haven't been already
+    if PBEM_TurnLength() == 0 then
+        PBEM_EndPlayerSide()
+        return ScenEdit_PlayerSide()
+    end
+
+    local side = __PBEM_FN_PLAYERSIDE()
+    if side == PBEM_DUMMY_SIDE then
+        return Turn_GetCurSideName()
+    end
+    return side
 end
 
 function PBEM_SpecialMessage(side, message, location, priority)
@@ -467,7 +496,6 @@ function PBEM_ShowTurnIntro()
     -- show losses from previous turn
     local losses = PBEM_GetLossRegister(cursidenum)
     if losses ~= "" then
-        --losses = Localize("LOSSES_NONE")
         lossreport = "<br/><u>"..Localize("LOSSES_REPORTED").."</u><br/><br/>"..losses
         PBEM_SetLossRegister(cursidenum, "")
     end
@@ -769,15 +797,22 @@ function PBEM_StartTurn()
 end
 
 function PBEM_StartSetupPhase()
-    local msg = Format(Localize("SETUP_PHASE_INTRO"), {ScenEdit_PlayerSide()})
+    local msg = Format(Localize("SETUP_PHASE_INTRO"), {
+        Turn_GetCurSideName()
+    })
     Input_OK(msg)
 end
 
 function PBEM_EndSetupPhase()
-    local sidename = ScenEdit_PlayerSide()
+    --save current side before advancing
+    local sidename = Turn_GetCurSideName()
     Turn_NextSide()
     ScenEdit_PlaySound("radioChirp5.mp3")
-    local msg = Message_Header(Format(Localize("END_OF_SETUP_HEADER"), {sidename}))..Format(Localize("END_OF_TURN_MESSAGE"), {Turn_GetCurSideName()})
+    local msg = Message_Header(Format(Localize("END_OF_SETUP_HEADER"), {
+        sidename
+    }))..Format(Localize("END_OF_TURN_MESSAGE"), {
+        Turn_GetCurSideName() -- next side
+    })
     PBEM_SpecialMessage('playerside', msg, nil, true)
     ScenEdit_SetTime(PBEM_StartTimeToUTC())
 
