@@ -55,7 +55,9 @@ This will produce compiled but unminified Lua code in `debug/ike_debug.lua`. _Do
 * adds an (optional) Setup Phase, allowing players to configure loadouts, missions, and orders before the game begins.
 * provides password protection for each player’s turn.
 * maintains a consistent random seed, to discourage replaying turns for more advantageous results.
-* implements some rudimentary anti-cheat protection. 
+* supports variable turn lengths to simulate different command-and-control realities for different sides.
+* supports either Unlimited Orders (traditional CMO play) or Limited Orders to simulate command delay and friction.
+* prevents players from cheating by (optionally) disabling the Editor until the scenario has ended.
 
 ### Who is it for?
 **IKE** is designed primarily for scenario authors who want to create a multiplayer version of their existing scenario, but it may also be used productively by players who want to convert their favorite scenario for use with a friend.
