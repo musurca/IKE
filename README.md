@@ -80,6 +80,7 @@ v1.2 ?:
 * fix: workaround for broken ScenEnded trigger
 * fix: set clock precisely to turn boundaries
 * fix: special message order hiding IKE messages
+* fix: coop kills not reported as losses
 
 v1.1 (2/1/2021):
 * fix: edge case for ScenEdit_SetTime() 

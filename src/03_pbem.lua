@@ -70,7 +70,6 @@ function PBEM_GetCurTurnStartTime()
         offset = offset + PBEM_TURN_LENGTHS[i]
     end
     
-    --return PBEM_GetNextTurnStartTime() - PBEM_TURN_LENGTH
     return scenStartTime + offset
 end
 
@@ -78,14 +77,6 @@ end
 return the start time of the next turn in seconds
 ]]--
 function PBEM_GetNextTurnStartTime()
-    --[[
-    local scenStartTime = VP_GetScenario().StartTimeNum
-    local numSides = #PBEM_PLAYABLE_SIDES
-    local sideNum = Turn_GetCurSide()
-    local turnNumber = Turn_GetTurnNumber()
-
-    return scenStartTime + PBEM_TURN_LENGTH*(turnNumber-1)*numSides + PBEM_TURN_LENGTH*sideNum
-    ]]--
     return PBEM_TURN_START_TIME + PBEM_TURN_LENGTH
 end
 
@@ -218,11 +209,11 @@ function PBEM_SideNumberByName(sidename)
     return 1
 end
 
-function PBEM_SetKillRegister(sidenum, kills)
+function PBEM_SetLossRegister(sidenum, kills)
     StoreString("__SIDE_"..tostring(sidenum)..'_LOSSES', kills)
 end
 
-function PBEM_GetKillRegister(sidenum)
+function PBEM_GetLossRegister(sidenum)
     return string.sub(GetString("__SIDE_"..tostring(sidenum)..'_LOSSES'), 0)
 end
 
@@ -233,8 +224,14 @@ end
 function PBEM_RegisterUnitKilled()
     local killed = ScenEdit_UnitX()
     local killtime = PBEM_CurrentTimeMilitary()
+
+    if not IsIn(killed.side, PBEM_PLAYABLE_SIDES) then
+        -- don't report losses
+        return
+    end
+
     local sidenum = PBEM_SideNumberByName(killed.side)
-    local losses = PBEM_GetKillRegister(sidenum)
+    local losses = PBEM_GetLossRegister(sidenum)
     local unitname
     if killed.name == killed.classname then
         unitname = killed.name
@@ -242,7 +239,7 @@ function PBEM_RegisterUnitKilled()
         unitname = killed.name..' ('..killed.classname..')'
     end
     losses = losses..killtime..' // '..unitname..'<br/>'
-    PBEM_SetKillRegister(sidenum, losses)
+    PBEM_SetLossRegister(sidenum, losses)
 
     --mark loss on the map
     ScenEdit_AddReferencePoint({
@@ -454,13 +451,13 @@ function PBEM_ShowTurnIntro()
     local lossreport = ""
     if turnnum > 1 or cursidenum > 1 then
         -- show losses from previous turn
-        local losses = PBEM_GetKillRegister(cursidenum)
+        local losses = PBEM_GetLossRegister(cursidenum)
         if losses == '' then
             losses = Localize("LOSSES_NONE")
         end
         lossreport = "<br/><u>"..Localize("LOSSES_REPORTED").."</u><br/><br/>"..losses
     end
-    PBEM_SetKillRegister(cursidenum, "")
+    PBEM_SetLossRegister(cursidenum, "")
     local msg_header
     local turn_len_min = math.floor(PBEM_TURN_LENGTH / 60)
     if PBEM_UNLIMITED_ORDERS then

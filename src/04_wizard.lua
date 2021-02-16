@@ -165,8 +165,8 @@ function PBEM_Init()
             -- add special actions
             PBEM_AddRTSide(PBEM_PLAYABLE_SIDES[i])
 
-            -- initialize kill register
-            PBEM_SetKillRegister(i, "")
+            -- initialize loss register
+            PBEM_SetLossRegister(i, "")
         end
     end
 

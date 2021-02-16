@@ -20,6 +20,18 @@ function ForEachDo(table, func)
 end
 
 --[[
+true if value is present in table, false otherwise
+]]--
+function IsIn(value, t)
+    for _, v in pairs(t) do
+        if value == v then
+            return true
+        end
+    end
+    return false
+end
+
+--[[
 If a number is only a single digit, this function
 adds a zero to the left side. Also converts to a string.
 e.g. 
