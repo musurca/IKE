@@ -25,7 +25,7 @@ function PBEM_CustomTimeToUTC(time_secs)
 end
 
 function PBEM_CurrentTimeMilitary()
-    return os.date("!%m/%d/%Y %H:%M:%S", VP_GetScenario().CurrentTimeNum)
+    return os.date("!%m/%d/%Y %H:%M:%SZ", VP_GetScenario().CurrentTimeNum)
 end
 
 function PBEM_ScenarioStartTime()
@@ -230,16 +230,18 @@ function PBEM_RegisterUnitKilled()
         return
     end
 
-    local sidenum = PBEM_SideNumberByName(killed.side)
-    local losses = PBEM_GetLossRegister(sidenum)
-    local unitname
-    if killed.name == killed.classname then
-        unitname = killed.name
-    else
-        unitname = killed.name..' ('..killed.classname..')'
+    if killed.side ~= Turn_GetCurSideName() then
+        local sidenum = PBEM_SideNumberByName(killed.side)
+        local losses = PBEM_GetLossRegister(sidenum)
+        local unitname
+        if killed.name == killed.classname then
+            unitname = killed.name
+        else
+            unitname = killed.name..' ('..killed.classname..')'
+        end
+        losses = losses.."<i>"..killtime.."</i> // "..unitname.."<br/>"
+        PBEM_SetLossRegister(sidenum, losses)
     end
-    losses = losses..killtime..' // '..unitname..'<br/>'
-    PBEM_SetLossRegister(sidenum, losses)
 
     --mark loss on the map
     ScenEdit_AddReferencePoint({
@@ -312,9 +314,22 @@ function PBEM_SpecialMessage(side, message, location, priority)
         PBEM_MESSAGEQUEUE = {}
     end
     local side_name = side
-    if side_name == Turn_GetCurSideName() then
+    local special_archive = (ScenEdit_CurrentTime() == VP_GetScenario().StartTimeNum)
+    if side_name == Turn_GetCurSideName() and not special_archive then
         --make sure messages are properly delivered
         side_name = "playerside"
+    elseif IsIn(side_name, PBEM_PLAYABLE_SIDES) then
+        -- if not 'playerside' or current side, then save it
+        -- for later display
+        for k,v in ipairs(PBEM_PLAYABLE_SIDES) do
+            if side_name == v then
+                local prev_msgs = GetString("__SCEN_PREVMSGS_"..k)
+                prev_msgs = prev_msgs.."<br/><center><i>------------------------------<br/>"..PBEM_CurrentTimeMilitary().."<br/>------------------------------</i></center><br/>"..message.."<br/>"
+                StoreString("__SCEN_PREVMSGS_"..k, prev_msgs)
+                break
+            end
+        end 
+        return
     end
     local new_msg = {
         side=side_name,
@@ -449,21 +464,25 @@ function PBEM_ShowTurnIntro()
     local cursidenum = Turn_GetCurSide()
     local turnnum = Turn_GetTurnNumber()
     local lossreport = ""
-    if turnnum > 1 or cursidenum > 1 then
-        -- show losses from previous turn
-        local losses = PBEM_GetLossRegister(cursidenum)
-        if losses == '' then
-            losses = Localize("LOSSES_NONE")
-        end
+    -- show losses from previous turn
+    local losses = PBEM_GetLossRegister(cursidenum)
+    if losses ~= "" then
+        --losses = Localize("LOSSES_NONE")
         lossreport = "<br/><u>"..Localize("LOSSES_REPORTED").."</u><br/><br/>"..losses
+        PBEM_SetLossRegister(cursidenum, "")
     end
-    PBEM_SetLossRegister(cursidenum, "")
+    -- get any special messages we missed
+    local prev_msgs = GetString("__SCEN_PREVMSGS_"..cursidenum)
+    if prev_msgs ~= "" then
+        lossreport = lossreport.."<br/><u>"..Localize("MESSAGES_RECEIVED").."</u><br/>"..prev_msgs
+        StoreString("__SCEN_PREVMSGS_"..cursidenum, "")
+    end
     local msg_header
     local turn_len_min = math.floor(PBEM_TURN_LENGTH / 60)
     if PBEM_UNLIMITED_ORDERS then
         msg_header = Format(Localize("START_OF_TURN_HEADER"), {
             PBEM_SIDENAME, 
-            tostring(turnnum),
+            turnnum,
             turn_len_min
         })
     else
@@ -483,16 +502,11 @@ function PBEM_ShowTurnIntro()
             orderNumStr
         })
     end
-    local msg = Message_Header(msg_header)..lossreport
+    local msg = Message_Header(msg_header)
     if not PBEM_UNLIMITED_ORDERS then
-        local divider
-        if turnnum > 1 or cursidenum > 1 then
-            divider = "<br/><br/><hr><br/>"
-        else
-            divider = ""
-        end
-        msg = msg..divider..Localize("START_ORDER_MESSAGE")
+        msg = msg..Localize("START_ORDER_MESSAGE")
     end
+    msg = msg.."<br/><br/>"..lossreport
     PBEM_SpecialMessage('playerside', msg, nil, true)
 end
 
