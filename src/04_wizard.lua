@@ -36,54 +36,42 @@ function PBEM_Init()
             table.insert(playableSides, sides[i].name)
         end
     end
+    --determine turn length
     local turn_lengths = {}
-    if Input_YesNo(Localize("WIZARD_FIXED_TURNLENGTH")) then
-        -- length of turn
-        local turnLength = 0
-        while turnLength == 0 do
-            turnLength = Input_Number(Localize("WIZARD_TURN_LENGTH"))
-            if not turnLength then
-                return
-            else
-                turnLength = math.max(0, math.floor(turnLength))
-                if turnLength == 0 then
-                    Input_OK(Localize("WIZARD_ZERO_LENGTH"))
-                end
+    local turnLength = 0
+    while turnLength == 0 do
+        turnLength = Input_Number(Localize("WIZARD_TURN_LENGTH"))
+        if not turnLength then
+            return
+        else
+            turnLength = math.max(0, math.floor(turnLength))
+            if turnLength == 0 then
+                Input_OK(Localize("WIZARD_ZERO_LENGTH"))
             end
         end
-        -- same length for each side
-        for k,v in ipairs(playableSides) do
-            table.insert(turn_lengths, turnLength*60)
-        end
-    else
-        -- length of turns
-        ForEachDo(playableSides, function(sidename)
-            local turnLength = 0
-            while turnLength == 0 do
-                turnLength = Input_Number(Format(Localize("WIZARD_TURN_LENGTH_SIDE"), {sidename}))
-                if not turnLength then
-                    return
-                else
-                    turnLength = math.max(0, math.floor(turnLength))
-                    if turnLength == 0 then
-                        Input_OK(Localize("WIZARD_ZERO_LENGTH"))
-                    end
-                end
-            end
-            -- insert turn length for that side
-            table.insert(turn_lengths, turnLength*60)
-        end)
+    end
+    -- same length for each side (for now)
+    for k,v in ipairs(playableSides) do
+        table.insert(turn_lengths, turnLength*60)
     end
     --unlimited orders?
     unlimitedOrders = Input_YesNo(Localize("WIZARD_UNLIMITED_ORDERS"))
+    local order_phases = {}
     if not unlimitedOrders then
         --number of orders per turn
-        orderNumber = Input_Number(Localize("WIZARD_ORDER_NUMBER"))
-        orderNumber = math.max(0, math.floor(orderNumber))
-        if orderNumber == 0 then
-            Input_OK(Localize("WIZARD_ZERO_ORDER"))
-            return
-        end
+        ForEachDo(playableSides, function(side)
+            local orderNumber = 0
+            while orderNumber == 0 do
+                orderNumber = Input_Number(Format(Localize("WIZARD_ORDER_NUMBER"), {
+                    side
+                }))
+                orderNumber = math.max(0, math.floor(orderNumber))
+                if orderNumber == 0 then
+                    Input_OK(Localize("WIZARD_ZERO_ORDER"))
+                end
+            end
+            table.insert(order_phases, orderNumber)
+        end)
     end
     --turn order
     local order_set = false
@@ -130,7 +118,7 @@ function PBEM_Init()
     StoreBoolean('__SCEN_UNLIMITEDORDERS', unlimitedOrders)
     StoreBoolean("__SCEN_PREVENTEDITOR", prevent_editor)
     if not unlimitedOrders then
-        StoreNumber('__SCEN_ORDERINTERVAL', orderNumber)
+        StoreNumberArray('__SCEN_ORDERINTERVAL', order_phases)
     end
     
     if not PBEM_EventExists('PBEM: Scenario Loaded') then

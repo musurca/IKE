@@ -181,7 +181,83 @@ function PBEM_ShowRemainingTime()
     end
 end
 
+function PBEM_UserChangePosture()
+    local sidelist = ""
+    local myside = Turn_GetCurSideName()
+    local non_player_sides = {}
+    for k,side in ipairs(VP_GetSides()) do
+        if side.name ~= myside and side.name ~= PBEM_DUMMY_SIDE then
+            table.insert(non_player_sides, side.name)
+        end
+    end
+    for k,sidename in ipairs(non_player_sides) do
+        sidelist = sidelist..sidename
+        if k ~= #non_player_sides then
+            sidelist = sidelist..", "
+        end
+    end
+    local side_input = Input_String(Format(Localize("CHANGE_POSTURE"), {
+        sidelist
+    }))
+    side_input = RStrip(side_input)
+    if side_input == "" then
+        return
+    end
+    --match it regardless of case
+    local side_to_change = ""
+    for k,sidename in ipairs(non_player_sides) do
+        local check_a = string.upper(side_input)
+        local check_b = string.upper(sidename)
+        if check_a == check_b then
+            side_to_change = sidename
+            break
+        end
+    end
+    if side_to_change == "" then
+        Input_OK(Format(Localize("NO_SIDE_FOUND"), {
+            side_input
+        }))
+        return
+    end
+    local posture_map = {
+        ["F"] = "FRIENDLY",
+        ["N"] = "NEUTRAL",
+        ["U"] = "UNFRIENDLY",
+        ["H"] = "HOSTILE"
+    }
+    local curposture = posture_map[ScenEdit_GetSidePosture(myside, side_to_change)]
+    local newposture = Input_String(Format(Localize("SET_POSTURE"), {
+        side_to_change,
+        curposture
+    }))
+    newposture = RStrip(string.upper(newposture))
+    if newposture == "" then
+        return
+    end
+    local postures = {"FRIENDLY", "NEUTRAL", "UNFRIENDLY", "HOSTILE"}
+    if not IsIn(newposture, postures) then
+        Input_OK(Format(Localize("NO_POSTURE_FOUND"), {
+            newposture
+        }))
+        return
+    end
+    ScenEdit_SetSidePosture(myside, side_to_change, string.sub(newposture, 1, 1))
+    Input_OK(Format(Localize("POSTURE_IS_SET"), {
+        side_to_change,
+        newposture
+    }))
+end
+
 function PBEM_AddRTSide(side)
+    ScenEdit_AddSpecialAction({
+        ActionNameOrID='PBEM: Change posture towards a side',
+        Description="Changes your posture toward a side. Useful if you've accidentally attacked some civilians and don't want them to be hostile anymore.",
+        Side=side,
+        IsActive=true, 
+        IsRepeatable=true,
+        ScriptText='PBEM_UserChangePosture()'
+    })
+
     ScenEdit_AddSpecialAction({
         ActionNameOrID='PBEM: Show remaining time in turn',
         Description="Display the remaining time before your PBEM turn ends.",
@@ -195,6 +271,11 @@ end
 function PBEM_RemoveRTSide(side)
     pcall(ScenEdit_SetSpecialAction, {
         ActionNameOrID='PBEM: Show remaining time in turn',
+        Side=side,
+        mode="remove"
+    })
+    pcall(ScenEdit_SetSpecialAction, {
+        ActionNameOrID='PBEM: Change posture towards a side',
         Side=side,
         mode="remove"
     })
@@ -344,8 +425,8 @@ function PBEM_SpecialMessage(side, message, location, priority)
     end
     local side_name = side
     local special_archive = (ScenEdit_CurrentTime() == VP_GetScenario().StartTimeNum)
+    --make sure messages are properly delivered
     if side_name == Turn_GetCurSideName() and not special_archive then
-        --make sure messages are properly delivered
         side_name = "playerside"
     elseif IsIn(side_name, PBEM_PLAYABLE_SIDES) then
         -- if not 'playerside' or current side, then save it
@@ -532,9 +613,9 @@ function PBEM_ShowTurnIntro()
     end
     local msg = Message_Header(msg_header)
     if not PBEM_UNLIMITED_ORDERS then
-        msg = msg..Localize("START_ORDER_MESSAGE")
+        msg = msg..Localize("START_ORDER_MESSAGE").."<br/><br/>"
     end
-    msg = msg.."<br/><br/>"..lossreport
+    msg = msg..lossreport
     PBEM_SpecialMessage('playerside', msg, nil, true)
 end
 
@@ -543,7 +624,8 @@ function PBEM_RandomSeed(a)
 end
 
 function PBEM_NextRandomSeed()
-    PBEM_RandomSeed(__PBEM_FN_RANDOM(-2147483648, 2147483647))
+    local newseed = -2147483646+2*(__PBEM_FN_RANDOM()*2147483646)
+    PBEM_RandomSeed(newseed)
 end
 
 function PBEM_Random(lower, upper)
@@ -576,7 +658,12 @@ function PBEM_InitRandom()
     math.randomseed = function(a) end
     math.random = PBEM_Random
     
-    __PBEM_FN_RANDOMSEED(GetNumber('__PBEM_RANDOMSEEDVAL'))
+    local seed = GetNumber('__PBEM_RANDOMSEEDVAL')
+    if seed == 0 then
+        PBEM_RandomSeed(os.time())
+        seed = GetNumber('__PBEM_RANDOMSEEDVAL')
+    end
+    __PBEM_FN_RANDOMSEED(seed)
     __PBEM_FN_RANDOM()
     __PBEM_FN_RANDOM()
     __PBEM_FN_RANDOM()
@@ -596,8 +683,12 @@ function PBEM_OrdersUnlimited()
     return GetBoolean('__SCEN_UNLIMITEDORDERS')
 end
 
+function PBEM_OrderPhases()
+    return GetNumberArray("__SCEN_ORDERINTERVAL")
+end
+
 function PBEM_OrderInterval()
-    return math.floor(PBEM_TURN_LENGTH / GetNumber('__SCEN_ORDERINTERVAL'))
+    return math.floor(PBEM_TURN_LENGTH / PBEM_ORDER_PHASES[Turn_GetCurSide()])
 end
 
 function PBEM_MirrorSide(sidename)
@@ -700,7 +791,10 @@ function PBEM_InitScenGlobals()
     PBEM_ROUND_LENGTH = PBEM_RoundLength()
     PBEM_PLAYABLE_SIDES = PBEM_PlayableSides()
     PBEM_UNLIMITED_ORDERS = PBEM_OrdersUnlimited()
-    PBEM_ORDER_INTERVAL = PBEM_OrderInterval()
+    if not PBEM_UNLIMITED_ORDERS then
+        PBEM_ORDER_PHASES = PBEM_OrderPhases()
+        PBEM_ORDER_INTERVAL = PBEM_OrderInterval()
+    end
     PBEM_SIDENAME = Turn_GetCurSideName()
     PBEM_TURN_START_TIME = PBEM_GetCurTurnStartTime()
 end
@@ -735,8 +829,6 @@ function PBEM_StartTurn()
     if (turnnum == 1 and not PBEM_SETUP_PHASE and curtime == PBEM_TURN_START_TIME) or (turnnum == 0 and PBEM_SETUP_PHASE) then
         -- do initial senario setup if this is the first run
         if Turn_GetCurSide() == 1 then
-            PBEM_RandomSeed(os.time())
-
             if PBEM_OnInitialSetup then
                 PBEM_OnInitialSetup()
             end

@@ -46,6 +46,12 @@ function PadDigits(num)
     return numStr
 end
 
+-- Strip leading and trailing whitespace
+function RStrip(str)
+    str = string.gsub(str, "^%s*", "")
+    return string.gsub(str, "%s*$", "")
+end
+
 --[[
 Formats a string by inserting array elements.
 e.g.

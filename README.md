@@ -53,7 +53,6 @@ This will produce compiled but unminified Lua code in `debug/ike_debug.lua`. _Do
 * keeps track of turn order and length, and stops the scenario automatically when a player’s turn is over.
 * provides a summary of any losses sustained or messages received during the last turn.
 * adds an (optional) Setup Phase, allowing players to configure loadouts, missions, and orders before the game begins.
-* supports either Fixed Turn Lengths or Variable Turn Lengths to simulate different command-and-control realities for different sides.
 * supports either Unlimited Orders (traditional CMO play) or Limited Orders to simulate command delay and friction.
 * provides password protection for each player’s turn.
 * maintains a consistent random seed, to discourage replaying turns for more advantageous results.
@@ -67,11 +66,11 @@ For detailed instructions, please refer to the manual included with the [latest 
 
 ### VERSION HISTORY
 v1.2 ?:
-* added: variable turn length mode
 * added: limited order mode
 * added: option to prevent editor mode
 * added: losses marked with RPs
 * added: missed messages delivered next turn
+* added: special action to change side posture
 * added: localization support
 * fix: end of setup phase message
 * fix: API replacements clean themselves up
@@ -81,6 +80,7 @@ v1.2 ?:
 * fix: coop kills not reported as losses
 * fix: observed losses not reported next turn
 * fix: ScenEdit_PlayerSide() in limited order mode
+* fix: better random seed
 
 v1.1 (2/1/2021):
 * fix: edge case for ScenEdit_SetTime() 
