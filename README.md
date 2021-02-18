@@ -67,6 +67,7 @@ For detailed instructions, please refer to the manual included with the [latest 
 ### VERSION HISTORY
 v1.2 ?:
 * added: limited order mode
+* added: players can customize scenario settings
 * added: option to prevent editor mode
 * added: losses marked with RPs
 * added: missed messages delivered next turn

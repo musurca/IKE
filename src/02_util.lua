@@ -10,6 +10,13 @@ scenarios.
 ----------------------------------------------
 ]]--
 
+function BooleanToString(val)
+    if val then
+        return Localize("YES")
+    end
+    return Localize("NO")
+end
+
 --[[
 iterates through table, calling func(e) on each e in table
 ]]--

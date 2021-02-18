@@ -14,6 +14,11 @@ language isn't yet supported.
 
 IKE_LOCALIZATIONS = {
     ["English"] = {
+        ["YES"]                     = "Yes",
+        ["NO"]                      = "No",
+        ["GAME_START"]              = "You are starting a PBEM game of %1.\n\nDo you want to use the recommended settings?",
+        ["RECOMMENDED"]             = "Recommended: %1",
+        ["CONFIRM_SETTINGS"]        = "The settings for %1 have been changed.\n\nClick OK to start the game as %2.",
         ["START_OF_TURN_HEADER"]    = "%1 Turn %2<br/>(%3 minutes)",
         ["END_OF_TURN_HEADER"]      = "End of %1 Turn %2",
         ["END_OF_TURN_MESSAGE"]     = "Go to <b>File -> Save As...</b>, save this game, and send the save file to the <b>%1</b> player via email or another transfer service.<br/><br/><u>IMPORTANT:</u> Do <b>NOT</b> close this window or resume the game before saving, or you will have to replay your turn.",
@@ -34,6 +39,7 @@ IKE_LOCALIZATIONS = {
         ["START_ORDER_HEADER"]      = "%1 Turn %2<br/>(%3 minutes)<br/><br/>Order Phase %4",
         ["NEXT_ORDER_HEADER"]       = "%1 Turn %2<br/>(%3 minutes left)<br/><br/>Order Phase %4",
         ["START_ORDER_MESSAGE"]     = "Give orders to your units as needed. When you're ready, <b>start the clock</b> to execute them.",
+        ["RESUME_ORDER_MESSAGE"]    = "You've already given orders for this phase. <b>Start the clock</b> to continue executing them.",
         ["ORDER_PHASE_DIVIDER"]     = "%1 of %2",
         ["LOSS_MARKER"]             = "Loss of %1",
         ["NO_EDITOR_MODE"]          = "You can't open a PBEM game in Editor mode until the scenario has ended.\n\nPlay this scenario using Start New Game or Load Saved Game from the main menu.",
@@ -71,7 +77,11 @@ function Localize(msg_code)
     if basis == nil then
         basis = IKE_LOCALIZATIONS["English"]
     end
-    return basis[msg_code]
+    local message = basis[msg_code]
+    if not message then
+        return "[String "..msg_code.." not found]"
+    end
+    return message
 end
 
 --[[!! LEAVE TWO CARRIAGE RETURNS AFTER SOURCE FILE !!]]--

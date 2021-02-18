@@ -148,7 +148,7 @@ function PBEM_CheckSideSecurity()
                     PBEM_AddRTSide(PBEM_DUMMY_SIDE)
                 elseif time_check % PBEM_ORDER_INTERVAL == 0 then
                     -- start giving orders again
-                    PBEM_StartOrderPhase((time_check / PBEM_ORDER_INTERVAL) + 1)
+                    PBEM_StartOrderPhase()
                     --remove the dummy sensor unit if it exists
                     PBEM_RemoveDummyUnit()
                     --remove special actions from dummy side
@@ -758,14 +758,13 @@ function PBEM_RemoveDummyUnit()
     end
 end
 
-function PBEM_EndOrderPhase()
-    PBEM_MirrorSide(PBEM_SIDENAME)
-    ScenEdit_SetSideOptions({side=PBEM_DUMMY_SIDE, switchto=true})
-end
-
-function PBEM_StartOrderPhase(phase_num)
-    ScenEdit_SetSideOptions({side=PBEM_SIDENAME, switchto=true})
-    local turn_len_min = math.floor((PBEM_GetNextTurnStartTime() - ScenEdit_CurrentTime()) / 60)
+function PBEM_ShowOrderPhase(resume)
+    resume = resume or false
+    local cur_time = ScenEdit_CurrentTime()
+    local turn_start_time = PBEM_GetCurTurnStartTime()
+    local phase_num = ((cur_time - turn_start_time) / PBEM_ORDER_INTERVAL) + 1
+    phase_num = math.floor(phase_num)
+    local turn_len_min = math.floor((PBEM_GetNextTurnStartTime() - cur_time) / 60)
     local phase_str = Format(Localize("ORDER_PHASE_DIVIDER"), {
         math.floor(phase_num),
         math.floor(PBEM_TURN_LENGTH / PBEM_ORDER_INTERVAL)
@@ -779,8 +778,23 @@ function PBEM_StartOrderPhase(phase_num)
                 phase_str
             }
         )
-    )..Localize("START_ORDER_MESSAGE")
+    )
+    if resume then
+        msg = msg..Localize("RESUME_ORDER_MESSAGE")
+    else
+        msg = msg..Localize("START_ORDER_MESSAGE")
+    end
     PBEM_SpecialMessage('playerside', msg, nil, true)
+end
+
+function PBEM_EndOrderPhase()
+    PBEM_MirrorSide(PBEM_SIDENAME)
+    ScenEdit_SetSideOptions({side=PBEM_DUMMY_SIDE, switchto=true})
+end
+
+function PBEM_StartOrderPhase()
+    ScenEdit_SetSideOptions({side=PBEM_SIDENAME, switchto=true})
+    PBEM_ShowOrderPhase()
 end
 
 function PBEM_InitScenGlobals()
@@ -799,12 +813,103 @@ function PBEM_InitScenGlobals()
     PBEM_TURN_START_TIME = PBEM_GetCurTurnStartTime()
 end
 
+function PBEM_UserCheckSettings()
+    local scentitle = VP_GetScenario().Title
+    if Input_YesNo(Format(Localize("GAME_START"), {scentitle})) then
+        -- use recommended settings
+        return
+    end
+
+    local turn_lengths = {}
+    local unlimitedOrders
+    local order_phases = {}
+    local first_side
+
+    local turnLength = Input_Number(Localize("WIZARD_TURN_LENGTH").."\n\n"..Format(Localize("RECOMMENDED"), {
+        math.floor(PBEM_TURN_LENGTH/60)
+    }))
+    if not turnLength then
+        turnLength = math.floor(PBEM_TURN_LENGTH/60)
+    else
+        turnLength = math.max(0, math.floor(turnLength))
+        if turnLength == 0 then
+            turnLength = math.floor(PBEM_TURN_LENGTH/60)
+        end
+    end
+    -- same length for each side (for now)
+    for k,v in ipairs(PBEM_PLAYABLE_SIDES) do
+        table.insert(turn_lengths, turnLength*60)
+    end
+    --unlimited orders?
+    unlimitedOrders = Input_YesNo(Localize("WIZARD_UNLIMITED_ORDERS").."\n\n"..Format(Localize("RECOMMENDED"), {
+        BooleanToString(PBEM_UNLIMITED_ORDERS)
+    }))
+    if not unlimitedOrders then
+        --number of orders per turn
+        local sidenum = 1
+        ForEachDo(PBEM_PLAYABLE_SIDES, function(side)
+            local orderNumber = 0
+            while orderNumber == 0 do
+                local rec_msg = ""
+                local rec_orders = 0
+                if not PBEM_UNLIMITED_ORDERS then
+                    rec_orders = PBEM_ORDER_PHASES[sidenum]
+                    rec_msg = "\n\n"..Format(Localize("RECOMMENDED"), {rec_orders})
+                end
+                orderNumber = Input_Number(Format(Localize("WIZARD_ORDER_NUMBER"), {
+                    side
+                })..rec_msg)
+                orderNumber = math.max(0, math.floor(orderNumber))
+                if orderNumber == 0 then
+                    if rec_orders > 0 then
+                        orderNumber = rec_orders
+                    else
+                        Input_OK(Localize("WIZARD_ZERO_ORDER"))
+                    end
+                end
+            end
+            table.insert(order_phases, orderNumber)
+            sidenum = sidenum + 1
+        end)
+    end
+    --turn order
+    first_side = 0
+    while first_side == 0 do
+        for i=1,#PBEM_PLAYABLE_SIDES do
+            if Input_YesNo(Format(Localize("WIZARD_GO_FIRST"), {
+                PBEM_PLAYABLE_SIDES[i]
+            }).."\n\n"..Format(Localize("RECOMMENDED"), {
+                BooleanToString(i==1)
+            })) then
+                first_side = i
+                break
+            end
+        end
+    end
+    Input_OK(Format(Localize("CONFIRM_SETTINGS"), {
+        scentitle,
+        PBEM_PLAYABLE_SIDES[first_side]
+    }))
+
+    -- commit to settings
+    StoreNumberArray("__SCEN_TURN_LENGTHS", turn_lengths)
+    StoreBoolean('__SCEN_UNLIMITEDORDERS', unlimitedOrders)
+    if not unlimitedOrders then
+        StoreNumberArray('__SCEN_ORDERINTERVAL', order_phases)
+    end
+    local a, b = PBEM_PLAYABLE_SIDES[1], PBEM_PLAYABLE_SIDES[first_side]
+    PBEM_PLAYABLE_SIDES[1], PBEM_PLAYABLE_SIDES[first_side] = b, a
+    StoreStringArray("__SCEN_PLAYABLESIDES", PBEM_PLAYABLE_SIDES)
+
+    -- reinit the scenario globals
+    PBEM_InitScenGlobals()
+end
+
 function PBEM_StartTurn()
     -- necessary to load these right away
     PBEM_InitScenGlobals()
     
     ScenEdit_SetSideOptions({side=PBEM_DUMMY_SIDE, switchto=true})
-    local sidename = PBEM_SIDENAME
     local turnnum = Turn_GetTurnNumber()
     local curtime = ScenEdit_CurrentTime()
 
@@ -829,6 +934,8 @@ function PBEM_StartTurn()
     if (turnnum == 1 and not PBEM_SETUP_PHASE and curtime == PBEM_TURN_START_TIME) or (turnnum == 0 and PBEM_SETUP_PHASE) then
         -- do initial senario setup if this is the first run
         if Turn_GetCurSide() == 1 then
+            PBEM_UserCheckSettings()
+
             if PBEM_OnInitialSetup then
                 PBEM_OnInitialSetup()
             end
@@ -844,7 +951,9 @@ function PBEM_StartTurn()
             if attemptNum > 1 then
                 msg = Localize("PASSWORDS_DIDNT_MATCH")
             else
-                msg = Format(Localize("CHOOSE_PASSWORD"), {sidename})
+                msg = Format(Localize("CHOOSE_PASSWORD"), {
+                    PBEM_SIDENAME
+                })
             end
             pass = Input_String(msg)
             local passcheck = Input_String(Localize("CONFIRM_PASSWORD"))
@@ -853,7 +962,10 @@ function PBEM_StartTurn()
             end
         end
         PBEM_SetPassword(Turn_GetCurSide(), pass)
-        ScenEdit_SetSideOptions({side=sidename, switchto=true})
+        ScenEdit_SetSideOptions({
+            side=PBEM_SIDENAME, 
+            switchto=true
+        })
 
         if turnnum == 0 and PBEM_SETUP_PHASE then
             PBEM_StartSetupPhase()
@@ -864,9 +976,11 @@ function PBEM_StartTurn()
         -- Check our password
         local passwordAccepted = false
         while not passwordAccepted do
-            local pass = Input_String(Format(Localize("ENTER_PASSWORD"), {sidename, turnnum}))
+            local pass = Input_String(Format(Localize("ENTER_PASSWORD"), {
+                PBEM_SIDENAME, 
+                turnnum
+            }))
             if PBEM_CheckPassword(Turn_GetCurSide(), pass) then
-                ScenEdit_SetSideOptions({side=sidename, switchto=true})
                 passwordAccepted = true
             else
                 local choice = ScenEdit_MsgBox(Localize("WRONG_PASSWORD"), 5)
@@ -879,6 +993,30 @@ function PBEM_StartTurn()
         
         local turnStartTime = PBEM_TURN_START_TIME
         local curTime = ScenEdit_CurrentTime()
+        local time_check = curTime - turnStartTime
+        
+        if PBEM_UNLIMITED_ORDERS then
+            ScenEdit_SetSideOptions({
+                side=PBEM_SIDENAME, 
+                switchto=true
+            })
+        else
+            if time_check % PBEM_ORDER_INTERVAL == 0 then
+                if curTime > turnStartTime then
+                    --remind us what order phase we were in
+                    PBEM_StartOrderPhase()
+                else
+                    ScenEdit_SetSideOptions({
+                        side=PBEM_SIDENAME, 
+                        switchto=true
+                    })
+                end
+            else
+                -- resume order phase in the middle
+                PBEM_EndOrderPhase()
+                PBEM_ShowOrderPhase(true)
+            end
+        end
 
         if curTime == turnStartTime then
             PBEM_ShowTurnIntro()
