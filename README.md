@@ -55,6 +55,7 @@ This will produce compiled but unminified Lua code in `debug/ike_debug.lua`. _Do
 * adds an (optional) Setup Phase, allowing players to configure loadouts, missions, and orders before the game begins.
 * supports either Unlimited Orders (traditional CMO play) or Limited Orders to simulate command delay and friction.
 * provides password protection for each player’s turn.
+* allows players to either use the scenario’s recommended PBEM settings, or customize them at game start.
 * maintains a consistent random seed, to discourage replaying turns for more advantageous results.
 * prevents players from cheating by (optionally) disabling the Editor until the scenario has ended.
 
