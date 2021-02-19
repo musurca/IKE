@@ -825,16 +825,13 @@ function PBEM_UserCheckSettings()
     local order_phases = {}
     local first_side
 
-    local turnLength = Input_Number(Localize("WIZARD_TURN_LENGTH").."\n\n"..Format(Localize("RECOMMENDED"), {
-        math.floor(PBEM_TURN_LENGTH/60)
-    }))
-    if not turnLength then
-        turnLength = math.floor(PBEM_TURN_LENGTH/60)
-    else
-        turnLength = math.max(0, math.floor(turnLength))
-        if turnLength == 0 then
-            turnLength = math.floor(PBEM_TURN_LENGTH/60)
-        end
+    local default_length = math.floor(PBEM_TURN_LENGTH/60)
+    local turnLength = Input_Number_Default(Localize("WIZARD_TURN_LENGTH").."\n\n"..Format(Localize("RECOMMENDED"), {
+        default_length
+    }), default_length)
+    turnLength = math.max(0, math.floor(turnLength))
+    if turnLength == 0 then
+        turnLength = default_length
     end
     -- same length for each side (for now)
     for k,v in ipairs(PBEM_PLAYABLE_SIDES) do
@@ -855,10 +852,12 @@ function PBEM_UserCheckSettings()
                 if not PBEM_UNLIMITED_ORDERS then
                     rec_orders = PBEM_ORDER_PHASES[sidenum]
                     rec_msg = "\n\n"..Format(Localize("RECOMMENDED"), {rec_orders})
+                else
+                    rec_orders = 1
                 end
-                orderNumber = Input_Number(Format(Localize("WIZARD_ORDER_NUMBER"), {
+                orderNumber = Input_Number_Default(Format(Localize("WIZARD_ORDER_NUMBER"), {
                     side
-                })..rec_msg)
+                })..rec_msg, rec_orders)
                 orderNumber = math.max(0, math.floor(orderNumber))
                 if orderNumber == 0 then
                     if rec_orders > 0 then
@@ -886,6 +885,11 @@ function PBEM_UserCheckSettings()
             end
         end
     end
+    --editor mode
+    local prevent_editor = Input_YesNo(Localize("WIZARD_PREVENT_EDITOR").."\n\n"..Format(Localize("RECOMMENDED"), {
+        BooleanToString(GetBoolean("__SCEN_PREVENTEDITOR"))
+    }))
+    -- confirm settings
     Input_OK(Format(Localize("CONFIRM_SETTINGS"), {
         scentitle,
         PBEM_PLAYABLE_SIDES[first_side]
@@ -900,7 +904,7 @@ function PBEM_UserCheckSettings()
     local a, b = PBEM_PLAYABLE_SIDES[1], PBEM_PLAYABLE_SIDES[first_side]
     PBEM_PLAYABLE_SIDES[1], PBEM_PLAYABLE_SIDES[first_side] = b, a
     StoreStringArray("__SCEN_PLAYABLESIDES", PBEM_PLAYABLE_SIDES)
-
+    StoreBoolean("__SCEN_PREVENTEDITOR", prevent_editor)
     -- reinit the scenario globals
     PBEM_InitScenGlobals()
 end

@@ -1,9 +1,11 @@
 <p align="center"><img src="https://github.com/musurca/IKE/raw/main/ike_logo.png" /></p>
 
 ## PBEM/hotseat multiplayer for *Command: Modern Operations* scenarios
-[**DOWNLOAD LATEST RELEASE HERE (v1.1)**](https://github.com/musurca/IKE/releases/download/v1.1/IKE_v1.1.zip)
+FOR PLAYERS: [**DOWNLOAD LATEST SCENARIO PACK HERE (v1.2)**](https://github.com/musurca/IKE/releases/download/v1.2-scenarios/IKE_Scenario_Pack_v1.2.zip)
 
-If you're a scenario author or player looking to convert a new or existing scenario for multiplayer use, you only need to download the latest release using the link above. Make sure you read the manual before trying to apply **IKE**.
+FOR SCENARIO AUTHORS: [**DOWNLOAD LATEST RELEASE HERE (v1.2)**](https://github.com/musurca/IKE/releases/download/v1.2/IKE_v1.2.zip)
+
+If you're a scenario author or player looking to convert a new or existing scenario for multiplayer use, you only need to download either the latest release or scenario pack using the links above. 
 
 This code repository is intended only for those who are curious about how **IKE** works internally, want to add more features, or want to localize the text for a language other than English. In other words, **if you just want to create a PBEM scenario, you can just download the latest release and skip everything below.**
 
@@ -63,10 +65,10 @@ This will produce compiled but unminified Lua code in `debug/ike_debug.lua`. _Do
 **IKE** is designed primarily for scenario authors who want to create a multiplayer version of their existing scenario, but it may also be used productively by players who want to convert their favorite scenario for use with a friend.
 
 ### How do I use it?
-For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.1/IKE_v1.1.zip).
+For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.2/IKE_v1.2.zip).
 
 ### VERSION HISTORY
-v1.2 ?:
+v1.2 (2/18/2021):
 * added: limited order mode
 * added: players can customize scenario settings
 * added: option to prevent editor mode

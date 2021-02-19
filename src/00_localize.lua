@@ -60,7 +60,7 @@ IKE_LOCALIZATIONS = {
         ["WIZARD_GO_FIRST"]         = "Should the %1 side go FIRST?",
         ["WIZARD_CLEAR_MISSIONS"]   = "Clear any existing missions for the %1 side?",
         ["WIZARD_SETUP_PHASE"]      = "Should the game start with a SETUP PHASE?",
-        ["WIZARD_PREVENT_EDITOR"]   = "Do you want to PREVENT players from opening the game in EDITOR MODE until it's over?\n(Click no to ALLOW EDITOR MODE.)",
+        ["WIZARD_PREVENT_EDITOR"]   = "Do you want to PREVENT players from opening the game in EDITOR MODE until it's over?",
         ["WIZARD_SUCCESS"]          = "Success! Your PBEM/hotseat scenario has been initialized. Go to FILE -> SAVE AS... to save it under a new name. It will be ready to play when next loaded.\n\n(If you're planning to publish it to the Steam Workshop, you should do it now, before you close this scenario.)\n\nThanks for using IKE!"
     }
 }

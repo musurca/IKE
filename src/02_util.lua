@@ -133,6 +133,22 @@ function Input_Number(question)
 end
 
 --[[
+Presents the user with an input box that expects a numeric
+input. If the user enters nothing, the default value is used.
+]]--
+function Input_Number_Default(question, default)
+    local val = ScenEdit_InputBox(question)
+    if val then
+        val = tonumber(val)
+        if val then
+            return val
+        end
+    end
+
+    return default
+end
+
+--[[
 Presents the user with an input box that expects a string.
 ]]--
 function Input_String(question)

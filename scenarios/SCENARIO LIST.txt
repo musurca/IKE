@@ -9,14 +9,21 @@ WHO GOES FIRST      Spain
 Recommended settings:
 TURN LENGTH         1.5 hour
 COMMAND             Limited Orders
-ORDERS PER TURN     3 (United Kingdom) / 2 (USSR)
+ORDERS PER TURN     3
 WHO GOES FIRST      United Kingdom
+
+**** First Contact, 1986 - Norway vs. Soviet Union ****
+Recommended settings:
+TURN LENGTH         20 minutes
+COMMAND             Limited Orders
+ORDERS PER TURN     3
+WHO GOES FIRST      Norway
 
 **** North Pacific Shootout, 1989 - United States vs. Soviet Union ****
 Recommended settings:
 TURN LENGTH         20 minutes
 COMMAND             Limited Orders
-ORDERS PER TURN     3 (United States) / 2 (Soviet Union)
+ORDERS PER TURN     3
 WHO GOES FIRST      United States
 
 **** Shamal, 1991 (cooperative) - USN & USAF vs. Iraq (AI) ****
@@ -26,3 +33,8 @@ COMMAND             Limited Orders
 ORDERS PER TURN     3
 WHO GOES FIRST      USAF
 
+----------------------------------------------
+Alternate versions of these scenarios with 
+COMMAND set to Unlimited Orders are available 
+in the unlimited orders\ folder.
+----------------------------------------------
