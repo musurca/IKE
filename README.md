@@ -68,6 +68,9 @@ This will produce compiled but unminified Lua code in `debug/ike_debug.lua`. _Do
 For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.2/IKE_v1.2.zip).
 
 ### VERSION HISTORY
+v1.21 (2/18/2021):
+* fix: API replacements
+
 v1.2 (2/18/2021):
 * added: limited order mode
 * added: players can customize scenario settings

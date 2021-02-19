@@ -10,7 +10,14 @@ for the IKE system.
 ----------------------------------------------
 ]]--
 
+IKE_VERSION = "1.21"
+
 PBEM_DUMMY_SIDE = 'PBEM'
+
+function PBEM_NotRunning()
+    --returns true if we're not running IKE anymore
+    return Turn_GetCurSide() == 0
+end
 
 function PBEM_StartTimeToUTC()
     local date_str = os.date("!%m.%d.%Y", VP_GetScenario().StartTimeNum)
@@ -399,7 +406,7 @@ end
 
 function PBEM_PlayerSide()
     --clean up if haven't been already
-    if PBEM_TurnLength() == 0 then
+    if PBEM_NotRunning() then
         PBEM_EndPlayerSide()
         return ScenEdit_PlayerSide()
     end
@@ -413,7 +420,7 @@ end
 
 function PBEM_SpecialMessage(side, message, location, priority)
     --clean up if haven't been already
-    if PBEM_TurnLength() == 0 then
+    if PBEM_NotRunning() then
         PBEM_EndSpecialMessage()
         ScenEdit_SpecialMessage(side, message, location)
         return
@@ -494,7 +501,7 @@ end
 
 function PBEM_ScenarioOver()
     --clean ourselves up if we haven't already
-    if PBEM_TurnLength() == 0 then
+    if PBEM_NotRunning() then
         PBEM_EndScenarioOver()
         ScenEdit_EndScenario()
         return
@@ -640,7 +647,7 @@ function PBEM_Random(lower, upper)
         rval = __PBEM_FN_RANDOM()
     end
 
-    if PBEM_TurnLength() == 0 then
+    if PBEM_NotRunning() then
         --Clean ourselves up if we're still loaded
         --in a non-IKE context
         PBEM_EndRandom()

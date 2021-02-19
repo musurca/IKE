@@ -12,8 +12,6 @@ code.
 ----------------------------------------------
 ]]--
 
-IKE_VERSION = "1.2"
-
 PBEM_UNITYPES = {
     1, --aircraft
     2, --ship
