@@ -38,3 +38,14 @@ Alternate versions of these scenarios with
 COMMAND set to Unlimited Orders are available 
 in the unlimited orders\ folder.
 ----------------------------------------------
+
+
+Changelist:
+
+North Pacific Shootout
+* fix: radio sounds played for other side
+
+Canary's Cage
+* fix: failed attempt to deploy divers
+* fix: NAIL score spread
+* TODO: NAIL scoring
