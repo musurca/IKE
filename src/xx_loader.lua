@@ -1,7 +1,7 @@
 --[[
 ----------------------------------------------
 IKE
-xx_comments.lua
+xx_loader.lua
 ----------------------------------------------
 
 Header to define the escaped Lua code that will

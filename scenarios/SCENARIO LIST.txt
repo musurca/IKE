@@ -19,6 +19,27 @@ COMMAND             Limited Orders
 ORDERS PER TURN     3
 WHO GOES FIRST      Norway
 
+**** Frozen War, 2014 - Chile vs. Argentina ****
+Recommended settings:
+TURN LENGTH         60 minutes
+COMMAND             Limited Orders
+ORDERS PER TURN     3
+WHO GOES FIRST      Chile
+
+**** Helping Brothers, 1990 - Libya vs. Egypt ****
+Recommended settings:
+TURN LENGTH         60 minutes
+COMMAND             Limited Orders
+ORDERS PER TURN     3
+WHO GOES FIRST      Libya
+
+**** Malvinas - The Pincer, 1982 - Argentina vs. Britain ****
+Recommended settings:
+TURN LENGTH         60 minutes
+COMMAND             Limited Orders
+ORDERS PER TURN     3
+WHO GOES FIRST      Argentina
+
 **** North Pacific Shootout, 1989 - United States vs. Soviet Union ****
 Recommended settings:
 TURN LENGTH         20 minutes
@@ -26,26 +47,23 @@ COMMAND             Limited Orders
 ORDERS PER TURN     3
 WHO GOES FIRST      United States
 
+**** Operation Soberanía, 1978 - Argentina vs. Chile ****
+Recommended settings:
+TURN LENGTH         60 minutes
+COMMAND             Limited Orders
+ORDERS PER TURN     3
+WHO GOES FIRST      Argentina
+
+**** Sakhalin or Karafuto, 2013 - Japan vs. Russia ****
+Recommended settings:
+TURN LENGTH         60 minutes
+COMMAND             Limited Orders
+ORDERS PER TURN     3
+WHO GOES FIRST      Japan
+
 **** Shamal, 1991 (cooperative) - USN & USAF vs. Iraq (AI) ****
 Recommended settings:
 TURN LENGTH         30 minutes
 COMMAND             Limited Orders
 ORDERS PER TURN     3
 WHO GOES FIRST      USAF
-
-----------------------------------------------
-Alternate versions of these scenarios with 
-COMMAND set to Unlimited Orders are available 
-in the unlimited orders\ folder.
-----------------------------------------------
-
-
-Changelist:
-
-North Pacific Shootout
-* fix: radio sounds played for other side
-
-Canary's Cage
-* fix: failed attempt to deploy divers
-* fix: NAIL score spread
-* TODO: NAIL scoring
