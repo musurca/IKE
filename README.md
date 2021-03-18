@@ -68,6 +68,11 @@ This will produce compiled but unminified Lua code in `debug/ike_debug.lua`. _Do
 For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.21/IKE.v1.21.zip).
 
 ### VERSION HISTORY
+v1.3 (??):
+* added: kills made on off-turn reported
+* added: new contacts from off-turn reported
+* added: all players must use the same CMO build
+
 v1.21 (2/18/2021):
 * fix: API replacements
 

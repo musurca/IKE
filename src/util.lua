@@ -1,7 +1,7 @@
 --[[
 ----------------------------------------------
 IKE
-02_util.lua
+util.lua
 ----------------------------------------------
 
 General utility functions for working with CMO
@@ -157,6 +157,15 @@ function Input_String(question)
         return tostring(val)
     end
     return ""
+end
+
+function SideGUIDByName(name)
+    for k, side in ipairs(VP_GetSides()) do
+        if side.name == name then
+            return side.guid
+        end
+    end
+    return nil
 end
 
 --[[

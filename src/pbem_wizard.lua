@@ -1,7 +1,7 @@
 --[[
 ----------------------------------------------
 IKE
-04_wizard.lua
+pbem_wizard.lua
 ----------------------------------------------
 
 This source file contains the IKE Wizard that 
@@ -18,6 +18,12 @@ PBEM_UNITYPES = {
     3, --submarine
     4, --facility
     7 --satellite
+}
+
+PBEM_DETECTORS = {
+    1, --aircraft
+    2, --ship
+    3, --submarine
 }
 
 function PBEM_Init()
@@ -133,7 +139,7 @@ function PBEM_Init()
         -- security check every second
         ScenEdit_SetEvent('PBEM: Turn Security', {mode='add', IsRepeatable=true, IsShown=false})
         ScenEdit_SetTrigger({name='PBEM_Turn_Security', mode='add', type='RegularTime', interval=0})
-        ScenEdit_SetAction({name='PBEM: Check Turn Security', mode='add', type='LuaScript', ScriptText='PBEM_CheckSideSecurity()'})
+        ScenEdit_SetAction({name='PBEM: Check Turn Security', mode='add', type='LuaScript', ScriptText='PBEM_UpdateTick()'})
         ScenEdit_SetEventTrigger('PBEM: Turn Security', {mode='add', name='PBEM_Turn_Security'})
         ScenEdit_SetEventAction('PBEM: Turn Security', {mode='add', name='PBEM: Check Turn Security'})
 
@@ -146,6 +152,21 @@ function PBEM_Init()
         end
         ScenEdit_SetAction({name='PBEM: Register Unit Killed', mode='add', type='LuaScript', ScriptText='PBEM_RegisterUnitKilled()'})
         ScenEdit_SetEventAction('PBEM: Turn Event Tracker', {mode='add', name='PBEM: Register Unit Killed'})
+
+        -- track all new contacts
+        ScenEdit_SetEvent('PBEM: New Contact Tracker', {mode='add', IsRepeatable=true, IsShown=false})
+        for i=1,#PBEM_PLAYABLE_SIDES do
+            local guid = SideGUIDByName(PBEM_PLAYABLE_SIDES[i])
+            if guid then
+                for j=1,#PBEM_DETECTORS do
+                    local triggername = 'PBEM_NewContact_'..i..'_'..j
+                    ScenEdit_SetTrigger({name=triggername, mode='add', type='UnitDetected', DetectorSideID=guid, TargetFilter={TargetType=PBEM_DETECTORS[j], TargetSubType=0}})
+                    ScenEdit_SetEventTrigger('PBEM: New Contact Tracker', {mode='add', name=triggername})
+                end
+            end
+        end
+        ScenEdit_SetAction({name='PBEM: Register New Contact', mode='add', type='LuaScript', ScriptText='PBEM_RegisterNewContact()'})
+        ScenEdit_SetEventAction('PBEM: New Contact Tracker', {mode='add', name='PBEM: Register New Contact'})
 
         for i=1,#PBEM_PLAYABLE_SIDES do
             -- add special actions

@@ -13,8 +13,8 @@ IKE_SRC_PATH="./src"
 
 # Edit these lines to add new source files to the build.
 # Files are added in the order that they are listed.
-IKE_LOADER_INCLUDE=("00_localize.lua" "01_md5.lua" "02_util.lua" "03_pbem.lua")
-IKE_WIZARD_INCLUDE=("04_wizard.lua")
+IKE_LOADER_INCLUDE=("localize.lua" "md5.lua" "util.lua" "pbem_specactions.lua" "pbem_apioverride.lua" "pbem_time.lua" "pbem_msgs.lua" "pbem_limited.lua" "pbem_checks.lua" "pbem_main.lua")
+IKE_WIZARD_INCLUDE=("pbem_wizard.lua")
 
 # -------DO NOT EDIT BELOW THIS LINE--------
 IKE_STARTTURN="xx_startturn.lua"

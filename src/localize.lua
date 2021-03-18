@@ -1,7 +1,7 @@
 --[[
 ----------------------------------------------
 IKE
-00_localize.lua
+localize.lua
 ----------------------------------------------
 
 Localization library. Detects the language for
@@ -28,7 +28,9 @@ IKE_LOCALIZATIONS = {
         ["END_OF_SCENARIO_HEADER"]  = "End of Scenario",
         ["END_OF_SCENARIO_MESSAGE"] = "Go to <b>File -> Save As...</b>, save this game, and send the save file to the other players via email or another transfer service.<br/><br/>",
         ["MESSAGES_RECEIVED"]       = "Messages received:",
-        ["LOSSES_REPORTED"]         = "Losses reported:",
+        ["LOSSES_REPORTED"]         = "Losses:",
+        ["KILLS_REPORTED"]          = "Kills:",
+        ["CONTACTS_REPORTED"]       = "New contacts:",
         ["SETUP_PHASE_INTRO"]       = "This is the %1 setup phase.\n\nLeave the game paused until you've finished setting up your loadouts and missions.\n\nWhen you're done, click Play to end your turn.",
         ["END_OF_SETUP_HEADER"]     = "End of %1 Setup Phase",        
         ["PASSWORDS_DIDNT_MATCH"]   = "Passwords didn\'t match! Please enter your password again:",
@@ -42,12 +44,15 @@ IKE_LOCALIZATIONS = {
         ["RESUME_ORDER_MESSAGE"]    = "You've already given orders for this phase. <b>Start the clock</b> to continue executing them.",
         ["ORDER_PHASE_DIVIDER"]     = "%1 of %2",
         ["LOSS_MARKER"]             = "Loss of %1",
+        ["KILL_MARKER"]             = "%1 killed",
+        ["CONTACT_MARKER"]          = "%1 at %2",
         ["NO_EDITOR_MODE"]          = "You can't open a PBEM game in Editor mode until the scenario has ended.\n\nPlay this scenario using Start New Game or Load Saved Game from the main menu.",
         ["CHANGE_POSTURE"]          = "Change posture toward which side?\n\nOptions: %1",
         ["SET_POSTURE"]             = "Your posture toward %1 is %2. What is your new posture?\n\nOptions: FRIENDLY, NEUTRAL, UNFRIENDLY, HOSTILE",
         ["NO_SIDE_FOUND"]           = "%1 isn't a side!",
         ["POSTURE_IS_SET"]          = "Your posture toward %1 is now %2.",
         ["NO_POSTURE_FOUND"]        = "%1 isn't a posture!",
+        ["VERSION_MISMATCH"]        = "ERROR: You're using CMO build %1, but this PBEM game was created with %2. All players must use the same build.",
         ["WIZARD_INTRO_MESSAGE"]    = "Welcome to IKE v%1! This tool adds PBEM/hotseat play to any Command: Modern Operations scenario.\n\nRunning this tool cannot be undone. Have you saved a backup of this scenario?",
         ["WIZARD_BACKUP"]           = "Please save a backup first, then RUN this tool again.",
         ["WIZARD_FIXED_TURNLENGTH"] = "Do you want to use a FIXED turn length?\n(Click No for VARIABLE turn lengths by side.)",

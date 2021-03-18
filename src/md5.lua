@@ -1,7 +1,7 @@
 --[[
 ----------------------------------------------
 IKE
-01_md5.lua
+md5.lua
 ----------------------------------------------
 
 Utility library for processing MD5 hashes from
