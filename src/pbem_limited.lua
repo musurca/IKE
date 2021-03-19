@@ -21,6 +21,14 @@ function PBEM_OrderInterval()
     return math.floor(PBEM_TURN_LENGTH / PBEM_ORDER_PHASES[Turn_GetCurSide()])
 end
 
+function PBEM_MirrorSideScore()
+    --mirror side score
+    local sidescore = ScenEdit_GetScore(PBEM_SIDENAME)
+    if ScenEdit_GetScore(PBEM_DUMMY_SIDE) ~= sidescore then
+        ScenEdit_SetScore(PBEM_DUMMY_SIDE, sidescore, PBEM_SIDENAME)
+    end
+end
+
 function PBEM_MirrorSide(sidename)
     ScenEdit_SetSidePosture(sidename, PBEM_DUMMY_SIDE, "F")
     ScenEdit_SetSidePosture(PBEM_DUMMY_SIDE, sidename, "F")
@@ -47,43 +55,35 @@ function PBEM_ClearPostures()
     end
 end
 
-function PBEM_DummyUnitExists()
-    local guid
-    if not PBEM_DUMMY_GUID then
-        guid = GetString("__PBEM_DUMMYGUID")
-        PBEM_DUMMY_GUID = guid
-        if guid ~= "" then
-            return true
-        end
-    elseif PBEM_DUMMY_GUID ~= "" then
-        return true
-    end
-    return false
+function PBEM_DummyUnit()
+    return GetString("__PBEM_DUMMYGUID")
 end
 
 function PBEM_AddDummyUnit()
-    if not PBEM_DummyUnitExists() then
-        --adds a dummy unit so allies transmit contacts
-        local dummy = ScenEdit_AddUnit({
-            side=PBEM_DUMMY_SIDE, 
-            name="",
-            type="FACILITY",
-            dbid=174, 
-            latitude=-89,
-            longitude=0,
-        })
-        StoreString("__PBEM_DUMMYGUID", dummy.guid)
-        PBEM_DUMMY_GUID = dummy.guid
+    local dummy_guid = PBEM_DummyUnit()
+    if dummy_guid ~= "" then
+        PBEM_RemoveDummyUnit()
     end
+
+    --adds a dummy unit so allies transmit contacts
+    local dummy = ScenEdit_AddUnit({
+        side=PBEM_DUMMY_SIDE, 
+        name="",
+        type="FACILITY",
+        dbid=174, 
+        latitude=-89,
+        longitude=0,
+    })
+    StoreString("__PBEM_DUMMYGUID", dummy.guid)
 end
 
 function PBEM_RemoveDummyUnit()
-    if PBEM_DummyUnitExists() then
+    local dummy_guid = PBEM_DummyUnit()
+    if dummy_guid ~= "" then
         pcall(ScenEdit_DeleteUnit, {
             side=PBEM_DUMMY_SIDE, 
-            guid=PBEM_DUMMY_GUID
+            guid=dummy_guid
         })
-        PBEM_DUMMY_GUID = ""
         StoreString("__PBEM_DUMMYGUID", "")
     end
 end
@@ -119,6 +119,7 @@ end
 
 function PBEM_EndOrderPhase()
     PBEM_MirrorSide(PBEM_SIDENAME)
+    PBEM_MirrorSideScore()
     ScenEdit_SetSideOptions({side=PBEM_DUMMY_SIDE, switchto=true})
 end
 

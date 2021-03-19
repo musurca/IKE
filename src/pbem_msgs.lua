@@ -116,12 +116,13 @@ function PBEM_RegisterUnitKilled()
                     local sidenum = PBEM_SideNumberByName(killer_side)
                     local kills = PBEM_GetKillRegister(sidenum)
                     local killer_side_guid = SideGUIDByName(killer_side)
-                    local unitname = killed.classname
+                    local known_name = killed.classname
                     for k, contact in pairs(killed.ascontact) do
                         if contact.side == killer_side_guid then
-                            unitname = contact.name
+                            known_name = contact.name
                         end
                     end
+                    local unitname = known_name
                     if killer_unit.classname then
                         unitname = unitname..' with '..killer_unit.classname
                     end
@@ -131,7 +132,7 @@ function PBEM_RegisterUnitKilled()
                     --mark kill on the map
                     ScenEdit_AddReferencePoint({
                         side=killer_side,
-                        name=Format(Localize("KILL_MARKER"), {killed.classname}), 
+                        name=Format(Localize("KILL_MARKER"), {known_name}), 
                         lat=killed.latitude, 
                         lon=killed.longitude, 
                         highlighted=true

@@ -74,6 +74,7 @@ v1.3 (??):
 * added: send chat messages to other players
 * added: all players must use the same CMO build
 * added: Second Battle of Guadalcanal
+* fixed: contacts sometimes not shown in limited orders
 * fixed: IKE wizard removes previous IKE installation
 * fixed: can set turn order for more than 2 playable sides
 * fixed: changed dummy side name to avoid confusion

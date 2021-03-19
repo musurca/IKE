@@ -144,6 +144,7 @@ function PBEM_ScenarioOver()
 
     ScenEdit_SetSideOptions({side=PBEM_DUMMY_SIDE, awareness='OMNI'})
     PBEM_MirrorSide(PBEM_SIDENAME)
+    PBEM_MirrorSideScore()
     local scores = PBEM_ScoreSummary()
     local msg = Message_Header(Localize("END_OF_SCENARIO_HEADER"))..scores..Localize("END_OF_SCENARIO_MESSAGE")
     PBEM_SpecialMessage('playerside', msg, nil, true)

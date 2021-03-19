@@ -84,7 +84,7 @@ function Turn_NextSide()
 end
 
 function PBEM_InitScenGlobals()
-    PBEM_TURNOVER = false
+    PBEM_TURNOVER = 0
     PBEM_SETUP_PHASE = PBEM_HasSetupPhase()
     PBEM_TURN_LENGTHS = PBEM_GetTurnLengths()
     PBEM_TURN_LENGTH = PBEM_TurnLength()
@@ -239,8 +239,13 @@ function PBEM_UpdateTick()
 
     if Turn_GetTurnNumber() > 0 then
         if scenCurTime >= PBEM_GetNextTurnStartTime() then
-            if not PBEM_TURNOVER then
+            if PBEM_TURNOVER < 1 then
                 PBEM_EndTurn()
+            elseif PBEM_TURNOVER < 2 then
+                -- safety net
+                ScenEdit_SetTime(PBEM_CustomTimeToUTC(PBEM_GetCurTurnStartTime()))
+                PBEM_TURNOVER = PBEM_TURNOVER + 1
+                return
             else
                 PBEM_SelfDestruct()
                 return
@@ -257,19 +262,17 @@ function PBEM_UpdateTick()
                 -- handle limited orders
 
                 --mirror side score
-                local sidescore = ScenEdit_GetScore(PBEM_SIDENAME)
-                if ScenEdit_GetScore(PBEM_DUMMY_SIDE) ~= sidescore then
-                    ScenEdit_SetScore(PBEM_DUMMY_SIDE, sidescore, PBEM_SIDENAME)
-                end
+                PBEM_MirrorSideScore()
                 
                 --check for order phase
                 local time_check = scenCurTime - PBEM_TURN_START_TIME
                 if curPlayerSide ~= PBEM_DUMMY_SIDE then
-                    PBEM_EndOrderPhase()
                     -- register unit to trigger contact sharing
                     PBEM_AddDummyUnit()
                     --add special actions to dummy side
                     PBEM_AddRTSide(PBEM_DUMMY_SIDE)
+                    --switch to dummy side
+                    PBEM_EndOrderPhase()
                 elseif time_check % PBEM_ORDER_INTERVAL == 0 then
                     -- start giving orders again
                     PBEM_StartOrderPhase()
@@ -313,7 +316,7 @@ function PBEM_EndTurn()
     ScenEdit_SetTime(PBEM_CustomTimeToUTC(next_turn_time)) 
 
     PBEM_EndAPIReplace()
-    PBEM_TURNOVER = true
+    PBEM_TURNOVER = 1
 end
 
 function PBEM_StartSetupPhase()
