@@ -78,6 +78,7 @@ v1.3 (??):
 * fixed: IKE wizard removes previous IKE installation
 * fixed: can set turn order for more than 2 playable sides
 * fixed: changed dummy side name to avoid confusion
+* fixed: scenarios set before 1970 (through 1900) now work properly
 * fixed: Shamal - kills give points to correct side
 * fixed: North Pacific Shootout - can pick up enemy pilots
 * fixed: North Pacific Shootout - Soviet side can use sub for SAR
