@@ -73,13 +73,16 @@ v1.3 (??):
 * added: kills made on off-turn reported
 * added: send chat messages to other players
 * added: all players must use the same CMO build
+* added: Second Battle of Guadalcanal
 * fixed: IKE wizard removes previous IKE installation
 * fixed: can set turn order for more than 2 playable sides
 * fixed: changed dummy side name to avoid confusion
-* fixed: Shamal, 1991 - kills give points to correct side
+* fixed: Shamal - kills give points to correct side
+* fixed: North Pacific Shootout - can pick up enemy pilots
+* fixed: North Pacific Shootout - Soviet side can use sub for SAR
 
 v1.21 (2/18/2021):
-* fix: API replacements
+* fixed: API replacements
 
 v1.2 (2/18/2021):
 * added: limited order mode
@@ -89,19 +92,19 @@ v1.2 (2/18/2021):
 * added: missed messages delivered next turn
 * added: special action to change side posture
 * added: localization support
-* fix: end of setup phase message
-* fix: API replacements clean themselves up
-* fix: workaround for broken ScenEnded trigger
-* fix: set clock precisely to turn boundaries
-* fix: special message order hiding IKE messages
-* fix: coop kills not reported as losses
-* fix: observed losses not reported next turn
-* fix: ScenEdit_PlayerSide() in limited order mode
-* fix: better random seed
+* fixed: end of setup phase message
+* fixed: API replacements clean themselves up
+* fixed: workaround for broken ScenEnded trigger
+* fixed: set clock precisely to turn boundaries
+* fixed: special message order hiding IKE messages
+* fixed: coop kills not reported as losses
+* fixed: observed losses not reported next turn
+* fixed: ScenEdit_PlayerSide() in limited order mode
+* fixed: better random seed
 
 v1.1 (2/1/2021):
-* fix: edge case for ScenEdit_SetTime() 
-* fix: use os.date("!") to format scenario times
+* fixed: edge case for ScenEdit_SetTime() 
+* fixed: use os.date("!") to format scenario times
 
 v1.0 (1/25/2021):
 * Initial release.
