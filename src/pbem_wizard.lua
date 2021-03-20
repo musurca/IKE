@@ -65,8 +65,6 @@ function PBEM_Init()
     end
     --turn order - set up to nine ranks
     local order_set = false
-    local ranks_to_set = math.min(#playableSides-1, 9)
-    local rank = 1
     local order_messages = {
         Localize("FIRST"),
         Localize("SECOND"),
@@ -78,15 +76,24 @@ function PBEM_Init()
         Localize("EIGHTH"),
         Localize("NINTH")
     }
+    local ranks_to_set = math.min(#playableSides-1, 9)
+    local rank = 1
     while not order_set do
         for i=rank, #playableSides do
             if Input_YesNo(Format(Localize("WIZARD_GO_ORDER"), {
                 playableSides[i],
                 order_messages[rank]
             })) then
+                --swap order
                 local temp_side = playableSides[rank]
                 playableSides[rank] = playableSides[i]
                 playableSides[i] = temp_side
+                --swap order_phases
+                if not unlimitedOrders then
+                    temp_side = order_phases[rank]
+                    order_phases[rank] = order_phases[i]
+                    order_phases[i] = temp_side
+                end
                 rank = rank + 1
                 break
             end

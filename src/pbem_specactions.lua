@@ -79,7 +79,9 @@ function PBEM_SendChatMessage()
         end
         targetside = side_to_change
     end
-    local message = RStrip(Input_String(Localize("ENTER_CHAT")))
+    local message = RStrip(Input_String(Format(Localize("ENTER_CHAT"), {
+        targetside
+    })))
     if message == "" then
         Input_OK(Localize("CHAT_CANCELLED"))
         return

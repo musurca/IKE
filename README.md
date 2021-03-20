@@ -74,6 +74,7 @@ v1.3 (??):
 * added: send chat messages to other players
 * added: all players must use the same CMO build
 * fixed: IKE wizard removes previous IKE installation
+* fixed: can set turn order for more than 2 playable sides
 * fixed: changed dummy side name to avoid confusion
 
 v1.21 (2/18/2021):

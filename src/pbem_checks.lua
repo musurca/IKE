@@ -46,7 +46,6 @@ function PBEM_UserCheckSettings()
     local turn_lengths = {}
     local unlimitedOrders
     local order_phases = {}
-    local first_side
 
     local default_length = math.floor(PBEM_TURN_LENGTH/60)
     local turnLength = Input_Number_Default(Localize("WIZARD_TURN_LENGTH").."\n\n"..Format(Localize("RECOMMENDED"), {
@@ -95,17 +94,46 @@ function PBEM_UserCheckSettings()
         end)
     end
     --turn order
-    first_side = 0
-    while first_side == 0 do
-        for i=1,#PBEM_PLAYABLE_SIDES do
-            if Input_YesNo(Format(Localize("WIZARD_GO_FIRST"), {
-                PBEM_PLAYABLE_SIDES[i]
+    local order_set = false
+    local order_messages = {
+        Localize("FIRST"),
+        Localize("SECOND"),
+        Localize("THIRD"),
+        Localize("FOURTH"),
+        Localize("FIFTH"),
+        Localize("SIXTH"),
+        Localize("SEVENTH"),
+        Localize("EIGHTH"),
+        Localize("NINTH")
+    }
+    local playableSides = {}
+    for k, side in ipairs(PBEM_PLAYABLE_SIDES) do
+        table.insert(playableSides, side)
+    end
+    local ranks_to_set = math.min(#playableSides-1, 9)
+    local rank = 1
+    while not order_set do
+        for i=rank, #playableSides do
+            if Input_YesNo(Format(Localize("WIZARD_GO_ORDER"), {
+                playableSides[i],
+                order_messages[rank]
             }).."\n\n"..Format(Localize("RECOMMENDED"), {
-                BooleanToString(i==1)
+                BooleanToString(i==rank)
             })) then
-                first_side = i
+                local temp_side = playableSides[rank]
+                playableSides[rank] = playableSides[i]
+                playableSides[i] = temp_side
+                if not unlimitedOrders then
+                    temp_side = order_phases[rank]
+                    order_phases[rank] = order_phases[i]
+                    order_phases[i] = temp_side
+                end
+                rank = rank + 1
                 break
             end
+        end
+        if rank > ranks_to_set then
+            order_set = true
         end
     end
     --editor mode
@@ -115,7 +143,7 @@ function PBEM_UserCheckSettings()
     -- confirm settings
     Input_OK(Format(Localize("CONFIRM_SETTINGS"), {
         scentitle,
-        PBEM_PLAYABLE_SIDES[first_side]
+        playableSides[1]
     }))
 
     -- commit to settings
@@ -124,10 +152,10 @@ function PBEM_UserCheckSettings()
     if not unlimitedOrders then
         StoreNumberArray('__SCEN_ORDERINTERVAL', order_phases)
     end
-    local a, b = PBEM_PLAYABLE_SIDES[1], PBEM_PLAYABLE_SIDES[first_side]
-    PBEM_PLAYABLE_SIDES[1], PBEM_PLAYABLE_SIDES[first_side] = b, a
+    PBEM_PLAYABLE_SIDES = playableSides
     StoreStringArray("__SCEN_PLAYABLESIDES", PBEM_PLAYABLE_SIDES)
     StoreBoolean("__SCEN_PREVENTEDITOR", prevent_editor)
+
     -- reinit the scenario globals
     PBEM_InitScenGlobals()
 end

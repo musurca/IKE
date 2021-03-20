@@ -1,4 +1,5 @@
 **** Canary's Cage, 2005 - Spain vs. NAIL ****
+AUTHOR: Miguel Molina
 Recommended settings:
 TURN LENGTH         1.5 hours
 COMMAND             Limited Orders
@@ -20,6 +21,7 @@ ORDERS PER TURN     3
 WHO GOES FIRST      Norway
 
 **** Frozen War, 2014 - Chile vs. Argentina ****
+AUTHOR: Miguel Molina
 Recommended settings:
 TURN LENGTH         60 minutes
 COMMAND             Limited Orders
@@ -27,6 +29,7 @@ ORDERS PER TURN     3
 WHO GOES FIRST      Chile
 
 **** Helping Brothers, 1990 - Libya vs. Egypt ****
+AUTHOR: Miguel Molina
 Recommended settings:
 TURN LENGTH         60 minutes
 COMMAND             Limited Orders
@@ -34,6 +37,7 @@ ORDERS PER TURN     3
 WHO GOES FIRST      Libya
 
 **** Malvinas - The Pincer, 1982 - Argentina vs. Britain ****
+AUTHOR: Miguel Molina
 Recommended settings:
 TURN LENGTH         60 minutes
 COMMAND             Limited Orders
@@ -48,6 +52,7 @@ ORDERS PER TURN     3
 WHO GOES FIRST      United States
 
 **** Operation Soberanía, 1978 - Argentina vs. Chile ****
+AUTHOR: Miguel Molina
 Recommended settings:
 TURN LENGTH         60 minutes
 COMMAND             Limited Orders
@@ -55,6 +60,7 @@ ORDERS PER TURN     3
 WHO GOES FIRST      Argentina
 
 **** Sakhalin or Karafuto, 2013 - Japan vs. Russia ****
+AUTHOR: Miguel Molina
 Recommended settings:
 TURN LENGTH         60 minutes
 COMMAND             Limited Orders
