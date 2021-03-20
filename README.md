@@ -76,6 +76,7 @@ v1.3 (??):
 * fixed: IKE wizard removes previous IKE installation
 * fixed: can set turn order for more than 2 playable sides
 * fixed: changed dummy side name to avoid confusion
+* fixed: Shamal, 1991 - kills give points to correct side
 
 v1.21 (2/18/2021):
 * fix: API replacements
