@@ -7,6 +7,7 @@ ORDERS PER TURN     3
 WHO GOES FIRST      Spain
 
 **** Duelists, 1989 - United Kingdom vs. USSR ****
+AUTHOR: Mike Mykytyn
 Recommended settings:
 TURN LENGTH         1.5 hour
 COMMAND             Limited Orders
@@ -14,6 +15,7 @@ ORDERS PER TURN     3
 WHO GOES FIRST      United Kingdom
 
 **** First Contact, 1986 - Norway vs. Soviet Union ****
+AUTHOR: Ragnar Emsoy
 Recommended settings:
 TURN LENGTH         20 minutes
 COMMAND             Limited Orders
@@ -45,6 +47,7 @@ ORDERS PER TURN     3
 WHO GOES FIRST      Argentina
 
 **** North Pacific Shootout, 1989 - United States vs. Soviet Union ****
+AUTHOR: Mike Mykytyn
 Recommended settings:
 TURN LENGTH         20 minutes
 COMMAND             Limited Orders
@@ -68,6 +71,7 @@ ORDERS PER TURN     3
 WHO GOES FIRST      Japan
 
 **** Shamal, 1991 (cooperative) - USN & USAF vs. Iraq (AI) ****
+AUTHOR: Mike Mykytyn
 Recommended settings:
 TURN LENGTH         30 minutes
 COMMAND             Limited Orders
