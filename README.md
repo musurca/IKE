@@ -69,9 +69,12 @@ For detailed instructions, please refer to the manual included with the [latest 
 
 ### VERSION HISTORY
 v1.3 (??):
-* added: kills made on off-turn reported
 * added: new contacts from off-turn reported
+* added: kills made on off-turn reported
+* added: send chat messages to other players
 * added: all players must use the same CMO build
+* fixed: IKE wizard removes previous IKE installation
+* fixed: changed dummy side name to avoid confusion
 
 v1.21 (2/18/2021):
 * fix: API replacements

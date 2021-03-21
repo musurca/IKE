@@ -10,6 +10,94 @@ special actions
 ----------------------------------------------
 ]]--
 
+local IKE_SPECACTIONS = {
+    {
+        script="PBEM_ShowRemainingTime()",
+        name="(PBEM) Show remaining time in turn",
+        desc="Display the remaining time before your PBEM turn ends."
+    },
+    {
+        script="PBEM_SendChatMessage()",
+        name="(PBEM) Send message to other player",
+        desc="Sends a message to another player, to be delivered at the start of their next turn. Note that the maximum message length is 280 characters, and that HTML tags will be removed."
+    },
+    {
+        script="PBEM_UserChangePosture()",
+        name="(PBEM) Change posture towards a side",
+        desc="Changes your posture toward a side. Useful if you've accidentally attacked some civilians and don't want them to be hostile anymore."
+    }
+}
+
+function PBEM_SendChatMessage()
+    local targetside = ""
+    local myside = Turn_GetCurSideName()
+    -- if there's only two sides, pick the other one
+    if #PBEM_PLAYABLE_SIDES == 2 then
+        for i=1,#PBEM_PLAYABLE_SIDES do
+            if PBEM_PLAYABLE_SIDES[i] ~= myside then
+                targetside = PBEM_PLAYABLE_SIDES[i]
+                break
+            end
+        end
+        if targetside == "" then
+            return
+        end
+    else
+        -- otherwise, let the player choose
+        local sidelist = ""
+        for i=1, #PBEM_PLAYABLE_SIDES do
+            if PBEM_PLAYABLE_SIDES[i] ~= myside then
+                sidelist = sidelist..PBEM_PLAYABLE_SIDES[i]
+                if i ~= #PBEM_PLAYABLE_SIDES then
+                    sidelist = sidelist..", "
+                end
+            end
+        end
+        local side_input = Input_String(Format(Localize("SEND_CHAT"), {
+            sidelist
+        }))
+        side_input = RStrip(side_input)
+        if side_input == "" then
+            Input_OK(Localize("CHAT_CANCELLED"))
+            return
+        end
+        --match it regardless of case
+        local side_to_change = ""
+        for k,sidename in ipairs(PBEM_PLAYABLE_SIDES) do
+            local check_a = string.upper(side_input)
+            local check_b = string.upper(sidename)
+            if check_a == check_b then
+                side_to_change = sidename
+                break
+            end
+        end
+        if side_to_change == "" then
+            Input_OK(Format(Localize("NO_SIDE_FOUND"), {
+                side_input
+            }))
+            return
+        end
+        targetside = side_to_change
+    end
+    local message = RStrip(Input_String(Localize("ENTER_CHAT")))
+    if message == "" then
+        Input_OK(Localize("CHAT_CANCELLED"))
+        return
+    end
+    -- eliminate any html tags with (gasp) a regular expression.
+    -- yes, Stack Overflow, I know we're not supposed to do this.
+    message = string.gsub(message, "(<[^>]*>)", "")
+    -- trim to length limit
+    if #message > 280 then
+        message = string.sub(message, 1, 280)
+    end
+    ScenEdit_SpecialMessage(targetside, Format(Localize("CHAT_MSG_FORM"), {
+        myside,
+        message
+    }))
+    Input_OK(Localize("CHAT_SENT"))
+end
+
 function PBEM_ShowRemainingTime()
     if Turn_GetTurnNumber() == 0 and PBEM_SETUP_PHASE then
         Input_OK(Localize("SHOW_REMAINING_SETUP"))
@@ -94,36 +182,26 @@ function PBEM_UserChangePosture()
 end
 
 function PBEM_AddRTSide(side)
-    ScenEdit_AddSpecialAction({
-        ActionNameOrID='PBEM: Change posture towards a side',
-        Description="Changes your posture toward a side. Useful if you've accidentally attacked some civilians and don't want them to be hostile anymore.",
-        Side=side,
-        IsActive=true, 
-        IsRepeatable=true,
-        ScriptText='PBEM_UserChangePosture()'
-    })
-
-    ScenEdit_AddSpecialAction({
-        ActionNameOrID='PBEM: Show remaining time in turn',
-        Description="Display the remaining time before your PBEM turn ends.",
-        Side=side,
-        IsActive=true, 
-        IsRepeatable=true,
-        ScriptText='PBEM_ShowRemainingTime()'
-    })
+    ForEachDo(IKE_SPECACTIONS, function(action)
+            ScenEdit_AddSpecialAction({
+                ActionNameOrID=action.name,
+                Description=action.desc,
+                Side=side,
+                IsActive=true, 
+                IsRepeatable=true,
+                ScriptText=action.script
+            })
+    end)
 end
 
 function PBEM_RemoveRTSide(side)
-    pcall(ScenEdit_SetSpecialAction, {
-        ActionNameOrID='PBEM: Show remaining time in turn',
-        Side=side,
-        mode="remove"
-    })
-    pcall(ScenEdit_SetSpecialAction, {
-        ActionNameOrID='PBEM: Change posture towards a side',
-        Side=side,
-        mode="remove"
-    })
+    ForEachDo(IKE_SPECACTIONS, function(action)
+        pcall(ScenEdit_SetSpecialAction, {
+            ActionNameOrID=action.name,
+            Side=side,
+            mode="remove"
+        })
+    end)
 end
 
 --[[!! LEAVE TWO CARRIAGE RETURNS AFTER SOURCE FILE !!]]--

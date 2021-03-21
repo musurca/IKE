@@ -12,7 +12,7 @@ for the IKE system.
 
 IKE_VERSION = "1.3"
 
-PBEM_DUMMY_SIDE = 'PBEM'
+PBEM_DUMMY_SIDE = '-----------'
 
 function PBEM_NotRunning()
     --returns true if we're not running IKE anymore
@@ -50,17 +50,6 @@ function PBEM_RoundLength()
         length = length + v
     end
     return length
-end
-
-function PBEM_EventExists(eventName)
-    local events = ScenEdit_GetEvents()
-    for i=1,#events do
-        local event = events[i]
-        if event.name == eventName then
-            return true
-        end
-    end
-    return false
 end
 
 function Turn_GetTurnNumber()

@@ -12,20 +12,6 @@ code.
 ----------------------------------------------
 ]]--
 
-PBEM_UNITYPES = {
-    1, --aircraft
-    2, --ship
-    3, --submarine
-    4, --facility
-    7 --satellite
-}
-
-PBEM_DETECTORS = {
-    1, --aircraft
-    2, --ship
-    3, --submarine
-}
-
 function PBEM_Init()
     --wizard intro
     if not Input_YesNo(Format(Localize("WIZARD_INTRO_MESSAGE"), {IKE_VERSION})) then
@@ -77,17 +63,36 @@ function PBEM_Init()
             table.insert(order_phases, orderNumber)
         end)
     end
-    --turn order
+    --turn order - set up to nine ranks
     local order_set = false
+    local ranks_to_set = math.min(#playableSides-1, 9)
+    local rank = 1
+    local order_messages = {
+        Localize("FIRST"),
+        Localize("SECOND"),
+        Localize("THIRD"),
+        Localize("FOURTH"),
+        Localize("FIFTH"),
+        Localize("SIXTH"),
+        Localize("SEVENTH"),
+        Localize("EIGHTH"),
+        Localize("NINTH")
+    }
     while not order_set do
-        for i=1,#playableSides do
-            if Input_YesNo(Format(Localize("WIZARD_GO_FIRST"), {playableSides[i]})) then
-                local temp_side = playableSides[1]
-                playableSides[1] = playableSides[i]
+        for i=rank, #playableSides do
+            if Input_YesNo(Format(Localize("WIZARD_GO_ORDER"), {
+                playableSides[i],
+                order_messages[rank]
+            })) then
+                local temp_side = playableSides[rank]
+                playableSides[rank] = playableSides[i]
                 playableSides[i] = temp_side
-                order_set = true
+                rank = rank + 1
                 break
             end
+        end
+        if rank > ranks_to_set then
+            order_set = true
         end
     end
     -- clear missions if desired
@@ -124,66 +129,143 @@ function PBEM_Init()
     if not unlimitedOrders then
         StoreNumberArray('__SCEN_ORDERINTERVAL', order_phases)
     end
+
+    -- Install IKE into the scenario
+
+    -- first, remove any preexisting version of IKE
+    if Event_Exists("PBEM: Scenario Loaded") then
+        Event_Delete("PBEM: Scenario Loaded", true)
+        
+        ForEachDo(PBEM_PLAYABLE_SIDES, function(side)
+            PBEM_RemoveRTSide(side)
+        end)
+    end
+    if Event_Exists("PBEM: Update Tick") then
+        Event_Delete("PBEM: Update Tick", true)
+    end
+    if Event_Exists("PBEM: Destroyed Unit Tracker") then
+        Event_Delete("PBEM: Destroyed Unit Tracker", true)
+    end
+    if Event_Exists("PBEM: New Contact Tracker") then
+        Event_Delete("PBEM: New Contact Tracker", true)
+    end
+    if Side_Exists(PBEM_DUMMY_SIDE) then
+        ScenEdit_RemoveSide({name=PBEM_DUMMY_SIDE})
+    end
     
-    if not PBEM_EventExists('PBEM: Scenario Loaded') then
-        ScenEdit_AddSide({name=PBEM_DUMMY_SIDE})
-        --ScenEdit_SetSideOptions({side=PBEM_DUMMY_SIDE, awareness='BLIND'})
+    --next, create the PBEM dummy side and initialize PBEM events
+    ScenEdit_AddSide({name=PBEM_DUMMY_SIDE})
+    --ScenEdit_SetSideOptions({side=PBEM_DUMMY_SIDE, awareness='BLIND'})
 
-        -- initialize IKE on load by injecting its own code into the VM
-        ScenEdit_SetEvent('PBEM: Scenario Loaded', {mode='add', IsRepeatable=true, IsShown=false})
-        ScenEdit_SetTrigger({name='PBEM_Scenario_Loaded', mode='add', type='ScenLoaded'})
-        ScenEdit_SetAction({name='PBEM: Turn Starts', mode='add', type='LuaScript', ScriptText=IKE_LOADER})
-        ScenEdit_SetEventTrigger('PBEM: Scenario Loaded', {mode='add', name='PBEM_Scenario_Loaded'})
-        ScenEdit_SetEventAction('PBEM: Scenario Loaded', {mode='add', name='PBEM: Turn Starts'})
+    -- initialize IKE on load by injecting its own code into the VM
+    local loadEvent = Event_Create("PBEM: Scenario Loaded", {
+        IsRepeatable=true,
+        IsShown=false
+    })
+    Event_AddTrigger(loadEvent, Trigger_Create("PBEM_Scenario_Loaded", {
+        type="ScenLoaded"
+    }))
+    Event_AddAction(loadEvent, Action_Create("PBEM: Turn Starts", {
+        type="LuaScript",
+        ScriptText=IKE_LOADER
+    }))
 
-        -- security check every second
-        ScenEdit_SetEvent('PBEM: Turn Security', {mode='add', IsRepeatable=true, IsShown=false})
-        ScenEdit_SetTrigger({name='PBEM_Turn_Security', mode='add', type='RegularTime', interval=0})
-        ScenEdit_SetAction({name='PBEM: Check Turn Security', mode='add', type='LuaScript', ScriptText='PBEM_UpdateTick()'})
-        ScenEdit_SetEventTrigger('PBEM: Turn Security', {mode='add', name='PBEM_Turn_Security'})
-        ScenEdit_SetEventAction('PBEM: Turn Security', {mode='add', name='PBEM: Check Turn Security'})
+    -- update tick every second
+    local updateEvent = Event_Create("PBEM: Update Tick", {
+        IsRepeatable=true, 
+        IsShown=false
+    })
+    Event_AddTrigger(updateEvent, Trigger_Create("PBEM_Update_Tick", {
+        type="RegularTime", 
+        interval=0
+    }))
+    Event_AddAction(updateEvent, Action_Create("PBEM: Next Update", {
+        type="LuaScript", 
+        ScriptText="PBEM_UpdateTick()"
+    }))
 
-        -- track all destroyed units
-        ScenEdit_SetEvent('PBEM: Turn Event Tracker', {mode='add', IsRepeatable=true, IsShown=false})
-        for i=1,#PBEM_UNITYPES do
-            local triggername = 'PBEM_Unit_Killed_'..i
-            ScenEdit_SetTrigger({name=triggername, mode='add', type='UnitDestroyed', TargetFilter={TargetType=PBEM_UNITYPES[i], TargetSubType=0}})
-            ScenEdit_SetEventTrigger('PBEM: Turn Event Tracker', {mode='add', name=triggername})
-        end
-        ScenEdit_SetAction({name='PBEM: Register Unit Killed', mode='add', type='LuaScript', ScriptText='PBEM_RegisterUnitKilled()'})
-        ScenEdit_SetEventAction('PBEM: Turn Event Tracker', {mode='add', name='PBEM: Register Unit Killed'})
+    -- track all destroyed units
+    local PBEM_UNITYPES = {
+        1, --aircraft
+        2, --ship
+        3, --submarine
+        4, --facility
+        7 --satellite
+    }
+    local destEvent = Event_Create("PBEM: Destroyed Unit Tracker", {
+        IsRepeatable=true,
+        IsShown=false
+    })
+    for i=1,#PBEM_UNITYPES do
+        local triggername = 'PBEM_Unit_Killed_'..i
+        Event_AddTrigger(destEvent, Trigger_Create(triggername, {
+            type = "UnitDestroyed",
+            TargetFilter = {
+                TargetType = PBEM_UNITYPES[i],
+                TargetSubType = 0
+            }
+        }))
+    end
+    Event_AddAction(destEvent, Action_Create("PBEM: Register Unit Killed", {
+        type="LuaScript", 
+        ScriptText="PBEM_RegisterUnitKilled()"
+    }))
 
-        -- track all new contacts
-        ScenEdit_SetEvent('PBEM: New Contact Tracker', {mode='add', IsRepeatable=true, IsShown=false})
-        for i=1,#PBEM_PLAYABLE_SIDES do
-            local guid = SideGUIDByName(PBEM_PLAYABLE_SIDES[i])
-            if guid then
-                for j=1,#PBEM_DETECTORS do
-                    local triggername = 'PBEM_NewContact_'..i..'_'..j
-                    ScenEdit_SetTrigger({name=triggername, mode='add', type='UnitDetected', DetectorSideID=guid, TargetFilter={TargetType=PBEM_DETECTORS[j], TargetSubType=0}})
-                    ScenEdit_SetEventTrigger('PBEM: New Contact Tracker', {mode='add', name=triggername})
-                end
+    -- track all new contacts
+    local PBEM_DETECTORS = {
+        1, --aircraft
+        2, --ship
+        3, --submarine
+        4 --facility
+    }
+    local contactEvent = Event_Create("PBEM: New Contact Tracker", {
+        IsRepeatable=true, 
+        IsShown=false
+    })
+    for i=1,#PBEM_PLAYABLE_SIDES do
+        local guid = SideGUIDByName(PBEM_PLAYABLE_SIDES[i])
+        if guid then
+            for j=1,#PBEM_DETECTORS do
+                local triggername = 'PBEM_NewContact_'..i..'_'..j
+                Event_AddTrigger(contactEvent, Trigger_Create(triggername, {
+                    type="UnitDetected", 
+                    DetectorSideID=guid, 
+                    TargetFilter = {
+                        TargetType = PBEM_DETECTORS[j],
+                        TargetSubType=0
+                    }
+                }))
             end
         end
-        ScenEdit_SetAction({name='PBEM: Register New Contact', mode='add', type='LuaScript', ScriptText='PBEM_RegisterNewContact()'})
-        ScenEdit_SetEventAction('PBEM: New Contact Tracker', {mode='add', name='PBEM: Register New Contact'})
+    end
+    Event_AddAction(contactEvent, Action_Create("PBEM: Register New Contact", {
+        type="LuaScript",
+        ScriptText="PBEM_RegisterNewContact()"
+    }))
 
-        for i=1,#PBEM_PLAYABLE_SIDES do
-            -- add special actions
-            PBEM_AddRTSide(PBEM_PLAYABLE_SIDES[i])
+    -- next, set up the playable sides
+    for i=1,#PBEM_PLAYABLE_SIDES do
+        -- add special actions
+        PBEM_AddRTSide(PBEM_PLAYABLE_SIDES[i])
 
-            -- initialize loss register
-            PBEM_SetLossRegister(i, "")
-        end
+        -- initialize message registers
+        PBEM_SetLossRegister(i, "")
+        PBEM_SetKillRegister(i, "")
+        PBEM_SetContactRegister(i, "")
     end
 
+    --initialize the first turn
     Turn_SetCurSide(1)
     local start_turn = 1
     if PBEM_HasSetupPhase() then
         start_turn = 0
     end
-    ScenEdit_SetTime(PBEM_StartTimeToUTC())
     StoreNumber('__TURN_CURNUM', start_turn)
+
+    -- reset the scenario to its starting time
+    ScenEdit_SetTime(PBEM_StartTimeToUTC())
+
+    -- finally, switch to the dummy side for scenario start
     ScenEdit_SetSideOptions({side=PBEM_DUMMY_SIDE, switchto=true})
 
     Input_OK(Localize("WIZARD_SUCCESS"))
