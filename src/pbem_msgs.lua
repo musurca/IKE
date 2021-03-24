@@ -49,7 +49,10 @@ function PBEM_RegisterNewContact()
 
     local contactname = contact.name
     local detecting_side = contact.fromside.name
-    if contact.side.name == detecting_side then
+    local actual_unit = ScenEdit_GetUnit({
+        guid=contact.actualunitid
+    })
+    if actual_unit.side == detecting_side then
         --it's annoying to be notified of out-of-comms contacts
         --on our own side, so we'll just ignore them
         return

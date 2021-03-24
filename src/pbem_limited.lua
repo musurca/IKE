@@ -42,6 +42,24 @@ function PBEM_MirrorSide(sidename)
     end
 end
 
+function PBEM_MirrorContactPostures()
+    local contacts = ScenEdit_GetContacts(PBEM_DUMMY_SIDE)
+    local mirrorside = PBEM_SIDENAME
+    local mirrorside_guid = SideGUIDByName(mirrorside)
+    for k, contact in ipairs(contacts) do
+        local unit = ScenEdit_GetUnit({guid=contact.actualunitid})
+        for j, ascon in ipairs(unit.ascontact) do
+            if ascon.side == mirrorside_guid then
+                local mcontact = ScenEdit_GetContact({side=mirrorside, guid=ascon.guid})
+                if mcontact.posture ~= contact.posture then
+                    contact.posture = mcontact.posture
+                end
+                break
+            end
+        end
+    end
+end
+
 function PBEM_ClearPostures()
     ScenEdit_SetSidePosture(PBEM_SIDENAME, PBEM_DUMMY_SIDE, "N")
     ScenEdit_SetSidePosture(PBEM_DUMMY_SIDE, PBEM_SIDENAME, "N")

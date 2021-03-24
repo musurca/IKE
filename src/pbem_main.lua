@@ -36,20 +36,12 @@ function PBEM_PlayableSides()
     return GetStringArray('__SCEN_PLAYABLESIDES')
 end
 
-function PBEM_GetTurnLengths()
-    return GetNumberArray("__SCEN_TURN_LENGTHS")
-end
-
 function PBEM_TurnLength()
-    return PBEM_TURN_LENGTHS[Turn_GetCurSide()]
+    return GetNumber("__SCEN_TURN_LENGTH")
 end
 
 function PBEM_RoundLength()
-    local length = 0
-    for k,v in ipairs(PBEM_TURN_LENGTHS) do
-        length = length + v
-    end
-    return length
+    return PBEM_ROUND_LENGTH
 end
 
 function Turn_GetTurnNumber()
@@ -86,10 +78,9 @@ end
 function PBEM_InitScenGlobals()
     PBEM_TURNOVER = 0
     PBEM_SETUP_PHASE = PBEM_HasSetupPhase()
-    PBEM_TURN_LENGTHS = PBEM_GetTurnLengths()
     PBEM_TURN_LENGTH = PBEM_TurnLength()
-    PBEM_ROUND_LENGTH = PBEM_RoundLength()
     PBEM_PLAYABLE_SIDES = PBEM_PlayableSides()
+    PBEM_ROUND_LENGTH = PBEM_TURN_LENGTH * #PBEM_PLAYABLE_SIDES
     PBEM_UNLIMITED_ORDERS = PBEM_OrdersUnlimited()
     if not PBEM_UNLIMITED_ORDERS then
         PBEM_ORDER_PHASES = PBEM_OrderPhases()

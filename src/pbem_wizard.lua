@@ -27,23 +27,21 @@ function PBEM_Init()
         end
     end
     --determine turn length
-    local turn_lengths = {}
-    local turnLength = 0
-    while turnLength == 0 do
-        turnLength = Input_Number(Localize("WIZARD_TURN_LENGTH"))
-        if not turnLength then
+    local turn_length = 0
+    local turnLengthSec = 0
+    while turnLengthSec == 0 do
+        turnLengthSec = Input_Number(Localize("WIZARD_TURN_LENGTH"))
+        if not turnLengthSec then
             return
         else
-            turnLength = math.max(0, math.floor(turnLength))
-            if turnLength == 0 then
+            turnLengthSec = math.max(0, math.floor(turnLengthSec))
+            if turnLengthSec == 0 then
                 Input_OK(Localize("WIZARD_ZERO_LENGTH"))
             end
         end
     end
-    -- same length for each side (for now)
-    for k,v in ipairs(playableSides) do
-        table.insert(turn_lengths, turnLength*60)
-    end
+    turn_length = turnLengthSec*60
+    
     --unlimited orders?
     unlimitedOrders = Input_YesNo(Localize("WIZARD_UNLIMITED_ORDERS"))
     local order_phases = {}
@@ -129,7 +127,7 @@ function PBEM_Init()
     PBEM_SETUP_PHASE = setupPhase
     PBEM_PLAYABLE_SIDES = playableSides
     StoreStringArray("__SCEN_PLAYABLESIDES", PBEM_PLAYABLE_SIDES)
-    StoreNumberArray("__SCEN_TURN_LENGTHS", turn_lengths)
+    StoreNumber("__SCEN_TURN_LENGTH", turn_length)
     StoreBoolean('__SCEN_SETUPPHASE', PBEM_SETUP_PHASE)
     StoreBoolean('__SCEN_UNLIMITEDORDERS', unlimitedOrders)
     StoreBoolean("__SCEN_PREVENTEDITOR", prevent_editor)

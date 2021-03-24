@@ -43,22 +43,20 @@ function PBEM_UserCheckSettings()
         return
     end
 
-    local turn_lengths = {}
+    local turn_length = 0
     local unlimitedOrders
     local order_phases = {}
 
     local default_length = math.floor(PBEM_TURN_LENGTH/60)
-    local turnLength = Input_Number_Default(Localize("WIZARD_TURN_LENGTH").."\n\n"..Format(Localize("RECOMMENDED"), {
+    local turnLengthSec = Input_Number_Default(Localize("WIZARD_TURN_LENGTH").."\n\n"..Format(Localize("RECOMMENDED"), {
         default_length
     }), default_length)
-    turnLength = math.max(0, math.floor(turnLength))
-    if turnLength == 0 then
-        turnLength = default_length
+    turnLengthSec = math.max(0, math.floor(turnLengthSec))
+    if turnLengthSec == 0 then
+        turnLengthSec = default_length
     end
-    -- same length for each side (for now)
-    for k,v in ipairs(PBEM_PLAYABLE_SIDES) do
-        table.insert(turn_lengths, turnLength*60)
-    end
+    turn_length = turnLengthSec*60
+
     --unlimited orders?
     unlimitedOrders = Input_YesNo(Localize("WIZARD_UNLIMITED_ORDERS").."\n\n"..Format(Localize("RECOMMENDED"), {
         BooleanToString(PBEM_UNLIMITED_ORDERS)
@@ -147,7 +145,7 @@ function PBEM_UserCheckSettings()
     }))
 
     -- commit to settings
-    StoreNumberArray("__SCEN_TURN_LENGTHS", turn_lengths)
+    StoreNumber("__SCEN_TURN_LENGTH", turn_length)
     StoreBoolean('__SCEN_UNLIMITEDORDERS', unlimitedOrders)
     if not unlimitedOrders then
         StoreNumberArray('__SCEN_ORDERINTERVAL', order_phases)

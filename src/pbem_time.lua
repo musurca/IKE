@@ -134,16 +134,9 @@ function PBEM_GetCurSideFromTime()
 
     local offset = scenCurTime - scenStartTime
     local turn_num = math.floor(offset / round_length)
-
     local turn_start_time = scenStartTime + turn_num*round_length
-    for k,v in ipairs(PBEM_TURN_LENGTHS) do
-        turn_start_time = turn_start_time + v
-        if turn_start_time > scenCurTime then
-            return k    
-        end
-    end
-    -- should never happen unless we're messing with the time
-    return 999
+    
+    return math.floor((scenCurTime - turn_start_time) / PBEM_TURN_LENGTH) + 1
 end
 
 --[[
@@ -158,11 +151,8 @@ function PBEM_GetCurTurnStartTime()
     end
     local round_length = PBEM_RoundLength()
     local offset = (turnNumber-1)*round_length
-    for i=1,(Turn_GetCurSide()-1) do
-        offset = offset + PBEM_TURN_LENGTHS[i]
-    end
-    
-    return scenStartTime + offset
+
+    return scenStartTime + offset + PBEM_TURN_LENGTH*(Turn_GetCurSide()-1)
 end
 
 --[[
