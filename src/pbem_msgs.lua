@@ -49,17 +49,18 @@ function PBEM_RegisterNewContact()
 
     local contactname = contact.name
     local detecting_side = contact.fromside.name
-    local actual_unit = ScenEdit_GetUnit({
-        guid=contact.actualunitid
-    })
-    if actual_unit.side == detecting_side then
-        --it's annoying to be notified of out-of-comms contacts
-        --on our own side, so we'll just ignore them
-        return
-    end
     
     if IsIn(detecting_side, PBEM_PLAYABLE_SIDES) then
         if detecting_side ~= Turn_GetCurSideName() then
+            local actual_unit = ScenEdit_GetUnit({
+                guid=contact.actualunitid
+            })
+            if actual_unit.side == detecting_side then
+                --it's annoying to be notified of out-of-comms contacts
+                --on our own side, so we'll just ignore them
+                return
+            end
+
             local sidenum = PBEM_SideNumberByName(detecting_side)
             local contacts = PBEM_GetContactRegister(sidenum)
             local detection_data = ""
