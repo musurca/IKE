@@ -10,6 +10,11 @@ and turn times.
 ----------------------------------------------
 ]]--
 
+--[[
+A partial reimplementation of os.date() to workaround
+CMO bug with negative epoch times. Should work from
+Jan 1, 1900 00:00:00 through Feb 28, 2100 23:59:59.
+]]--
 function EpochTimeToUTC(etime, date_sep, time_sep)
     date_sep = date_sep or "."
     time_sep = time_sep or "."
@@ -91,14 +96,8 @@ function EpochTimeToUTC(etime, date_sep, time_sep)
     }
 end
 
-function PBEM_StartTimeToUTC()
-    return PBEM_CustomTimeToUTC(VP_GetScenario().StartTimeNum)
-end
-
 function PBEM_CustomTimeToUTC(time_secs)
     if time_secs < 0 then
-        -- workaround CMO bug with negative epoch times by
-        -- partially reimplementing os.date()
         return EpochTimeToUTC(time_secs)
     end
 
@@ -108,6 +107,10 @@ function PBEM_CustomTimeToUTC(time_secs)
         Date=date_str, 
         Time=time_str
     }
+end
+
+function PBEM_StartTimeToUTC()
+    return PBEM_CustomTimeToUTC(VP_GetScenario().StartTimeNum)
 end
 
 function PBEM_CustomTimeMilitary(currentTime)
@@ -122,7 +125,6 @@ end
 function PBEM_CurrentTimeMilitary()
     return PBEM_CustomTimeMilitary(VP_GetScenario().CurrentTimeNum)
 end
-
 
 function PBEM_ScenarioStartTime()
     return GetNumber("__PBEM_STARTTIME")

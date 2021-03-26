@@ -14,26 +14,22 @@ local IKE_SPECACTIONS = {
     {
         script="PBEM_ShowRemainingTime()",
         name="(PBEM) Show remaining time in turn",
-        desc="Display the remaining time before your PBEM turn ends.",
-        include=true
+        desc="Display the remaining time before your PBEM turn ends."
     },
     {
         script="PBEM_SendChatMessage()",
         name="(PBEM) Send message to other player",
-        desc="Sends a message to another player, to be delivered at the start of their next turn. Note that the maximum message length is 280 characters, and that HTML tags will be removed.",
-        include=true
+        desc="Sends a message to another player, to be delivered at the start of their next turn. Note that the maximum message length is 280 characters, and that HTML tags will be removed."
     },
     {
         script="PBEM_SendChatMessage(true)",
         name="(PBEM) Schedule message for other player",
-        desc="Sends a message to another player, to be delivered at a time you schedule. Note that the maximum message length is 280 characters, HTML tags will be removed, and that you can only schedule one message for delivery at a time.",
-        include=(tonumber(VP_GetScenario().ScenDate) >= 1970)
+        desc="Sends a message to another player, to be delivered at a time you schedule. Note that the maximum message length is 280 characters, HTML tags will be removed, and that you can only schedule one message for delivery at a time."
     },
     {
         script="PBEM_UserChangePosture()",
         name="(PBEM) Change posture towards a side",
-        desc="Changes your posture toward a side. Useful if you've accidentally attacked some civilians and don't want them to be hostile anymore.",
-        include=true
+        desc="Changes your posture toward a side. Useful if you've accidentally attacked some civilians and don't want them to be hostile anymore."
     }
 }
 
@@ -258,28 +254,24 @@ end
 
 function PBEM_AddRTSide(side)
     ForEachDo(IKE_SPECACTIONS, function(action)
-        if action.include then
-            ScenEdit_AddSpecialAction({
-                ActionNameOrID=action.name,
-                Description=action.desc,
-                Side=side,
-                IsActive=true, 
-                IsRepeatable=true,
-                ScriptText=action.script
-            })
-        end
+        ScenEdit_AddSpecialAction({
+            ActionNameOrID=action.name,
+            Description=action.desc,
+            Side=side,
+            IsActive=true, 
+            IsRepeatable=true,
+            ScriptText=action.script
+        })
     end)
 end
 
 function PBEM_RemoveRTSide(side)
     ForEachDo(IKE_SPECACTIONS, function(action)
-        if action.include then
-            pcall(ScenEdit_SetSpecialAction, {
-                ActionNameOrID=action.name,
-                Side=side,
-                mode="remove"
-            })
-        end
+        pcall(ScenEdit_SetSpecialAction, {
+            ActionNameOrID=action.name,
+            Side=side,
+            mode="remove"
+        })
     end)
 end
 

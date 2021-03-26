@@ -277,7 +277,7 @@ end
 
 function PBEM_CheckScheduledMessages()
     local cur_time = ScenEdit_CurrentTime()
-    for i = #PBEM_SCHEDULED_MESSAGES,1,-1 do
+    for i = #PBEM_SCHEDULED_MESSAGES, 1, -1 do
         local message = PBEM_SCHEDULED_MESSAGES[i]
         if cur_time >= message.time then
             ScenEdit_SpecialMessage(message.target, Format(Localize("CHAT_MSG_FORM"), {

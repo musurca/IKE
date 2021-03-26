@@ -15,18 +15,9 @@ IKE_VERSION = "1.3"
 PBEM_DUMMY_SIDE = '-----------'
 
 function PBEM_DoInitialSetup()
-    if GetBoolean("__SCEN_HASINITIALSETUP") then
+    if ScenEdit_GetKeyValue("PBEM_INITIALSETUP") == "1" then
         if PBEM_OnInitialSetup then
             pcall(PBEM_OnInitialSetup)
-        end
-    end
-end
-
-function PBEM_RegisterSetupFunction(func)
-    if func then
-        if type(func) == "function" then
-            StoreBoolean("__SCEN_HASINITIALSETUP", true)
-            PBEM_OnInitialSetup = func
         end
     end
 end
