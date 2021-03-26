@@ -110,8 +110,7 @@ function PBEM_CustomTimeToUTC(time_secs)
     }
 end
 
-function PBEM_CurrentTimeMilitary()
-    local currentTime = VP_GetScenario().CurrentTimeNum
+function PBEM_CustomTimeMilitary(currentTime)
     if currentTime < 0 then
         local date_time = EpochTimeToUTC(currentTime, "/", ":")
         return date_time.Date.." "..date_time.Time.."Z"
@@ -119,6 +118,11 @@ function PBEM_CurrentTimeMilitary()
     
     return os.date("!%m/%d/%Y %H:%M:%SZ", currentTime)
 end
+
+function PBEM_CurrentTimeMilitary()
+    return PBEM_CustomTimeMilitary(VP_GetScenario().CurrentTimeNum)
+end
+
 
 function PBEM_ScenarioStartTime()
     return GetNumber("__PBEM_STARTTIME")

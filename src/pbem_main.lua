@@ -88,6 +88,9 @@ function PBEM_InitScenGlobals()
     end
     PBEM_SIDENAME = Turn_GetCurSideName()
     PBEM_TURN_START_TIME = PBEM_GetCurTurnStartTime()
+
+    --Retrieve any scheduled messages
+    PBEM_PrecacheScheduledMessages()
 end
 
 function PBEM_StartTurn()
@@ -278,6 +281,9 @@ function PBEM_UpdateTick()
         -- ending a setup phase
         PBEM_EndSetupPhase()
     end
+
+    -- check for and deliver any scheduled messages
+    PBEM_CheckScheduledMessages()
 
     -- display all special messages at once
     PBEM_FlushSpecialMessages()

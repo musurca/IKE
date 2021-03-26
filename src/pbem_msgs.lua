@@ -224,5 +224,58 @@ function PBEM_ShowTurnIntro()
     PBEM_SpecialMessage('playerside', msg, nil, true)
 end
 
+function PBEM_MakeScheduledMessage(side_num, targetside, time, msg)
+    local base_id = "__SCEN_SCHEDULEDMSG_"..side_num
+    StoreBoolean(base_id, true)
+    StoreString(base_id.."_TARGET", targetside)
+    StoreNumber(base_id.."_TIME", time)
+    StoreString(base_id.."_MSG", msg)
+
+    table.insert(PBEM_SCHEDULED_MESSAGES, {
+        from = side_num,
+        target = targetside,
+        time = time,
+        msg = msg
+    })
+end
+
+function PBEM_ClearScheduledMessage(side_num)
+    local base_id = "__SCEN_SCHEDULEDMSG_"..side_num
+    StoreBoolean(base_id, false)
+    StoreString(base_id.."_TARGET", "")
+    StoreNumber(base_id.."_TIME", 0)
+    StoreString(base_id.."_MSG", "")
+end
+
+function PBEM_PrecacheScheduledMessages()
+    PBEM_SCHEDULED_MESSAGES = {}
+    for i=1, #PBEM_PLAYABLE_SIDES do
+        local base_id = "__SCEN_SCHEDULEDMSG_"..i
+        if GetBoolean(base_id) then
+            table.insert(PBEM_SCHEDULED_MESSAGES, {
+                from = i,
+                target = GetString(base_id.."_TARGET"),
+                time = GetNumber(base_id.."_TIME"),
+                msg = GetString(base_id.."_MSG")
+            })
+        end
+    end
+end
+
+function PBEM_CheckScheduledMessages()
+    local cur_time = ScenEdit_CurrentTime()
+    for i = #PBEM_SCHEDULED_MESSAGES,1,-1 do
+        local message = PBEM_SCHEDULED_MESSAGES[i]
+        if cur_time >= message.time then
+            ScenEdit_SpecialMessage(message.target, Format(Localize("CHAT_MSG_FORM"), {
+                PBEM_PLAYABLE_SIDES[message.from],
+                message.msg
+            }))
+            PBEM_ClearScheduledMessage(message.from)
+            table.remove(PBEM_SCHEDULED_MESSAGES, i)
+        end
+    end
+end
+
 --[[!! LEAVE TWO CARRIAGE RETURNS AFTER SOURCE FILE !!]]--
 

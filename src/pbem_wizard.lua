@@ -257,6 +257,9 @@ function PBEM_Init()
         PBEM_SetLossRegister(i, "")
         PBEM_SetKillRegister(i, "")
         PBEM_SetContactRegister(i, "")
+
+        -- clear scheduled messages
+        PBEM_ClearScheduledMessage(i)
     end
 
     --initialize the first turn

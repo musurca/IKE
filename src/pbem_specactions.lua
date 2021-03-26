@@ -14,21 +14,42 @@ local IKE_SPECACTIONS = {
     {
         script="PBEM_ShowRemainingTime()",
         name="(PBEM) Show remaining time in turn",
-        desc="Display the remaining time before your PBEM turn ends."
+        desc="Display the remaining time before your PBEM turn ends.",
+        include=true
     },
     {
         script="PBEM_SendChatMessage()",
         name="(PBEM) Send message to other player",
-        desc="Sends a message to another player, to be delivered at the start of their next turn. Note that the maximum message length is 280 characters, and that HTML tags will be removed."
+        desc="Sends a message to another player, to be delivered at the start of their next turn. Note that the maximum message length is 280 characters, and that HTML tags will be removed.",
+        include=true
+    },
+    {
+        script="PBEM_SendChatMessage(true)",
+        name="(PBEM) Schedule message for other player",
+        desc="Sends a message to another player, to be delivered at a time you schedule. Note that the maximum message length is 280 characters, HTML tags will be removed, and that you can only schedule one message for delivery at a time.",
+        include=(tonumber(VP_GetScenario().ScenDate) >= 1970)
     },
     {
         script="PBEM_UserChangePosture()",
         name="(PBEM) Change posture towards a side",
-        desc="Changes your posture toward a side. Useful if you've accidentally attacked some civilians and don't want them to be hostile anymore."
+        desc="Changes your posture toward a side. Useful if you've accidentally attacked some civilians and don't want them to be hostile anymore.",
+        include=true
     }
 }
 
-function PBEM_SendChatMessage()
+function PBEM_SendChatMessage(scheduled)
+    scheduled = scheduled or false
+
+    local side_num = Turn_GetCurSide()
+
+    if scheduled then
+        local base_id = "__SCEN_SCHEDULEDMSG_"..side_num
+        if GetBoolean(base_id) then
+            Input_OK(Localize("CHAT_ALREADY_SCHEDULED"))
+            return
+        end
+    end
+
     local targetside = ""
     local myside = Turn_GetCurSideName()
     -- if there's only two sides, pick the other one
@@ -93,10 +114,62 @@ function PBEM_SendChatMessage()
     if #message > 280 then
         message = string.sub(message, 1, 280)
     end
-    ScenEdit_SpecialMessage(targetside, Format(Localize("CHAT_MSG_FORM"), {
-        myside,
-        message
-    }))
+
+    if scheduled then
+        --ask the player to choose a time
+        local time_parsed = false
+        while not time_parsed do
+            local sched_time = RStrip(Input_String(Localize("SCHEDULE_CHAT")))
+            local time_table = {}
+            string.gsub(sched_time, "(%d+)", function(n)
+                table.insert(time_table, tonumber(n))
+            end)
+            if #time_table ~= 3 then
+                if not Input_YesNo(Localize("FORMAT_INCORRECT")) then
+                    Input_OK(Localize("CHAT_CANCELLED"))
+                    return
+                end 
+            else
+                local delivery_time = ScenEdit_CurrentTime()
+                local hour, minute, second = time_table[1], time_table[2], time_table[3]
+                local time_correct = true
+                if minute > 59 then
+                    if not Input_YesNo(Localize("MIN_INCORRECT")) then
+                        Input_OK(Localize("CHAT_CANCELLED"))
+                        return
+                    end
+                    time_correct = false
+                end
+                if second > 59 then
+                    if not Input_YesNo(Localize("SEC_INCORRECT")) then
+                        Input_OK(Localize("CHAT_CANCELLED"))
+                        return
+                    end
+                    time_correct = false
+                end
+                if time_correct then
+                    delivery_time = delivery_time + hour*60*60 + minute*60 + second
+                    if Input_YesNo(Format(Localize("CHECK_CHAT_DATE"), {
+                        PBEM_CustomTimeMilitary(delivery_time)
+                    })) then
+                        PBEM_MakeScheduledMessage(side_num, targetside, delivery_time, message)
+                        time_parsed = true
+                    else
+                        if not Input_YesNo(Localize("CHAT_TRY_AGAIN")) then
+                            Input_OK(Localize("CHAT_CANCELLED"))
+                            return
+                        end
+                    end
+                end
+            end
+        end
+    else
+        --deliver the message immediately
+        ScenEdit_SpecialMessage(targetside, Format(Localize("CHAT_MSG_FORM"), {
+            myside,
+            message
+        }))
+    end
     Input_OK(Localize("CHAT_SENT"))
 end
 
@@ -185,6 +258,7 @@ end
 
 function PBEM_AddRTSide(side)
     ForEachDo(IKE_SPECACTIONS, function(action)
+        if action.include then
             ScenEdit_AddSpecialAction({
                 ActionNameOrID=action.name,
                 Description=action.desc,
@@ -193,16 +267,19 @@ function PBEM_AddRTSide(side)
                 IsRepeatable=true,
                 ScriptText=action.script
             })
+        end
     end)
 end
 
 function PBEM_RemoveRTSide(side)
     ForEachDo(IKE_SPECACTIONS, function(action)
-        pcall(ScenEdit_SetSpecialAction, {
-            ActionNameOrID=action.name,
-            Side=side,
-            mode="remove"
-        })
+        if action.include then
+            pcall(ScenEdit_SetSpecialAction, {
+                ActionNameOrID=action.name,
+                Side=side,
+                mode="remove"
+            })
+        end
     end)
 end
 
