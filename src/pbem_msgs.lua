@@ -89,6 +89,14 @@ function PBEM_RegisterUnitKilled()
     local killed = ScenEdit_UnitX()
     local killer = ScenEdit_UnitY()
     local killtime = PBEM_CurrentTimeMilitary()
+    local killer_unit = nil
+    local killer_side = ""
+    if killer then
+        if killer.unit then
+            killer_unit = killer.unit
+            killer_side = killer_unit.side
+        end
+    end
 
     -- register loss
     if IsIn(killed.side, PBEM_PLAYABLE_SIDES) then
@@ -100,6 +108,13 @@ function PBEM_RegisterUnitKilled()
                 unitname = killed.name
             else
                 unitname = killed.name..' ('..killed.classname..')'
+            end
+            if killer_unit then
+                if killer_unit.classname then
+                    unitname = unitname.." "..Format(Localize("LOSS_LISTING"), {
+                        killer_unit.classname
+                    })
+                end
             end
             losses = losses.."<i>"..killtime.."</i> // "..unitname.."<br/>"
             PBEM_SetLossRegister(sidenum, losses)
@@ -116,38 +131,36 @@ function PBEM_RegisterUnitKilled()
     end
 
     -- register and mark kill
-    if killer then
-        if killer.unit then
-            local killer_unit = killer.unit
-            local killer_side = killer_unit.side
-            if IsIn(killer_side, PBEM_PLAYABLE_SIDES) then
-                if killer_side ~= Turn_GetCurSideName() then
-                    -- record the kill for the player
-                    local sidenum = PBEM_SideNumberByName(killer_side)
-                    local kills = PBEM_GetKillRegister(sidenum)
-                    local killer_side_guid = SideGUIDByName(killer_side)
-                    local known_name = killed.classname
-                    for k, contact in pairs(killed.ascontact) do
-                        if contact.side == killer_side_guid then
-                            known_name = contact.name
-                        end
+    if killer_unit then
+        if IsIn(killer_side, PBEM_PLAYABLE_SIDES) then
+            if killer_side ~= Turn_GetCurSideName() then
+                -- record the kill for the player
+                local sidenum = PBEM_SideNumberByName(killer_side)
+                local kills = PBEM_GetKillRegister(sidenum)
+                local killer_side_guid = SideGUIDByName(killer_side)
+                local known_name = killed.classname
+                for k, contact in pairs(killed.ascontact) do
+                    if contact.side == killer_side_guid then
+                        known_name = contact.name
                     end
-                    local unitname = known_name
-                    if killer_unit.classname then
-                        unitname = unitname..' with '..killer_unit.classname
-                    end
-                    kills = kills.."<i>"..killtime.."</i> // "..unitname.."<br/>"
-                    PBEM_SetKillRegister(sidenum, kills)
-
-                    --mark kill on the map
-                    ScenEdit_AddReferencePoint({
-                        side=killer_side,
-                        name=Format(Localize("KILL_MARKER"), {known_name}), 
-                        lat=killed.latitude, 
-                        lon=killed.longitude, 
-                        highlighted=true
+                end
+                local unitname = known_name
+                if killer_unit.classname then
+                    unitname = unitname.." "..Format(Localize("KILL_LISTING"), {
+                        killer_unit.classname
                     })
                 end
+                kills = kills.."<i>"..killtime.."</i> // "..unitname.."<br/>"
+                PBEM_SetKillRegister(sidenum, kills)
+
+                --mark kill on the map
+                ScenEdit_AddReferencePoint({
+                    side=killer_side,
+                    name=Format(Localize("KILL_MARKER"), {known_name}), 
+                    lat=killed.latitude, 
+                    lon=killed.longitude, 
+                    highlighted=true
+                })
             end
         end
     end

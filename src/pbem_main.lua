@@ -14,6 +14,23 @@ IKE_VERSION = "1.3"
 
 PBEM_DUMMY_SIDE = '-----------'
 
+function PBEM_DoInitialSetup()
+    if GetBoolean("__SCEN_HASINITIALSETUP") then
+        if PBEM_OnInitialSetup then
+            pcall(PBEM_OnInitialSetup)
+        end
+    end
+end
+
+function PBEM_RegisterSetupFunction(func)
+    if func then
+        if type(func) == "function" then
+            StoreBoolean("__SCEN_HASINITIALSETUP", true)
+            PBEM_OnInitialSetup = func
+        end
+    end
+end
+
 function PBEM_NotRunning()
     --returns true if we're not running IKE anymore
     return Turn_GetCurSide() == 0
@@ -124,10 +141,7 @@ function PBEM_StartTurn()
         if Turn_GetCurSide() == 1 then
             PBEM_SetHostBuildNumber()
             PBEM_UserCheckSettings()
-
-            if PBEM_OnInitialSetup then
-                PBEM_OnInitialSetup()
-            end
+            PBEM_DoInitialSetup()
         elseif not PBEM_CheckHostBuildNumber() then
             -- version mismatch
             PBEM_SelfDestruct()

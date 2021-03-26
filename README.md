@@ -73,15 +73,17 @@ v1.3 (??):
 * added: kills made on off-turn reported
 * added: send chat messages to other players
 * added: all players must use the same CMO build
+* added: can set turn order for more than 2 playable sides
 * added: Second Battle of Guadalcanal
+* change: optional setup function must be registered
+* change: losses show weapon class unit was killed by
+* change: dummy side name
+* change: North Pacific Shootout - can pick up enemy pilots
+* change: North Pacific Shootout - Soviet side can use sub for SAR
 * fixed: contacts sometimes not shown in limited orders
 * fixed: IKE wizard removes previous IKE installation
-* fixed: can set turn order for more than 2 playable sides
-* fixed: changed dummy side name to avoid confusion
 * fixed: scenarios set before 1970 (through 1900) now work properly
 * fixed: Shamal - kills give points to correct side
-* fixed: North Pacific Shootout - can pick up enemy pilots
-* fixed: North Pacific Shootout - Soviet side can use sub for SAR
 
 v1.21 (2/18/2021):
 * fixed: API replacements

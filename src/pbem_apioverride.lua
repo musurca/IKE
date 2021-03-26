@@ -24,6 +24,8 @@ function PBEM_EndAPIReplace()
     PBEM_EndRandom()
     PBEM_EndSpecialMessage()
     PBEM_EndPlayerSide()
+
+    PBEM_OnInitialSetup = nil
 end
 
 function PBEM_InitPlayerSide()
