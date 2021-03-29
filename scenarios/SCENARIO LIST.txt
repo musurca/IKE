@@ -70,13 +70,13 @@ COMMAND             Limited Orders
 ORDERS PER TURN     3
 WHO GOES FIRST      Japan
 
-**** Second Battle of Guadalcanal, 1942 - USN vs. IJN ****
+**** Second Battle of Guadalcanal, 1942 - IJN vs. USN ****
 AUTHOR: Revan227
 Recommended settings:
-TURN LENGTH         10 minutes
+TURN LENGTH         8 minutes
 COMMAND             Limited Orders
 ORDERS PER TURN     1
-WHO GOES FIRST      USN
+WHO GOES FIRST      IJN
 
 **** Shamal, 1991 (cooperative) - USN & USAF vs. Iraq (AI) ****
 AUTHOR: Mike Mykytyn
