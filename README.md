@@ -1,9 +1,9 @@
 <p align="center"><img src="https://github.com/musurca/IKE/raw/main/ike_logo.png" /></p>
 
 ## PBEM/hotseat multiplayer for *Command: Modern Operations* scenarios
-FOR PLAYERS: [**DOWNLOAD LATEST SCENARIO PACK HERE (v1.3)**](https://github.com/musurca/IKE/releases/download/v1.3-scenarios/IKE_Scenario_Pack_v1.3.zip)
+FOR PLAYERS: [**DOWNLOAD LATEST SCENARIO PACK HERE (v1.31)**](https://github.com/musurca/IKE/releases/download/v1.3-scenarios/IKE_Scenario_Pack_v1.31.zip)
 
-FOR SCENARIO AUTHORS: [**DOWNLOAD LATEST RELEASE HERE (v1.3)**](https://github.com/musurca/IKE/releases/download/v1.3/IKE.v1.3.zip)
+FOR SCENARIO AUTHORS: [**DOWNLOAD LATEST RELEASE HERE (v1.31)**](https://github.com/musurca/IKE/releases/download/v1.3/IKE.v1.31.zip)
 
 If you're a scenario author or player looking to convert a new or existing scenario for multiplayer use, you only need to download either the latest release or scenario pack using the links above. 
 
@@ -65,9 +65,14 @@ This will produce compiled but unminified Lua code in `debug/ike_debug.lua`. _Do
 **IKE** is designed primarily for scenario authors who want to create a multiplayer version of their existing scenario, but it may also be used productively by players who want to convert their favorite scenario for use with a friend.
 
 ### How do I use it?
-For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.3/IKE.v1.3.zip).
+For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.31/IKE.v1.31.zip).
 
 ### VERSION HISTORY
+v1.31 (5/5/2021):
+* change: host can now upgrade/downgrade CMO build
+* change: older CMO clients (before 1147.17) are prohibited
+* fixed: between order phases contacts will show correct posture
+
 v1.3 (3/28/2021):
 * added: new contacts from off-turn reported
 * added: kills made on off-turn reported

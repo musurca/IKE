@@ -10,7 +10,7 @@ for the IKE system.
 ----------------------------------------------
 ]]--
 
-IKE_VERSION = "1.3"
+IKE_VERSION = "1.31"
 
 PBEM_DUMMY_SIDE = '-----------'
 
@@ -116,15 +116,22 @@ function PBEM_StartTurn()
         return
     end
 
+    -- set up CMO API replacements
     PBEM_InitAPIReplace()
 
-    if tonumber(GetBuildNumber()) >= 1147.17 then
-        if VP_GetScenario().GameMode == 2 and GetBoolean("__SCEN_PREVENTEDITOR") then
-            --can't open a PBEM session in Editor mode until it's over
-            Input_OK(Localize("NO_EDITOR_MODE"))
-            PBEM_SelfDestruct()
-            return
-        end
+    -- prohibit excessively old clients
+    if tonumber(GetBuildNumber()) < 1147.17 then
+        Input_OK(Format(Localize("VERSION_TOO_OLD"), {GetBuildNumber()}))
+        PBEM_SelfDestruct()
+        return
+    end
+
+    --check for editor mode prohibition
+    if VP_GetScenario().GameMode == 2 and GetBoolean("__SCEN_PREVENTEDITOR") then
+        --can't open a PBEM session in Editor mode until it's over
+        Input_OK(Localize("NO_EDITOR_MODE"))
+        PBEM_SelfDestruct()
+        return
     end
 
     if (turnnum == 1 and not PBEM_SETUP_PHASE and curtime == PBEM_TURN_START_TIME) or (turnnum == 0 and PBEM_SETUP_PHASE) then
@@ -260,8 +267,9 @@ function PBEM_UpdateTick()
             elseif not PBEM_UNLIMITED_ORDERS then
                 -- handle limited orders
 
-                --mirror side score
+                --mirror side score and contact postures
                 PBEM_MirrorSideScore()
+                PBEM_MirrorContactPostures()
                 
                 --check for order phase
                 local time_check = scenCurTime - PBEM_TURN_START_TIME

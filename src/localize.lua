@@ -49,6 +49,7 @@ IKE_LOCALIZATIONS = {
         ["KILL_MARKER"]             = "%1 killed",
         ["CONTACT_MARKER"]          = "%1 at %2",
         ["NO_EDITOR_MODE"]          = "You can't open a PBEM game in Editor mode until the scenario has ended.\n\nPlay this scenario using Start New Game or Load Saved Game from the main menu.",
+        ["VERSION_TOO_OLD"]         = "Your version of CMO (%1) is outdated. Please upgrade to the latest build to play this PBEM scenario.",
         ["SEND_CHAT"]               = "Send message to which side?\n\nOptions: %1",
         ["ENTER_CHAT"]              = "Enter message to %1 (max 280 characters):",
         ["SCHEDULE_CHAT"]           = "How long from now should the message be delivered?\nFORMAT: hh:mm:ss",
