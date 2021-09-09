@@ -10,7 +10,8 @@ for the IKE system.
 ----------------------------------------------
 ]]--
 
-IKE_VERSION = "1.31"
+IKE_VERSION = "1.32"
+IKE_MIN_ALLOWED_BUILD = 1147.23
 
 PBEM_DUMMY_SIDE = '-----------'
 
@@ -120,8 +121,11 @@ function PBEM_StartTurn()
     PBEM_InitAPIReplace()
 
     -- prohibit excessively old clients
-    if tonumber(GetBuildNumber()) < 1147.17 then
-        Input_OK(Format(Localize("VERSION_TOO_OLD"), {GetBuildNumber()}))
+    if tonumber(GetBuildNumber()) < IKE_MIN_ALLOWED_BUILD then
+        Input_OK(Format(Localize("VERSION_TOO_OLD"), {
+            GetBuildNumber(),
+            IKE_MIN_ALLOWED_BUILD
+        }))
         PBEM_SelfDestruct()
         return
     end
@@ -203,6 +207,7 @@ function PBEM_StartTurn()
         end
         
         local turnStartTime = PBEM_TURN_START_TIME
+        local nextTurnStartTime = PBEM_GetNextTurnStartTime()
         local curTime = ScenEdit_CurrentTime()
         local time_check = curTime - turnStartTime
         
@@ -212,7 +217,7 @@ function PBEM_StartTurn()
                 switchto=true
             })
         else
-            if time_check % PBEM_ORDER_INTERVAL == 0 then
+            if (time_check % PBEM_ORDER_INTERVAL == 0) or (curTime == (nextTurnStartTime-1)) then
                 if curTime > turnStartTime then
                     --remind us what order phase we were in
                     PBEM_StartOrderPhase()
@@ -242,9 +247,10 @@ function PBEM_UpdateTick()
     local scenStartTime = VP_GetScenario().StartTimeNum
     local scenCurTime = ScenEdit_CurrentTime()
     local turnnum = Turn_GetTurnNumber()
+    local nextTurnStartTime = PBEM_GetNextTurnStartTime()
 
-    if Turn_GetTurnNumber() > 0 then
-        if scenCurTime >= PBEM_GetNextTurnStartTime() then
+    if turnnum > 0 then
+        if scenCurTime >= nextTurnStartTime then
             if PBEM_TURNOVER < 1 then
                 PBEM_EndTurn()
             elseif PBEM_TURNOVER < 2 then
@@ -280,7 +286,7 @@ function PBEM_UpdateTick()
                     PBEM_AddRTSide(PBEM_DUMMY_SIDE)
                     --switch to dummy side
                     PBEM_EndOrderPhase()
-                elseif time_check % PBEM_ORDER_INTERVAL == 0 then
+                elseif (time_check % PBEM_ORDER_INTERVAL == 0) or (scenCurTime == (nextTurnStartTime-1)) then
                     -- start giving orders again
                     PBEM_StartOrderPhase()
                     --remove the dummy sensor unit if it exists

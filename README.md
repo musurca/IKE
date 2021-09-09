@@ -9,7 +9,7 @@ If you're a scenario author or player looking to convert a new or existing scena
 
 This code repository is intended only for those who are curious about how **IKE** works internally, want to add more features, or want to localize the text for a language other than English. In other words, **if you just want to create a PBEM scenario, you can just download the latest release and skip everything below.**
 
-If you're interested in localizing text: you don't have to build the system. You can just add your translations to [the localization source file](https://github.com/musurca/IKE/blob/main/src/00_localize.lua) and submit the changes via pull request or by [creating a new Issue](https://github.com/musurca/IKE/issues/new) and attaching the file.
+If you're interested in localizing text: you don't have to build the system. You can just add your translations to [the localization source file](https://github.com/musurca/IKE/blob/main/src/localize.lua) and submit the changes via pull request or by [creating a new Issue](https://github.com/musurca/IKE/issues/new) and attaching the file.
 
 For all others interested: welcome! Pull requests and bug reports are greatly appreciated.
 
@@ -68,6 +68,10 @@ This will produce compiled but unminified Lua code in `debug/ike_debug.lua`. _Do
 For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.31/IKE.v1.31.zip).
 
 ### VERSION HISTORY
+v1.32 (???):
+* added: final order phase before the end of a turn in Limited Order mode
+* change: bumped minimum CMO build to last official Steam update (1147.23)
+
 v1.31 (5/5/2021):
 * change: host can now upgrade/downgrade CMO build
 * change: older CMO clients (before 1147.17) are prohibited

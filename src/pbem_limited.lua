@@ -109,17 +109,29 @@ end
 function PBEM_ShowOrderPhase(resume)
     resume = resume or false
     local cur_time = ScenEdit_CurrentTime()
+    local next_turn_start_time = PBEM_GetNextTurnStartTime()
     local turn_start_time = PBEM_GetCurTurnStartTime()
     local phase_num = ((cur_time - turn_start_time) / PBEM_ORDER_INTERVAL) + 1
     phase_num = math.floor(phase_num)
-    local turn_len_min = math.floor((PBEM_GetNextTurnStartTime() - cur_time) / 60)
+    local turn_len_min = math.floor((next_turn_start_time - cur_time) / 60)
     local phase_str = Format(Localize("ORDER_PHASE_DIVIDER"), {
         math.floor(phase_num),
         math.floor(PBEM_TURN_LENGTH / PBEM_ORDER_INTERVAL)
     })
+
+    -- determine whether this is a regular order phase or the last order phase
+    local order_header, order_message
+    if (cur_time == (next_turn_start_time - 1)) then
+        order_header = Localize("FINAL_ORDER_HEADER")
+        order_message = Localize("FINAL_ORDER_MESSAGE")
+    else
+        order_header = Localize("NEXT_ORDER_HEADER")
+        order_message = Localize("START_ORDER_MESSAGE")
+    end
+
     local msg = Message_Header(
         Format(
-            Localize("NEXT_ORDER_HEADER"), {
+            order_header, {
                 PBEM_SIDENAME,
                 Turn_GetTurnNumber(),
                 turn_len_min,
@@ -130,7 +142,7 @@ function PBEM_ShowOrderPhase(resume)
     if resume then
         msg = msg..Localize("RESUME_ORDER_MESSAGE")
     else
-        msg = msg..Localize("START_ORDER_MESSAGE")
+        msg = msg..order_message
     end
     PBEM_SpecialMessage('playerside', msg, nil, true)
 end
