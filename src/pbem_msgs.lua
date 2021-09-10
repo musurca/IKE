@@ -65,9 +65,12 @@ function PBEM_RegisterNewContact()
             local contacts = PBEM_GetContactRegister(sidenum)
             local detection_data = ""
             if detector then
-                detection_data = " detected by "..detector.unit.name
+                detection_data = Format(Localize("DETECTED_MARKER"), {
+                    contactname,
+                    detector.unit.name
+                })
             end
-            contacts = contacts.."<i>"..contacttime.."</i> // "..contactname..detection_data.."<br/>"
+            contacts = contacts.."<i>"..contacttime.."</i> // "..detection_data.."<br/>"
             PBEM_SetContactRegister(sidenum, contacts)
 
             --mark contact on the map

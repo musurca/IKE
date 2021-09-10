@@ -47,6 +47,7 @@ IKE_LOCALIZATIONS = {
         ["FINAL_ORDER_MESSAGE"]     = "Your turn is almost over. Give any last orders to your units as needed. When you're ready, <b>start the clock</b> to end your turn.",
         ["RESUME_ORDER_MESSAGE"]    = "You've already given orders for this phase. <b>Start the clock</b> to continue executing them.",
         ["ORDER_PHASE_DIVIDER"]     = "%1 of %2",
+        ["DETECTED_MARKER"]         = "%1 detected by %2",
         ["LOSS_MARKER"]             = "Loss of %1",
         ["KILL_MARKER"]             = "%1 killed",
         ["CONTACT_MARKER"]          = "%1 at %2",
@@ -92,7 +93,15 @@ IKE_LOCALIZATIONS = {
         ["WIZARD_CLEAR_MISSIONS"]   = "Clear any existing missions for the %1 side?",
         ["WIZARD_SETUP_PHASE"]      = "Should the game start with a SETUP PHASE?",
         ["WIZARD_PREVENT_EDITOR"]   = "Do you want to PREVENT players from opening the game in EDITOR MODE until it's over?",
-        ["WIZARD_SUCCESS"]          = "Success! Your PBEM/hotseat scenario has been initialized. Go to FILE -> SAVE AS... to save it under a new name. It will be ready to play when next loaded.\n\n(If you're planning to publish it to the Steam Workshop, you should do it now, before you close this scenario.)\n\nThanks for using IKE!"
+        ["WIZARD_SUCCESS"]          = "Success! Your PBEM/hotseat scenario has been initialized. Go to FILE -> SAVE AS... to save it under a new name. It will be ready to play when next loaded.\n\n(If you're planning to publish it to the Steam Workshop, you should do it now, before you close this scenario.)\n\nThanks for using IKE!",
+        ["SPEC_SHOWTIME_NAME"]      = "(PBEM) Show remaining time in turn",
+        ["SPEC_SHOWTIME_DESC"]      = "Display the remaining time before your PBEM turn ends.",
+        ["SPEC_SENDMSG_NAME"]       = "(PBEM) Send message to other player",
+        ["SPEC_SENDMSG_DESC"]       = "Sends a message to another player, to be delivered at the start of their next turn. Note that the maximum message length is 280 characters, and that HTML tags will be removed.",
+        ["SPEC_SCHEDMSG_NAME"]      = "(PBEM) Schedule message for other player",
+        ["SPEC_SCHEDMSG_DESC"]      = "Sends a message to another player, to be delivered at a time you schedule. Note that the maximum message length is 280 characters, HTML tags will be removed, and that you can only schedule one message for delivery at a time.",
+        ["SPEC_CHANGEPOST_NAME"]    = "(PBEM) Change posture towards a side",
+        ["SPEC_CHANGEPOST_DESC"]    = "Changes your posture toward a side. Useful if you've accidentally attacked some civilians and don't want them to be hostile anymore."
     }
 }
 

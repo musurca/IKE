@@ -12,24 +12,24 @@ special actions
 
 local IKE_SPECACTIONS = {
     {
-        script="PBEM_ShowRemainingTime()",
-        name="(PBEM) Show remaining time in turn",
-        desc="Display the remaining time before your PBEM turn ends."
+        script = "PBEM_ShowRemainingTime()",
+        name   = Localize("SPEC_SHOWTIME_NAME"),
+        desc   = Localize("SPEC_SHOWTIME_DESC")
     },
     {
-        script="PBEM_SendChatMessage()",
-        name="(PBEM) Send message to other player",
-        desc="Sends a message to another player, to be delivered at the start of their next turn. Note that the maximum message length is 280 characters, and that HTML tags will be removed."
+        script = "PBEM_SendChatMessage()",
+        name   = Localize("SPEC_SENDMSG_NAME"),
+        desc   = Localize("SPEC_SENDMSG_DESC")
     },
     {
-        script="PBEM_SendChatMessage(true)",
-        name="(PBEM) Schedule message for other player",
-        desc="Sends a message to another player, to be delivered at a time you schedule. Note that the maximum message length is 280 characters, HTML tags will be removed, and that you can only schedule one message for delivery at a time."
+        script = "PBEM_SendChatMessage(true)",
+        name   = Localize("SPEC_SCHEDMSG_NAME"),
+        desc   = Localize("SPEC_SCHEDMSG_DESC")
     },
     {
-        script="PBEM_UserChangePosture()",
-        name="(PBEM) Change posture towards a side",
-        desc="Changes your posture toward a side. Useful if you've accidentally attacked some civilians and don't want them to be hostile anymore."
+        script = "PBEM_UserChangePosture()",
+        name   = Localize("SPEC_CHANGEPOST_NAME"),
+        desc   = Localize("SPEC_CHANGEPOST_DESC")
     }
 }
 
