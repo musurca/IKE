@@ -222,7 +222,7 @@ function PBEM_ShowTurnIntro()
         else
             orderNumStr = Format(Localize("ORDER_PHASE_DIVIDER"), {
                 "1",
-                math.floor(PBEM_TURN_LENGTH / PBEM_ORDER_INTERVAL)
+                math.floor(PBEM_TURN_LENGTH / PBEM_ORDER_INTERVAL) + 1
             })
         end
         msg_header = Format(Localize("START_ORDER_HEADER"), {
