@@ -73,23 +73,20 @@ function PBEM_UserCheckSettings()
             while orderNumber == 0 do
                 local rec_msg = ""
                 local rec_orders = 0
+                -- we add one to the order number for the final order phase
                 if not PBEM_UNLIMITED_ORDERS then
-                    rec_orders = PBEM_ORDER_PHASES[sidenum]
+                    rec_orders = PBEM_ORDER_PHASES[sidenum] + 1
                     rec_msg = "\n\n"..Format(Localize("RECOMMENDED"), {rec_orders})
                 else
-                    rec_orders = 1
+                    rec_orders = 2
                 end
-                orderNumber = Input_Number_Default(Format(Localize("WIZARD_ORDER_NUMBER"), {
-                    side
-                })..rec_msg, rec_orders)
-                orderNumber = math.max(0, math.floor(orderNumber))
-                if orderNumber == 0 then
-                    if rec_orders > 0 then
-                        orderNumber = rec_orders
-                    else
-                        Input_OK(Localize("WIZARD_ZERO_ORDER"))
-                    end
-                end
+                orderNumber = Input_Number_Default(
+                    Format(Localize("WIZARD_ORDER_NUMBER"), {
+                        side
+                    })..rec_msg,
+                    rec_orders
+                )
+                orderNumber = math.max(2, math.floor(orderNumber)) - 1
             end
             table.insert(order_phases, orderNumber)
             sidenum = sidenum + 1
