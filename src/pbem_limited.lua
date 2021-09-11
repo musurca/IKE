@@ -112,11 +112,10 @@ function PBEM_ShowOrderPhase(resume)
     local next_turn_start_time = PBEM_GetNextTurnStartTime()
     local turn_start_time = PBEM_GetCurTurnStartTime()
     local phase_num = ((cur_time - turn_start_time) / PBEM_ORDER_INTERVAL) + 1
-    phase_num = math.floor(phase_num)
     local turn_len_min = math.floor((next_turn_start_time - cur_time) / 60)
     local phase_str = Format(Localize("ORDER_PHASE_DIVIDER"), {
-        math.floor(phase_num),
-        math.floor(PBEM_TURN_LENGTH / PBEM_ORDER_INTERVAL)
+        math.floor(phase_num + 0.5),
+        math.floor(PBEM_TURN_LENGTH / PBEM_ORDER_INTERVAL) + 1
     })
 
     -- determine whether this is a regular order phase or the last order phase
