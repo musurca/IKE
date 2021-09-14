@@ -1,4 +1,4 @@
-<p align="center"><img src="https://github.com/musurca/IKE/raw/main/logo.png" /></p>
+<p align="center"><img src="https://github.com/musurca/IKE/raw/main/logo.jpg" /></p>
 
 ## PBEM/hotseat multiplayer for *Command: Modern Operations* scenarios
 FOR PLAYERS: [**DOWNLOAD LATEST SCENARIO PACK HERE (v1.31)**](https://github.com/musurca/IKE/releases/download/v1.31-scenarios/IKE_Scenario_Pack_v1.31.zip)
