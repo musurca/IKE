@@ -11,7 +11,8 @@ for the IKE system.
 ]]--
 
 IKE_VERSION = "1.32"
-IKE_MIN_ALLOWED_BUILD = 1147.23
+IKE_MIN_ALLOWED_BUILD_MAJOR = 1147
+IKE_MIN_ALLOWED_BUILD_MINOR = 30
 
 PBEM_DUMMY_SIDE = '-----------'
 
@@ -121,10 +122,26 @@ function PBEM_StartTurn()
     PBEM_InitAPIReplace()
 
     -- prohibit excessively old clients
-    if tonumber(GetBuildNumber()) < IKE_MIN_ALLOWED_BUILD then
+    local buildnum_string = GetBuildNumber()
+    local version_div_index = string.find(buildnum_string, "%.")
+    local cmo_version_major = tonumber(
+        string.sub(buildnum_string, 1, version_div_index - 1)
+    )
+    local cmo_version_minor = tonumber(
+        string.sub(buildnum_string, version_div_index + 1, string.len(buildnum_string) )
+    )
+    local too_old = false
+    if cmo_version_major < IKE_MIN_ALLOWED_BUILD_MAJOR then
+        too_old = true
+    elseif cmo_version_major == IKE_MIN_ALLOWED_BUILD_MAJOR then
+        if cmo_version_minor < IKE_MIN_ALLOWED_BUILD_MINOR then
+            too_old = true
+        end
+    end
+    if too_old then
         Input_OK(Format(Localize("VERSION_TOO_OLD"), {
             GetBuildNumber(),
-            IKE_MIN_ALLOWED_BUILD
+            tostring(IKE_MIN_ALLOWED_BUILD_MAJOR).."."..tostring(IKE_MIN_ALLOWED_BUILD_MINOR)
         }))
         PBEM_SelfDestruct()
         return

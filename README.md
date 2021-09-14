@@ -70,7 +70,7 @@ For detailed instructions, please refer to the manual included with the [latest 
 ### VERSION HISTORY
 v1.32 (???):
 * added: final order phase before the end of a turn in Limited Order mode
-* change: bumped minimum CMO build to last official Steam update (1147.23)
+* change: bumped minimum CMO build to last official Steam update (1147.30)
 
 v1.31 (5/5/2021):
 * change: host can now upgrade/downgrade CMO build
