@@ -75,13 +75,13 @@ function PBEM_RegisterNewContact()
 
             --mark contact on the map
             ScenEdit_AddReferencePoint({
-                side=detecting_side, 
+                side=detecting_side,
                 name=Format(Localize("CONTACT_MARKER"), {
                     contactname,
                     contacttime
-                }), 
-                lat=contact.latitude, 
-                lon=contact.longitude, 
+                }),
+                lat=contact.latitude,
+                lon=contact.longitude,
                 highlighted=true
             })
         end
@@ -160,8 +160,8 @@ function PBEM_RegisterUnitKilled()
                 ScenEdit_AddReferencePoint({
                     side=killer_side,
                     name=Format(Localize("KILL_MARKER"), {known_name}), 
-                    lat=killed.latitude, 
-                    lon=killed.longitude, 
+                    lat=killed.latitude,
+                    lon=killed.longitude,
                     highlighted=true
                 })
             end

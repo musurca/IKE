@@ -40,7 +40,7 @@ function PBEM_Init()
             end
         end
     end
-    turn_length = turnLengthSec*60
+    turn_length = turnLengthSec * 60
     
     --unlimited orders?
     unlimitedOrders = Input_YesNo(Localize("WIZARD_UNLIMITED_ORDERS"))
@@ -48,9 +48,11 @@ function PBEM_Init()
     if not unlimitedOrders then
         --number of orders per turn
         ForEachDo(playableSides, function(side)
-            local orderNumber = Input_Number(Format(Localize("WIZARD_ORDER_NUMBER"), {
+            local orderNumber = Input_Number(
+                Format(Localize("WIZARD_ORDER_NUMBER"), {
                     side
-                }))
+                })
+            )
             orderNumber = math.max(2, math.floor(orderNumber)) - 1
             table.insert(order_phases, orderNumber)
         end)
