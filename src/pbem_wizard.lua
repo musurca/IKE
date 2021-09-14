@@ -72,10 +72,11 @@ function PBEM_Init()
     local rank = 1
     while not order_set do
         for i=rank, #playableSides do
-            if Input_YesNo(Format(Localize("WIZARD_GO_ORDER"), {
+            local msg_go_order = Format(Localize("WIZARD_GO_ORDER"), {
                 playableSides[i],
                 order_messages[rank]
-            })) then
+            })
+            if Input_YesNo(msg_go_order) then
                 --swap order
                 local temp_side = playableSides[rank]
                 playableSides[rank] = playableSides[i]
@@ -272,6 +273,3 @@ function PBEM_Init()
 
     Input_OK(Localize("WIZARD_SUCCESS"))
 end
-
---[[!! LEAVE TWO CARRIAGE RETURNS AFTER SOURCE FILE !!]]--
-

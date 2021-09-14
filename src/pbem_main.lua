@@ -223,7 +223,7 @@ function PBEM_StartTurn()
                     PBEM_StartOrderPhase()
                 else
                     ScenEdit_SetSideOptions({
-                        side=PBEM_SIDENAME, 
+                        side=PBEM_SIDENAME,
                         switchto=true
                     })
                 end
@@ -357,6 +357,3 @@ function PBEM_EndSetupPhase()
 
     PBEM_EndAPIReplace()
 end
-
---[[!! LEAVE TWO CARRIAGE RETURNS AFTER SOURCE FILE !!]]--
-

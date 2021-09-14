@@ -42,6 +42,7 @@ fi
 # build IKE loader
 for f in ${IKE_LOADER_INCLUDE[@]}; do
     cat $IKE_SRC_PATH/$f >> tmp/header.lua
+    printf "\n\n" >> tmp/header.lua
 done
 cat tmp/header.lua > tmp/loader.lua
 cat $IKE_SRC_PATH/$IKE_STARTTURN >> tmp/loader.lua
@@ -57,6 +58,7 @@ python3 escape.py tmp/loader_min.lua tmp/loader_escaped.txt
 # build IKE wizard
 for f in ${IKE_WIZARD_INCLUDE[@]}; do
     cat $IKE_SRC_PATH/$f >> tmp/header.lua
+    printf "\n\n" >> tmp/header.lua
 done
 cat $IKE_SRC_PATH/$IKE_LOADERINIT >> tmp/header.lua
 cat tmp/loader_escaped.txt >> tmp/header.lua
@@ -70,6 +72,7 @@ else
 fi
 
 cat $IKE_SRC_PATH/$IKE_COMMENTS > $IKE_FINAL_PATH
+printf "\n\n" >> $IKE_FINAL_PATH
 cat tmp/final_min.lua >> $IKE_FINAL_PATH
 
 echo "Success! IKE has been compiled to $IKE_FINAL_PATH."

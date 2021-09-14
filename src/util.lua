@@ -273,7 +273,3 @@ function GetNumberArray(id)
     end
     return arr
 end
-
-
---[[!! LEAVE TWO CARRIAGE RETURNS AFTER SOURCE FILE !!]]--
-

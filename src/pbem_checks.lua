@@ -52,9 +52,15 @@ function PBEM_UserCheckSettings()
     local order_phases = {}
 
     local default_length = math.floor(PBEM_TURN_LENGTH/60)
-    local turnLengthSec = Input_Number_Default(Localize("WIZARD_TURN_LENGTH").."\n\n"..Format(Localize("RECOMMENDED"), {
+    local turnLengthSec = Input_Number_Default(
+        Format("%1\n\n%2", {
+            Localize("WIZARD_TURN_LENGTH"),
+            Format(Localize("RECOMMENDED"), {
+                default_length
+            })
+        }),
         default_length
-    }), default_length)
+    )
     turnLengthSec = math.max(0, math.floor(turnLengthSec))
     if turnLengthSec == 0 then
         turnLengthSec = default_length
@@ -113,12 +119,16 @@ function PBEM_UserCheckSettings()
     local rank = 1
     while not order_set do
         for i=rank, #playableSides do
-            if Input_YesNo(Format(Localize("WIZARD_GO_ORDER"), {
-                playableSides[i],
-                order_messages[rank]
-            }).."\n\n"..Format(Localize("RECOMMENDED"), {
-                BooleanToString(i==rank)
-            })) then
+            local input_order_msg = Format("%1\n\n%2", {
+                Format(Localize("WIZARD_GO_ORDER"), {
+                    playableSides[i],
+                    order_messages[rank]
+                }),
+                Format(Localize("RECOMMENDED"), {
+                    BooleanToString(i==rank)
+                })
+            })
+            if Input_YesNo(input_order_msg) then
                 local temp_side = playableSides[rank]
                 playableSides[rank] = playableSides[i]
                 playableSides[i] = temp_side
@@ -167,6 +177,3 @@ function PBEM_SelfDestruct()
     end
     PBEM_EndAPIReplace()
 end
-
---[[!! LEAVE TWO CARRIAGE RETURNS AFTER SOURCE FILE !!]]--
-

@@ -156,6 +156,3 @@ function PBEM_StartOrderPhase()
     ScenEdit_SetSideOptions({side=PBEM_SIDENAME, switchto=true})
     PBEM_ShowOrderPhase()
 end
-
---[[!! LEAVE TWO CARRIAGE RETURNS AFTER SOURCE FILE !!]]--
-

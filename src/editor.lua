@@ -150,6 +150,3 @@ function Action_Delete(action_name)
         mode="remove"
     })
 end
-
---[[!! LEAVE TWO CARRIAGE RETURNS AFTER SOURCE FILE !!]]--
-

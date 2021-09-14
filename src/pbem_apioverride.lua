@@ -214,6 +214,3 @@ function PBEM_EndRandom()
         math.random = __PBEM_FN_RANDOM
     end
 end
-
---[[!! LEAVE TWO CARRIAGE RETURNS AFTER SOURCE FILE !!]]--
-

@@ -128,7 +128,7 @@ end
 local function bit_xor(m, n)
     local tbl_m = to_bits(m)
     local tbl_n = to_bits(n)
-    expand(tbl_m, tbl_n) 
+    expand(tbl_m, tbl_n)
 
     local tbl = {}
     local rslt = math.max(#tbl_m, #tbl_n)
@@ -342,6 +342,3 @@ function md5.Calc(s)
     local swap=function (w) return beInt(leIstr(w)) end
     return string.format("%08x%08x%08x%08x",swap(a),swap(b),swap(c),swap(d))
 end
-
---[[!! LEAVE TWO CARRIAGE RETURNS AFTER SOURCE FILE !!]]--
-

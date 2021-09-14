@@ -283,15 +283,15 @@ function PBEM_CheckScheduledMessages()
     for i = #PBEM_SCHEDULED_MESSAGES, 1, -1 do
         local message = PBEM_SCHEDULED_MESSAGES[i]
         if cur_time >= message.time then
-            ScenEdit_SpecialMessage(message.target, Format(Localize("CHAT_MSG_FORM"), {
-                PBEM_PLAYABLE_SIDES[message.from],
-                message.msg
-            }))
+            ScenEdit_SpecialMessage(
+                message.target,
+                Format(Localize("CHAT_MSG_FORM"), {
+                    PBEM_PLAYABLE_SIDES[message.from],
+                    message.msg
+                })
+            )
             PBEM_ClearScheduledMessage(message.from)
             table.remove(PBEM_SCHEDULED_MESSAGES, i)
         end
     end
 end
-
---[[!! LEAVE TWO CARRIAGE RETURNS AFTER SOURCE FILE !!]]--
-

@@ -76,9 +76,8 @@ IKE_LOCALIZATIONS = {
         ["WIZARD_FIXED_TURNLENGTH"] = "Do you want to use a FIXED turn length?\n(Click No for VARIABLE turn lengths by side.)",
         ["WIZARD_TURN_LENGTH"]      = "Enter the TURN LENGTH in minutes:",
         ["WIZARD_ZERO_LENGTH"]      = "ERROR: The turn length must be greater than 0!",
-        ["WIZARD_UNLIMITED_ORDERS"] = "Should players be able to give UNLIMITED orders during a turn?\n(Click No for a LIMITED number of orders per turn.)",
+        ["WIZARD_UNLIMITED_ORDERS"] = "Should players be able to give UNLIMITED orders during a turn?\n(Click No for a LIMITED number of order phases per turn.)",
         ["WIZARD_ORDER_NUMBER"]     = "HOW MANY order phases will the %1 side have per turn? (Minimum is 2)",
-        ["WIZARD_ZERO_ORDER"]       = "ERROR: The number of orders must be greater than 0!",
         ["WIZARD_PLAYABLE_SIDE"]    = "Should the %1 side be PLAYABLE?",
         ["WIZARD_GO_ORDER"]         = "Should the %1 side go %2?",
         ["FIRST"]                   = "FIRST",
@@ -123,6 +122,3 @@ function Localize(msg_code)
     end
     return message
 end
-
---[[!! LEAVE TWO CARRIAGE RETURNS AFTER SOURCE FILE !!]]--
-

@@ -167,6 +167,3 @@ return the start time of the next turn in seconds
 function PBEM_GetNextTurnStartTime()
     return PBEM_TURN_START_TIME + PBEM_TURN_LENGTH
 end
-
---[[!! LEAVE TWO CARRIAGE RETURNS AFTER SOURCE FILE !!]]--
-

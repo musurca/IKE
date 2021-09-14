@@ -96,9 +96,13 @@ function PBEM_SendChatMessage(scheduled)
         end
         targetside = side_to_change
     end
-    local message = RStrip(Input_String(Format(Localize("ENTER_CHAT"), {
-        targetside
-    })))
+    local message = RStrip(
+        Input_String(
+            Format(Localize("ENTER_CHAT"), {
+                targetside
+            })
+        )
+    )
     if message == "" then
         Input_OK(Localize("CHAT_CANCELLED"))
         return
@@ -115,7 +119,9 @@ function PBEM_SendChatMessage(scheduled)
         --ask the player to choose a time
         local time_parsed = false
         while not time_parsed do
-            local sched_time = RStrip(Input_String(Localize("SCHEDULE_CHAT")))
+            local sched_time = RStrip(
+                Input_String(Localize("SCHEDULE_CHAT"))
+            )
             local time_table = {}
             string.gsub(sched_time, "(%d+)", function(n)
                 table.insert(time_table, tonumber(n))
@@ -161,10 +167,13 @@ function PBEM_SendChatMessage(scheduled)
         end
     else
         --deliver the message immediately
-        ScenEdit_SpecialMessage(targetside, Format(Localize("CHAT_MSG_FORM"), {
-            myside,
-            message
-        }))
+        ScenEdit_SpecialMessage(
+            targetside,
+            Format(Localize("CHAT_MSG_FORM"), {
+                myside,
+                message
+            })
+        )
     end
     Input_OK(Localize("CHAT_SENT"))
 end
@@ -200,9 +209,11 @@ function PBEM_UserChangePosture()
             sidelist = sidelist..", "
         end
     end
-    local side_input = Input_String(Format(Localize("CHANGE_POSTURE"), {
-        sidelist
-    }))
+    local side_input = Input_String(
+        Format(Localize("CHANGE_POSTURE"), {
+            sidelist
+        })
+    )
     side_input = RStrip(side_input)
     if side_input == "" then
         return
@@ -223,11 +234,17 @@ function PBEM_UserChangePosture()
         }))
         return
     end
+    local postures = {
+        "FRIENDLY",
+        "NEUTRAL",
+        "UNFRIENDLY",
+        "HOSTILE"
+    }
     local posture_map = {
-        ["F"] = "FRIENDLY",
-        ["N"] = "NEUTRAL",
-        ["U"] = "UNFRIENDLY",
-        ["H"] = "HOSTILE"
+        ["F"] = postures[1],
+        ["N"] = postures[2],
+        ["U"] = postures[3],
+        ["H"] = postures[4]
     }
     local curposture = posture_map[ScenEdit_GetSidePosture(myside, side_to_change)]
     local newposture = Input_String(Format(Localize("SET_POSTURE"), {
@@ -238,7 +255,6 @@ function PBEM_UserChangePosture()
     if newposture == "" then
         return
     end
-    local postures = {"FRIENDLY", "NEUTRAL", "UNFRIENDLY", "HOSTILE"}
     if not IsIn(newposture, postures) then
         Input_OK(Format(Localize("NO_POSTURE_FOUND"), {
             newposture
@@ -258,7 +274,7 @@ function PBEM_AddRTSide(side)
             ActionNameOrID=action.name,
             Description=action.desc,
             Side=side,
-            IsActive=true, 
+            IsActive=true,
             IsRepeatable=true,
             ScriptText=action.script
         })
@@ -274,6 +290,3 @@ function PBEM_RemoveRTSide(side)
         })
     end)
 end
-
---[[!! LEAVE TWO CARRIAGE RETURNS AFTER SOURCE FILE !!]]--
-
