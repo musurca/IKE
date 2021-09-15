@@ -101,19 +101,18 @@ class db:
 
 # DB Fields: ID, Text
 
-
-
 def start_defs(f, csvfile, lan):
    f.write(f"-- EXPORTED FROM {csvfile}\n\n")
+   f.write("LOCALIZATION = {\n")
    f.write(f"\t[\"{lan}\"] = {{\n")
 
 def add_translation(f, id, trans, line_num):
    if line_num > 0:
       f.write(",\n")
-   f.write(f"\t\t[\"{id}\"] = \"{trans}\"")
+   f.write(f"\t\t[\"{id}\"] = \"{trans.rstrip()}\"")
 
 def end_defs(f):
-   f.write("\n\t}\n")
+   f.write("\n\t}\n}\n")
 
 if __name__ == "__main__":
    if len(sys.argv) < 2:
@@ -127,7 +126,7 @@ if __name__ == "__main__":
    lang_name = sys.argv[2]
 
    csv_db = db.load(csv_file)
-   export_file = f"{lang_name}_locale.lua"
+   export_file = f"locale/{lang_name}_locale.lua"
 
    with open(export_file, 'w') as file:
       start_defs(file, csv_file, lang_name)

@@ -235,10 +235,10 @@ function PBEM_UserChangePosture()
         return
     end
     local postures = {
-        "FRIENDLY",
-        "NEUTRAL",
-        "UNFRIENDLY",
-        "HOSTILE"
+        Localize("FRIENDLY"),
+        Localize("NEUTRAL"),
+        Localize("UNFRIENDLY"),
+        Localize("HOSTILE")
     }
     local posture_map = {
         ["F"] = postures[1],
