@@ -1,6 +1,5 @@
--- EXPORTED FROM locale/French_locale.csv
+-- EXPORTED FROM ./locale/French_locale.csv
 
-LOCALIZATION = {
 	["French"] = {
 		["CHANGE_POSTURE"] = "Changez votre posture vis-à-vis de quel camp ?\n\nOptions: %1",
 		["CHAT_ALREADY_SCHEDULED"] = "Vous avez déjà préparé un message à envoyer!",
@@ -93,5 +92,4 @@ LOCALIZATION = {
 		["NEUTRAL"] = "NEUTRE",
 		["UNFRIENDLY"] = "INAMICAL",
 		["HOSTILE"] = "HOSTILE"
-	}
-}
+	},

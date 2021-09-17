@@ -1,6 +1,5 @@
--- EXPORTED FROM locale/English_locale.csv
+-- EXPORTED FROM ./locale/English_locale.csv
 
-LOCALIZATION = {
 	["English"] = {
 		["CHANGE_POSTURE"] = "Change posture toward which side?\n\nOptions: %1",
 		["CHAT_ALREADY_SCHEDULED"] = "You've already scheduled a message to be delivered!",
@@ -55,7 +54,7 @@ LOCALIZATION = {
 		["SECOND"] = "SECOND",
 		["SEND_CHAT"] = "Send message to which side?\n\nOptions: %1",
 		["SET_POSTURE"] = "Your posture toward %1 is %2. What is your new posture?nnOptions: FRIENDLY, NEUTRAL, UNFRIENDLY, HOSTILE",
-		["SETUP_PHASE_INTRO"] = "This is the %1 setup phase.nnLeave the game paused until you've finished setting up your loadouts and missions.nnWhen you're done, click Play to end your turn.",
+		["SETUP_PHASE_INTRO"] = "This is the %1 setup phase.\n\nLeave the game paused until you've finished setting up your loadouts and missions.\n\nWhen you're done, click Play to end your turn.",
 		["SEVENTH"] = "SEVENTH",
 		["SHOW_REMAINING_SETUP"] = "This is the setup phase.",
 		["SHOW_REMAINING_TIME"] = "Time remaining in your turn: %1:%2:%3.",
@@ -93,5 +92,4 @@ LOCALIZATION = {
 		["NEUTRAL"] = "NEUTRAL",
 		["UNFRIENDLY"] = "UNFRIENDLY",
 		["HOSTILE"] = "HOSTILE"
-	}
-}
+	},

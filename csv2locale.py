@@ -103,7 +103,6 @@ class db:
 
 def start_defs(f, csvfile, lan):
    f.write(f"-- EXPORTED FROM {csvfile}\n\n")
-   f.write("LOCALIZATION = {\n")
    f.write(f"\t[\"{lan}\"] = {{\n")
 
 def add_translation(f, id, trans, line_num):
@@ -112,7 +111,7 @@ def add_translation(f, id, trans, line_num):
    f.write(f"\t\t[\"{id}\"] = \"{trans.rstrip()}\"")
 
 def end_defs(f):
-   f.write("\n\t}\n}\n")
+   f.write("\n\t},")
 
 if __name__ == "__main__":
    if len(sys.argv) < 2:

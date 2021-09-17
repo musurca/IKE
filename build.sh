@@ -11,16 +11,17 @@ IKE_DEBUG_NAME="ike_debug.lua"
 # The path to the source files
 IKE_SRC_PATH="./src"
 
+# The path to the localization CSVs
+IKE_LOCALE_PATH="./locale"
+
 # Edit these lines to add new source files to the build.
 # Files are added in the order that they are listed.
 IKE_LOADER_INCLUDE=("localize.lua" "md5.lua" "util.lua" "editor.lua" "pbem_specactions.lua" "pbem_apioverride.lua" "pbem_time.lua" "pbem_msgs.lua" "pbem_limited.lua" "pbem_checks.lua" "pbem_main.lua")
 IKE_WIZARD_INCLUDE=("pbem_wizard.lua")
 
 # Edit this line to enable new locales. 
-# A corresponding CSV should be present in the locales directory.
+# A corresponding CSV should be present in the locales path.
 IKE_LOCALES=("English" "French")
-
-IKE_LOCALE_PATH="./locale"
 
 # -------DO NOT EDIT BELOW THIS LINE--------
 IKE_STARTTURN="xx_startturn.lua"
@@ -49,11 +50,11 @@ fi
 # build IKE locales
 cat $IKE_SRC_PATH/$IKE_LOCALE_HEADER >> tmp/header.lua
 for f in ${IKE_LOCALES[@]}; do
-    python3 csv2locale.py $IKE_LOCALE_PATH/$f_locale.csv $f
-    cat $IKE_LOCALE_PATH/$f_locale.lua >> tmp/header.lua
+    python3 csv2locale.py "$IKE_LOCALE_PATH/$f"_locale.csv $f
+    cat "$IKE_LOCALE_PATH/$f"_locale.lua >> tmp/header.lua
     printf "\n" >> tmp/header.lua
 done
-printf "\n}\n\n" >> tmp/header.lua
+printf "\n}\n\n" >> tmp/header.lua # close up the locale table
 
 # build IKE loader
 for f in ${IKE_LOADER_INCLUDE[@]}; do
