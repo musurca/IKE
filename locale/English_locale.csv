@@ -51,7 +51,7 @@ SCHEDULE_CHAT|How long from now should the message be delivered?\nFORMAT: hh:mm:
 SEC_INCORRECT|The second must be a number between 00 and 59. Try again?
 SECOND|SECOND
 SEND_CHAT|Send message to which side?\n\nOptions: %1
-SET_POSTURE|Your posture toward %1 is %2. What is your new posture?nnOptions: FRIENDLY, NEUTRAL, UNFRIENDLY, HOSTILE
+SET_POSTURE|Your posture toward %1 is %2. What is your new posture?\n\nOptions: FRIENDLY, NEUTRAL, UNFRIENDLY, HOSTILE
 SETUP_PHASE_INTRO|This is the %1 setup phase.\n\nLeave the game paused until you've finished setting up your loadouts and missions.\n\nWhen you're done, click Play to end your turn.
 SEVENTH|SEVENTH
 SHOW_REMAINING_SETUP|This is the setup phase.
@@ -80,7 +80,7 @@ WIZARD_ORDER_NUMBER|HOW MANY order phases will the %1 side have per turn? (Minim
 WIZARD_PLAYABLE_SIDE|Should the %1 side be PLAYABLE?
 WIZARD_PREVENT_EDITOR|Do you want to PREVENT players from opening the game in EDITOR MODE until it's over?
 WIZARD_SETUP_PHASE|Should the game start with a SETUP PHASE?
-WIZARD_SUCCESS|Success! Your PBEM/hotseat scenario has been initialized. Go to FILE -> SAVE AS... to save it under a new name. It will be ready to play when next loaded.nn(If you're planning to publish it to the Steam Workshop, you should do it now, before you close this scenario.)nnThanks for using IKE!
+WIZARD_SUCCESS|Success! Your PBEM/hotseat scenario has been initialized. Go to FILE -> SAVE AS... to save it under a new name. It will be ready to play when next loaded.\n\n(If you're planning to publish it to the Steam Workshop, you should do it now, before you close this scenario.)\n\nThanks for using IKE!
 WIZARD_TURN_LENGTH|Enter the TURN LENGTH in minutes:
 WIZARD_UNLIMITED_ORDERS|Should players be able to give UNLIMITED orders during a turn?\n(Click No for a LIMITED number of order phases per turn.)
 WIZARD_ZERO_LENGTH|ERROR: The turn length must be greater than 0!
