@@ -140,4 +140,4 @@ if __name__ == "__main__":
             )
             line_num = line_num + 1
       end_defs(file)
-   print(f"Done! Data written to {export_file}.")
+   print(f"{lang_name} localization written to {export_file}.")
