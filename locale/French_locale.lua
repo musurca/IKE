@@ -75,7 +75,6 @@
 		["VERSION_TOO_OLD"] = "Votre version de CMO (%1) est ancienne. Merci d'installer la version %2 ou une version plus récente pour jouer ce scénario en PBEM.",
 		["WIZARD_BACKUP"] = "Sauvegardez une copie, puis RELANCEZ cet outil.",
 		["WIZARD_CLEAR_MISSIONS"] = "Effacez toutes les missions existantes pour le camp %1 ?",
-		["WIZARD_FIXED_TURNLENGTH"] = "Voulez-vous utiliser une durée de tour FIXÉE ?\n(Cliquez sur « No » pour une longueur de tours VARIABLE par camp.)",
 		["WIZARD_GO_ORDER"] = "Le camp %1 doit-il jouer en %2?",
 		["WIZARD_INTRO_MESSAGE"] = "Bienvenue dans IKE v%1! Cet outil ajoute le PBEM/hotseat à tout scénario de Command: Modern Operations.\n\nL'exécution de l'appli n'est PAS reversible. Avez-vous sauvegardé une copie de ce scénario?",
 		["WIZARD_ORDER_NUMBER"] = "COMBIEN de phases d'ordres le camp %1 aura-t-il à chaque tour? (Minimum 2)",

@@ -73,7 +73,6 @@ VERSION_MISMATCH|ERROR: You're using CMO build %1, but this PBEM game was create
 VERSION_TOO_OLD|Your version of CMO (%1) is outdated. Please upgrade to build %2 or later to play this PBEM scenario.
 WIZARD_BACKUP|Please save a backup first, then RUN this tool again.
 WIZARD_CLEAR_MISSIONS|Clear any existing missions for the %1 side?
-WIZARD_FIXED_TURNLENGTH|Do you want to use a FIXED turn length?\n(Click No for VARIABLE turn lengths by side.)
 WIZARD_GO_ORDER|Should the %1 side go %2?
 WIZARD_INTRO_MESSAGE|Welcome to IKE v%1! This tool adds PBEM/hotseat play to any Command: Modern Operations scenario.\n\nRunning this tool cannot be undone. Have you saved a backup of this scenario?
 WIZARD_ORDER_NUMBER|HOW MANY order phases will the %1 side have per turn? (Minimum: 2)
