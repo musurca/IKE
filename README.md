@@ -71,6 +71,7 @@ For detailed instructions, please refer to the manual included with the [latest 
 v1.32 (???):
 * added: final order phase before the end of a turn in Limited Order mode
 * added: French localization (thanks @nukkxx!)
+* added: Spanish localization (thanks @JaSmAn!)
 * change: bumped minimum CMO build to last official Steam update (1147.30)
 
 v1.31 (5/5/2021):
