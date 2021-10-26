@@ -19,7 +19,7 @@ function EpochTimeToUTC(etime, date_sep, time_sep)
     date_sep = date_sep or "."
     time_sep = time_sep or "."
 
-    function isLeapYear(y)
+    local function isLeapYear(y)
         if y % 4 == 0 then
             if y % 100 == 0 then
                 if y % 400 == 0 then

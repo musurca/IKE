@@ -68,10 +68,20 @@ function PBEM_SpecialMessage(side, message, location, priority)
         PBEM_MESSAGEQUEUE = {}
     end
     local side_name = side
-    local special_archive = (ScenEdit_CurrentTime() == VP_GetScenario().StartTimeNum)
     --make sure messages are properly delivered
-    if side_name == Turn_GetCurSideName() and not special_archive then
-        side_name = "playerside"
+    if side_name == Turn_GetCurSideName() then
+        local cur_side = __PBEM_FN_PLAYERSIDE()
+        if ScenEdit_CurrentTime() ~= VP_GetScenario().StartTimeNum or cur_side ~= PBEM_DUMMY_SIDE then
+            -- immediately deliver the message
+            if location then
+                __PBEM_FN_SPECIALMESSAGE("playerside", message, location)
+            else
+                __PBEM_FN_SPECIALMESSAGE("playerside", message)
+            end
+            return
+        end
+        --otherwise, if on scenario load and player is first side, save all messages
+        --and flush them all at once
     elseif IsIn(side_name, PBEM_PLAYABLE_SIDES) then
         -- if not 'playerside' or current side, then save it
         -- for later display
@@ -82,7 +92,7 @@ function PBEM_SpecialMessage(side, message, location, priority)
                 StoreString("__SCEN_PREVMSGS_"..k, prev_msgs)
                 break
             end
-        end 
+        end
         return
     end
     local new_msg = {
@@ -157,31 +167,29 @@ end
 
 function PBEM_RandomSeed(a)
     StoreNumber('__PBEM_RANDOMSEEDVAL', a)
-end
-
-function PBEM_NextRandomSeed()
-    local newseed = -2147483646+2*(__PBEM_FN_RANDOM()*2147483646)
-    PBEM_RandomSeed(newseed)
+    PBEM_RANDOM_SEEDVAL = a
 end
 
 function PBEM_Random(lower, upper)
+    local raw_state = XORSHIFT_32(PBEM_RANDOM_SEEDVAL)
+    PBEM_RandomSeed(raw_state)
+    local raw_rnd = raw_state / 4294967296
+
     local rval = 0
     if lower then
         if upper then
-            rval = __PBEM_FN_RANDOM(lower, upper)
+            rval = math.floor(1+lower+raw_rnd*(upper-lower))
         else
-            rval = __PBEM_FN_RANDOM(lower)
+            rval = math.floor(1+raw_rnd*lower)
         end
     else
-        rval = __PBEM_FN_RANDOM()
+        rval = raw_rnd
     end
 
     if PBEM_NotRunning() then
         --Clean ourselves up if we're still loaded
         --in a non-IKE context
         PBEM_EndRandom()
-    else
-        PBEM_NextRandomSeed()
     end
     return rval
 end
@@ -193,17 +201,12 @@ function PBEM_InitRandom()
     end
     math.randomseed = function(a) end
     math.random = PBEM_Random
-    
+
     local seed = GetNumber('__PBEM_RANDOMSEEDVAL')
     if seed == 0 then
-        PBEM_RandomSeed(os.time())
-        seed = GetNumber('__PBEM_RANDOMSEEDVAL')
+        seed = os.time() % 4294967296
     end
-    __PBEM_FN_RANDOMSEED(seed)
-    __PBEM_FN_RANDOM()
-    __PBEM_FN_RANDOM()
-    __PBEM_FN_RANDOM()
-    PBEM_NextRandomSeed()
+    PBEM_RandomSeed(seed)
 end
 
 function PBEM_EndRandom()

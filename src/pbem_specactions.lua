@@ -183,7 +183,6 @@ function PBEM_ShowRemainingTime()
         Input_OK(Localize("SHOW_REMAINING_SETUP"))
     else
         local timeLeft = PBEM_GetNextTurnStartTime() - ScenEdit_CurrentTime()
-        local timeStrings = {}
 
         local hrs = math.floor(timeLeft / (60*60))
         local min = math.floor((timeLeft - hrs*60*60) / 60)

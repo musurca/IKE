@@ -30,7 +30,7 @@ function PBEM_CheckHostBuildNumber()
         local mybuild = GetBuildNumber()
         local hostbuild = GetString("__PBEM_HOST_BUILDNUM")
         if mybuild ~= hostbuild then
-            Input_OK(Localize("VERSION_MISMATCH", {
+            Input_OK(Format(Localize("VERSION_MISMATCH"), {
                 mybuild,
                 hostbuild
             }))

@@ -68,11 +68,15 @@ This will produce compiled but unminified Lua code in `debug/ike_debug.lua`. _Do
 For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.31/IKE.v1.31.zip).
 
 ### VERSION HISTORY
-v1.32 (???):
+v1.4 (???):
 * added: final order phase before the end of a turn in Limited Order mode
 * added: French localization (thanks @nukkxx!)
 * added: Spanish localization (thanks @JaSmAn!)
-* change: bumped minimum CMO build to last official Steam update (1147.30)
+* change: bumped minimum CMO build to Steam update for Red Tide DLC (1147.33)
+* fixed: RPs created between limited order phases now preserved & private
+* fixed: ScenEdit_SpecialMessage 
+* fixed: replaced platform PRNG with pure Lua xorshift32
+* fixed: error message reporting build number mismatch
 
 v1.31 (5/5/2021):
 * change: host can now upgrade/downgrade CMO build

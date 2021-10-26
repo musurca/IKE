@@ -10,9 +10,9 @@ for the IKE system.
 ----------------------------------------------
 ]]--
 
-IKE_VERSION = "1.32"
+IKE_VERSION = "1.4"
 IKE_MIN_ALLOWED_BUILD_MAJOR = 1147
-IKE_MIN_ALLOWED_BUILD_MINOR = 30
+IKE_MIN_ALLOWED_BUILD_MINOR = 33
 
 PBEM_DUMMY_SIDE = '-----------'
 
@@ -189,7 +189,7 @@ function PBEM_StartTurn()
         end
         PBEM_SetPassword(Turn_GetCurSide(), pass)
         ScenEdit_SetSideOptions({
-            side=PBEM_SIDENAME, 
+            side=PBEM_SIDENAME,
             switchto=true
         })
 
@@ -230,7 +230,7 @@ function PBEM_StartTurn()
         
         if PBEM_UNLIMITED_ORDERS then
             ScenEdit_SetSideOptions({
-                side=PBEM_SIDENAME, 
+                side=PBEM_SIDENAME,
                 switchto=true
             })
         else
@@ -261,7 +261,6 @@ end
 
 function PBEM_UpdateTick()
     local curPlayerSide = __PBEM_FN_PLAYERSIDE()
-    local scenStartTime = VP_GetScenario().StartTimeNum
     local scenCurTime = ScenEdit_CurrentTime()
     local turnnum = Turn_GetTurnNumber()
     local nextTurnStartTime = PBEM_GetNextTurnStartTime()
@@ -301,9 +300,13 @@ function PBEM_UpdateTick()
                     PBEM_AddDummyUnit()
                     --add special actions to dummy side
                     PBEM_AddRTSide(PBEM_DUMMY_SIDE)
+                    --make sure the dummy side has no RPs
+                    PBEM_WipeRPs()
                     --switch to dummy side
                     PBEM_EndOrderPhase()
                 elseif (time_check % PBEM_ORDER_INTERVAL == 0) or (scenCurTime == (nextTurnStartTime-1)) then
+                    --transfer any temporary RPs to the correct side
+                    PBEM_TransferRPs()
                     -- start giving orders again
                     PBEM_StartOrderPhase()
                     --remove the dummy sensor unit if it exists
@@ -339,14 +342,14 @@ function PBEM_EndTurn()
     Turn_NextSide()
     ScenEdit_PlaySound("radioChirp5.mp3")
     local msg = Message_Header(Format(Localize("END_OF_TURN_HEADER"), {
-        player_side, 
+        player_side,
         turn_num
     }))
     msg = msg..Format(Localize("END_OF_TURN_MESSAGE"), {
         Turn_GetCurSideName()
     })
     PBEM_SpecialMessage('playerside', msg, nil, true)
-    ScenEdit_SetTime(PBEM_CustomTimeToUTC(next_turn_time)) 
+    ScenEdit_SetTime(PBEM_CustomTimeToUTC(next_turn_time))
 
     PBEM_EndAPIReplace()
     PBEM_TURNOVER = 1

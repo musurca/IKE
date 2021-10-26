@@ -43,7 +43,7 @@ function PBEM_Init()
     turn_length = turnLengthSec * 60
     
     --unlimited orders?
-    unlimitedOrders = Input_YesNo(Localize("WIZARD_UNLIMITED_ORDERS"))
+    local unlimitedOrders = Input_YesNo(Localize("WIZARD_UNLIMITED_ORDERS"))
     local order_phases = {}
     if not unlimitedOrders then
         --number of orders per turn

@@ -73,6 +73,69 @@ function PBEM_ClearPostures()
     end
 end
 
+function PBEM_WipeRPs()
+    -- Erase all RPs from dummy side
+    local area = {}
+    local rps
+    local sides = VP_GetSides()
+    for i=1,#sides do
+        local side = sides[i]
+        if side.name == PBEM_DUMMY_SIDE then
+            for k, v in ipairs(side.rps) do
+                area[k] = v.name
+            end
+            if #area > 0 then
+                rps = ScenEdit_GetReferencePoints(
+                    {
+                        side=PBEM_DUMMY_SIDE,
+                        area=area
+                    }
+                )
+                for k, v in ipairs(rps) do
+                    ScenEdit_DeleteReferencePoint(v)
+                end
+            end
+            return
+        end
+    end
+end
+
+function PBEM_TransferRPs()
+    -- Transfer RPs from dummy side to player side
+    local area = {}
+    local rps
+    local sides = VP_GetSides()
+    for i=1,#sides do
+        local side = sides[i]
+        if side.name == PBEM_DUMMY_SIDE then
+            for k, v in ipairs(side.rps) do
+                area[k] = v.name
+            end
+            if #area > 0 then
+                rps = ScenEdit_GetReferencePoints(
+                    {
+                        side=PBEM_DUMMY_SIDE,
+                        area=area
+                    }
+                )
+                for k, v in ipairs(rps) do
+                    ScenEdit_AddReferencePoint(
+                        {
+                            side=PBEM_SIDENAME,
+                            name=v.name,
+                            lat=v.latitude,
+                            lon=v.longitude,
+                            highlighted=true
+                        }
+                    )
+                    ScenEdit_DeleteReferencePoint(v)
+                end
+            end
+            return
+        end
+    end
+end
+
 function PBEM_DummyUnit()
     return GetString("__PBEM_DUMMYGUID")
 end
