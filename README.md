@@ -77,6 +77,8 @@ v1.4 (???):
 * fixed: ScenEdit_SpecialMessage no longer delayed until next frame
 * fixed: replaced platform PRNG with pure Lua xorshift32
 * fixed: error message reporting build number mismatch
+* fixed: North Pacific Shootout - downed pilot names don't repeat
+* fixed: North Pacific Shootout - weather reports restored
 
 v1.31 (5/5/2021):
 * change: host can now upgrade/downgrade CMO build
