@@ -74,7 +74,7 @@ v1.4 (???):
 * added: Spanish localization (thanks @JaSmAn!)
 * change: bumped minimum CMO build to Steam update for Red Tide DLC (1147.33)
 * fixed: RPs created between limited order phases now preserved & private
-* fixed: ScenEdit_SpecialMessage 
+* fixed: ScenEdit_SpecialMessage no longer delayed until next frame
 * fixed: replaced platform PRNG with pure Lua xorshift32
 * fixed: error message reporting build number mismatch
 
