@@ -12,5 +12,5 @@ DO NOT EDIT THIS SOURCE FILE!
 ----------------------------------------------
 ]]--
 
-PBEM_Init()
+PBEM_Wizard()
 

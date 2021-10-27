@@ -12,7 +12,7 @@ code.
 ----------------------------------------------
 ]]--
 
-function PBEM_Init()
+function PBEM_Wizard()
     --wizard intro
     if not Input_YesNo(Format(Localize("WIZARD_INTRO_MESSAGE"), {IKE_VERSION})) then
         Input_OK(Localize("WIZARD_BACKUP"))
