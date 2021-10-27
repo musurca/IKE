@@ -59,7 +59,11 @@ function PBEM_SpecialMessage(side, message, location, priority)
     --clean up if haven't been already
     if PBEM_NotRunning() then
         PBEM_EndSpecialMessage()
-        ScenEdit_SpecialMessage(side, message, location)
+        if location then
+            ScenEdit_SpecialMessage(side, message, location)
+        else
+            ScenEdit_SpecialMessage(side, message)
+        end
         return
     end
 

@@ -70,8 +70,8 @@ For detailed instructions, please refer to the manual included with the [latest 
 ### VERSION HISTORY
 v1.4 (???):
 * added: final order phase before the end of a turn in Limited Order mode
-* added: French localization (thanks @nukkxx!)
-* added: Spanish localization (thanks @JaSmAn!)
+* added: French localization (thanks to @nukkxx!)
+* added: Spanish localization (thanks to Jorge Arraya!)
 * change: bumped minimum CMO build to Steam update for Red Tide DLC (1147.33)
 * fixed: RPs created between limited order phases now preserved & private
 * fixed: ScenEdit_SpecialMessage no longer delayed until next frame
