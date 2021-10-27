@@ -73,12 +73,14 @@ v1.4 (???):
 * added: French localization (thanks to @nukkxx!)
 * added: Spanish localization (thanks to Jorge Arraya!)
 * change: bumped minimum CMO build to Steam update for Red Tide DLC (1147.33)
+* change: all scenarios - DB updated to v491
 * fixed: RPs created between limited order phases now preserved & private
 * fixed: ScenEdit_SpecialMessage no longer delayed until next frame
 * fixed: replaced platform PRNG with pure Lua xorshift32
 * fixed: error message reporting build number mismatch
 * fixed: North Pacific Shootout - downed pilot names don't repeat
-* fixed: North Pacific Shootout - weather reports restored
+* fixed: various scenarios - weather reports restored
+* fixed: various scenarios - descriptions/briefings reworded
 
 v1.31 (5/5/2021):
 * change: host can now upgrade/downgrade CMO build
