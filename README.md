@@ -9,7 +9,7 @@ If you're a scenario author or player looking to convert a new or existing scena
 
 This code repository is intended only for those who are curious about how **IKE** works internally, want to add more features, or want to localize the text for a language other than English. In other words, **if you just want to create a PBEM scenario, you can just download the latest release and skip everything below.**
 
-If you're interested in localizing text: you don't have to build the system. You can just add your translations to [the localization source file](https://github.com/musurca/IKE/blob/main/src/localize.lua) and submit the changes via pull request or by [creating a new Issue](https://github.com/musurca/IKE/issues/new) and attaching the file.
+If you're interested in localizing text: you don't have to build the system. You can just clone the [English localization source CSV](https://github.com/musurca/IKE/blob/main/locale/English_locale.csv), translate the text into your language, and submit the changes by forking the repo and making a pull request, or else by [creating a new Issue](https://github.com/musurca/IKE/issues/new) and attaching the file if you don't want to muck around with GitHub.
 
 For all others interested: welcome! Pull requests and bug reports are greatly appreciated.
 
