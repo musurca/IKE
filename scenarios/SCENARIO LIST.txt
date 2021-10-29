@@ -1,87 +1,116 @@
-**** Canary's Cage, 2005 - Spain vs. NAIL ****
-AUTHOR: Miguel Molina
-Recommended settings:
-TURN LENGTH             30 minutes
-COMMAND                 Limited Orders
-ORDER PHASES PER TURN   2
-WHO GOES FIRST          Spain
+------------------ QUICK SCENARIOS ------------------
 
-**** Duelists, 1989 - United Kingdom vs. USSR ****
-AUTHOR: Mike Mykytyn
-Recommended settings:
-TURN LENGTH             30 minutes
-COMMAND                 Limited Orders
-ORDER PHASES PER TURN   2
-WHO GOES FIRST          United Kingdom
 
 **** First Contact, 1986 - Norway vs. Soviet Union ****
 AUTHOR: Ragnar Emsoy
+DURATION: 6 hours
 Recommended settings:
 TURN LENGTH             10 minutes
 COMMAND                 Limited Orders
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          Norway
 
-**** Frozen War, 2014 - Chile vs. Argentina ****
-AUTHOR: Miguel Molina
-Recommended settings:
-TURN LENGTH             30 minutes
-COMMAND                 Limited Orders
-ORDER PHASES PER TURN   2
-WHO GOES FIRST          Chile
-
-**** Helping Brothers, 1990 - Libya vs. Egypt ****
-AUTHOR: Miguel Molina
-Recommended settings:
-TURN LENGTH             30 minutes
-COMMAND                 Limited Orders
-ORDER PHASES PER TURN   2
-WHO GOES FIRST          Libya
-
-**** Malvinas - The Pincer, 1982 - Argentina vs. Britain ****
-AUTHOR: Miguel Molina
-Recommended settings:
-TURN LENGTH             30 minutes
-COMMAND                 Limited Orders
-ORDER PHASES PER TURN   2
-WHO GOES FIRST          Argentina
 
 **** North Pacific Shootout, 1989 - United States vs. Soviet Union ****
 AUTHOR: Mike Mykytyn
+DURATION: 6 hours
 Recommended settings:
 TURN LENGTH             20 minutes
 COMMAND                 Limited Orders
 ORDER PHASES PER TURN   3
 WHO GOES FIRST          United States
 
-**** Operation Soberanía, 1978 - Argentina vs. Chile ****
-AUTHOR: Miguel Molina
-Recommended settings:
-TURN LENGTH             30 minutes
-COMMAND                 Limited Orders
-ORDER PHASES PER TURN   2
-WHO GOES FIRST          Argentina
-
-**** Sakhalin or Karafuto, 2013 - Japan vs. Russia ****
-AUTHOR: Miguel Molina
-Recommended settings:
-TURN LENGTH             30 minutes
-COMMAND                 Limited Orders
-ORDER PHASES PER TURN   2
-WHO GOES FIRST          Japan
 
 **** Second Battle of Guadalcanal, 1942 - IJN vs. USN ****
 AUTHOR: Revan227
+DURATION: 6 hours
 Recommended settings:
 TURN LENGTH             8 minutes
 COMMAND                 Limited Orders
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          IJN
 
+
+------------------ MEDIUM-LENGTH SCENARIOS ------------------
+
+
+**** Duelists, 1989 - United Kingdom vs. USSR ****
+AUTHOR: Mike Mykytyn
+DURATION: 2 days
+Recommended settings:
+TURN LENGTH             30 minutes
+COMMAND                 Limited Orders
+ORDER PHASES PER TURN   2
+WHO GOES FIRST          United Kingdom
+
+
+**** Frozen War, 2014 - Chile vs. Argentina ****
+AUTHOR: Miguel Molina
+DURATION: 20 hours
+Recommended settings:
+TURN LENGTH             30 minutes
+COMMAND                 Limited Orders
+ORDER PHASES PER TURN   2
+WHO GOES FIRST          Chile
+
+
+**** Helping Brothers, 1990 - Libya vs. Egypt ****
+AUTHOR: Miguel Molina
+DURATION: 1 day, 12 hours
+Recommended settings:
+TURN LENGTH             30 minutes
+COMMAND                 Limited Orders
+ORDER PHASES PER TURN   2
+WHO GOES FIRST          Libya
+
+
+**** Operation Soberanía, 1978 - Argentina vs. Chile ****
+AUTHOR: Miguel Molina
+DURATION: 1 day
+Recommended settings:
+TURN LENGTH             30 minutes
+COMMAND                 Limited Orders
+ORDER PHASES PER TURN   2
+WHO GOES FIRST          Argentina
+
+
 **** Shamal, 1991 (cooperative) - USN & USAF vs. Iraq (AI) ****
 AUTHOR: Mike Mykytyn
+DURATION: 24 hours
 Recommended settings:
 TURN LENGTH             20 minutes
 COMMAND                 Limited Orders
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          USAF
+
+
+------------------ LONG SCENARIOS ------------------
+
+**** Canary's Cage, 2005 - Spain vs. NAIL ****
+AUTHOR: Miguel Molina
+DURATION: 2 days, 6 hours
+Recommended settings:
+TURN LENGTH             30 minutes
+COMMAND                 Limited Orders
+ORDER PHASES PER TURN   2
+WHO GOES FIRST          Spain
+
+
+**** Malvinas - The Pincer, 1982 - Argentina vs. Britain ****
+AUTHOR: Miguel Molina
+DURATION: 6 days
+Recommended settings:
+TURN LENGTH             30 minutes
+COMMAND                 Limited Orders
+ORDER PHASES PER TURN   2
+WHO GOES FIRST          Argentina
+
+
+**** Sakhalin or Karafuto, 2013 - Japan vs. Russia ****
+AUTHOR: Miguel Molina
+DURATION: 3 days
+Recommended settings:
+TURN LENGTH             30 minutes
+COMMAND                 Limited Orders
+ORDER PHASES PER TURN   2
+WHO GOES FIRST          Japan

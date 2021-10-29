@@ -81,6 +81,7 @@ v1.4 (???):
 * fixed: North Pacific Shootout - downed pilot names don't repeat
 * fixed: various scenarios - weather reports restored
 * fixed: various scenarios - descriptions/briefings reworded
+* fixed: various scenarios - late random teleportations
 
 v1.31 (5/5/2021):
 * change: host can now upgrade/downgrade CMO build
