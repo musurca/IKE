@@ -1,9 +1,9 @@
 <p align="center"><img src="https://github.com/musurca/IKE/raw/main/logo.jpg" /></p>
 
 ## PBEM/hotseat multiplayer for *Command: Modern Operations* scenarios
-FOR PLAYERS: [**DOWNLOAD LATEST SCENARIO PACK HERE (v1.31)**](https://github.com/musurca/IKE/releases/download/v1.4-scenarios/IKE_Scenario_Pack_v1.4.zip)
+FOR PLAYERS: [**DOWNLOAD LATEST SCENARIO PACK HERE (v1.4)**](https://github.com/musurca/IKE/releases/download/v1.4-scenarios/IKE_Scenario_Pack_v1.4.zip)
 
-FOR SCENARIO AUTHORS: [**DOWNLOAD LATEST RELEASE HERE (v1.31)**](https://github.com/musurca/IKE/releases/download/v1.4/IKE.v1.4.zip)
+FOR SCENARIO AUTHORS: [**DOWNLOAD LATEST RELEASE HERE (v1.4)**](https://github.com/musurca/IKE/releases/download/v1.4/IKE.v1.4.zip)
 
 If you're a scenario author or player looking to convert a new or existing scenario for multiplayer use, you only need to download either the latest release or scenario pack using the links above. 
 
