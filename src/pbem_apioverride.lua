@@ -72,18 +72,10 @@ function PBEM_SpecialMessage(side, message, location, priority)
         PBEM_MESSAGEQUEUE = {}
     end
     local side_name = side
+    local special_archive = (ScenEdit_CurrentTime() == VP_GetScenario().StartTimeNum)
     --make sure messages are properly delivered
-    if side_name == Turn_GetCurSideName() then
-        local cur_side = __PBEM_FN_PLAYERSIDE()
-        if ScenEdit_CurrentTime() ~= VP_GetScenario().StartTimeNum or cur_side ~= PBEM_DUMMY_SIDE then
-            -- immediately deliver the message
-            if location then
-                __PBEM_FN_SPECIALMESSAGE("playerside", message, location)
-            else
-                __PBEM_FN_SPECIALMESSAGE("playerside", message)
-            end
-            return
-        end
+    if side_name == Turn_GetCurSideName() and not special_archive then
+        side_name = "playerside"
         --otherwise, if on scenario load and player is first side, save all messages
         --and flush them all at once
     elseif IsIn(side_name, PBEM_PLAYABLE_SIDES) then
