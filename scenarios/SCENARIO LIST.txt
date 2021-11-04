@@ -17,7 +17,7 @@ DURATION: 6 hours
 Recommended settings:
 TURN LENGTH             20 minutes
 COMMAND                 Limited Orders
-ORDER PHASES PER TURN   3
+ORDER PHASES PER TURN   2
 WHO GOES FIRST          United States
 
 
