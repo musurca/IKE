@@ -68,6 +68,9 @@ This will produce compiled but unminified Lua code in `debug/ike_debug.lua`. _Do
 For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.4/IKE.v4.zip).
 
 ### VERSION HISTORY
+v1.41 (???):
+* fixed: ScenEdit_SpecialMessage reverted to caching
+
 v1.4 (10/30/2021):
 * added: final order phase before the end of a turn in Limited Order mode
 * added: French localization (thanks to @nukkxx!)
