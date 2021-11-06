@@ -21,29 +21,58 @@ function PBEM_OrderInterval()
     return math.floor(PBEM_TURN_LENGTH / PBEM_ORDER_PHASES[Turn_GetCurSide()])
 end
 
-function PBEM_MirrorSideScore()
-    --mirror side score
+function PBEM_ConstructDummySideName(side)
+    return "("..side..")"
+end
+
+function PBEM_DummySideName()
+    return PBEM_ConstructDummySideName(PBEM_SIDENAME)
+end
+
+function PBEM_ShowFinalPosition()
     local sidescore = ScenEdit_GetScore(PBEM_SIDENAME)
     if ScenEdit_GetScore(PBEM_DUMMY_SIDE) ~= sidescore then
         ScenEdit_SetScore(PBEM_DUMMY_SIDE, sidescore, PBEM_SIDENAME)
     end
-end
 
-function PBEM_MirrorSide(sidename)
-    ScenEdit_SetSidePosture(sidename, PBEM_DUMMY_SIDE, "F")
-    ScenEdit_SetSidePosture(PBEM_DUMMY_SIDE, sidename, "F")
+    ScenEdit_SetSidePosture(PBEM_SIDENAME, PBEM_DUMMY_SIDE, "F")
+    ScenEdit_SetSidePosture(PBEM_DUMMY_SIDE, PBEM_SIDENAME, "F")
     local sides = VP_GetSides()
     for i=1,#sides do
         local side = sides[i].name
-        if sidename ~= side then
-            local posture = ScenEdit_GetSidePosture(sidename, side)
+        if PBEM_SIDENAME ~= side then
+            local posture = ScenEdit_GetSidePosture(PBEM_SIDENAME, side)
             ScenEdit_SetSidePosture(PBEM_DUMMY_SIDE, side, posture)
         end
     end
 end
 
+function PBEM_MirrorSideScore()
+    --mirror side score
+    local dummy_side = PBEM_DummySideName()
+    local sidescore = ScenEdit_GetScore(PBEM_SIDENAME)
+    if ScenEdit_GetScore(dummy_side) ~= sidescore then
+        ScenEdit_SetScore(dummy_side, sidescore, PBEM_SIDENAME)
+    end
+end
+
+function PBEM_MirrorSide(sidename)
+    local dummy_side = PBEM_ConstructDummySideName(sidename)
+    ScenEdit_SetSidePosture(sidename, dummy_side, "F")
+    ScenEdit_SetSidePosture(dummy_side, sidename, "F")
+    local sides = VP_GetSides()
+    for i=1,#sides do
+        local side = sides[i].name
+        if sidename ~= side then
+            local posture = ScenEdit_GetSidePosture(sidename, side)
+            ScenEdit_SetSidePosture(dummy_side, side, posture)
+        end
+    end
+end
+
 function PBEM_MirrorContactPostures()
-    local contacts = ScenEdit_GetContacts(PBEM_DUMMY_SIDE)
+    local dummy_side = PBEM_DummySideName()
+    local contacts = ScenEdit_GetContacts(dummy_side)
     local mirrorside = PBEM_SIDENAME
     local mirrorside_guid = SideGUIDByName(mirrorside)
     for k, contact in ipairs(contacts) do
@@ -60,34 +89,22 @@ function PBEM_MirrorContactPostures()
     end
 end
 
-function PBEM_ClearPostures()
-    ScenEdit_SetSidePosture(PBEM_SIDENAME, PBEM_DUMMY_SIDE, "N")
-    ScenEdit_SetSidePosture(PBEM_DUMMY_SIDE, PBEM_SIDENAME, "N")
-    local sides = VP_GetSides()
-    for i=1,#sides do
-        local side = sides[i].name
-        if side ~= PBEM_DUMMY_SIDE then
-            ScenEdit_SetSidePosture(PBEM_DUMMY_SIDE, side, "N")
-            ScenEdit_SetSidePosture(side, PBEM_DUMMY_SIDE, "N")
-        end
-    end
-end
-
 function PBEM_WipeRPs()
     -- Erase all RPs from dummy side
+    local dummy_side = PBEM_DummySideName()
     local area = {}
     local rps
     local sides = VP_GetSides()
     for i=1,#sides do
         local side = sides[i]
-        if side.name == PBEM_DUMMY_SIDE then
+        if side.name == dummy_side then
             for k, v in ipairs(side.rps) do
                 area[k] = v.name
             end
             if #area > 0 then
                 rps = ScenEdit_GetReferencePoints(
                     {
-                        side=PBEM_DUMMY_SIDE,
+                        side=dummy_side,
                         area=area
                     }
                 )
@@ -102,19 +119,20 @@ end
 
 function PBEM_TransferRPs()
     -- Transfer RPs from dummy side to player side
+    local dummy_side = PBEM_DummySideName()
     local area = {}
     local rps
     local sides = VP_GetSides()
     for i=1,#sides do
         local side = sides[i]
-        if side.name == PBEM_DUMMY_SIDE then
+        if side.name == dummy_side then
             for k, v in ipairs(side.rps) do
                 area[k] = v.name
             end
             if #area > 0 then
                 rps = ScenEdit_GetReferencePoints(
                     {
-                        side=PBEM_DUMMY_SIDE,
+                        side=dummy_side,
                         area=area
                     }
                 )
@@ -136,37 +154,16 @@ function PBEM_TransferRPs()
     end
 end
 
-function PBEM_DummyUnit()
-    return GetString("__PBEM_DUMMYGUID")
-end
-
-function PBEM_AddDummyUnit()
-    local dummy_guid = PBEM_DummyUnit()
-    if dummy_guid ~= "" then
-        PBEM_RemoveDummyUnit()
-    end
-
+function PBEM_AddDummyUnit(side)
     --adds a dummy unit so allies transmit contacts
     local dummy = ScenEdit_AddUnit({
-        side=PBEM_DUMMY_SIDE, 
+        side=side,
         name="",
         type="FACILITY",
         dbid=174, 
         latitude=-89,
         longitude=0,
     })
-    StoreString("__PBEM_DUMMYGUID", dummy.guid)
-end
-
-function PBEM_RemoveDummyUnit()
-    local dummy_guid = PBEM_DummyUnit()
-    if dummy_guid ~= "" then
-        pcall(ScenEdit_DeleteUnit, {
-            side=PBEM_DUMMY_SIDE, 
-            guid=dummy_guid
-        })
-        StoreString("__PBEM_DUMMYGUID", "")
-    end
 end
 
 function PBEM_ShowOrderPhase(resume)
@@ -212,7 +209,7 @@ end
 function PBEM_EndOrderPhase()
     PBEM_MirrorSide(PBEM_SIDENAME)
     PBEM_MirrorSideScore()
-    ScenEdit_SetSideOptions({side=PBEM_DUMMY_SIDE, switchto=true})
+    ScenEdit_SetSideOptions({side=PBEM_DummySideName(), switchto=true})
 end
 
 function PBEM_StartOrderPhase()

@@ -69,7 +69,9 @@ For detailed instructions, please refer to the manual included with the [latest 
 
 ### VERSION HISTORY
 v1.41 (???):
-* fixed: ScenEdit_SpecialMessage reverted to caching
+* changed: no-editor check earlier in chain
+* fixed: enemy contact detection info appearing in log
+* fixed: ScenEdit_SpecialMessage behavior reverted
 
 v1.4 (10/30/2021):
 * added: final order phase before the end of a turn in Limited Order mode

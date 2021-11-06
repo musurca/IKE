@@ -10,7 +10,7 @@ for the IKE system.
 ----------------------------------------------
 ]]--
 
-IKE_VERSION = "1.4"
+IKE_VERSION = "1.41"
 IKE_MIN_ALLOWED_BUILD_MAJOR = 1147
 IKE_MIN_ALLOWED_BUILD_MINOR = 34
 
@@ -81,7 +81,6 @@ function Turn_NextSide()
         Turn_NextTurnNumber()
     end
     Turn_SetCurSide(curSide)
-    PBEM_ClearPostures()
     ScenEdit_SetSideOptions({side=PBEM_DUMMY_SIDE, switchto=true})
 end
 
@@ -104,6 +103,14 @@ function PBEM_InitScenGlobals()
 end
 
 function PBEM_StartTurn()
+    --check for editor mode prohibition
+    if VP_GetScenario().GameMode == 2 and GetBoolean("__SCEN_PREVENTEDITOR") then
+        --can't open a PBEM session in Editor mode
+        Input_OK(Localize("NO_EDITOR_MODE"))
+        PBEM_SelfDestruct()
+        return
+    end
+
     -- necessary to load these right away
     PBEM_InitScenGlobals()
     
@@ -143,14 +150,6 @@ function PBEM_StartTurn()
             GetBuildNumber(),
             tostring(IKE_MIN_ALLOWED_BUILD_MAJOR).."."..tostring(IKE_MIN_ALLOWED_BUILD_MINOR)
         }))
-        PBEM_SelfDestruct()
-        return
-    end
-
-    --check for editor mode prohibition
-    if VP_GetScenario().GameMode == 2 and GetBoolean("__SCEN_PREVENTEDITOR") then
-        --can't open a PBEM session in Editor mode until it's over
-        Input_OK(Localize("NO_EDITOR_MODE"))
         PBEM_SelfDestruct()
         return
     end
@@ -280,9 +279,10 @@ function PBEM_UpdateTick()
             end
         else
             -- Make sure the player isn't trying to modify another side's orders
+            local dummy_side = PBEM_DummySideName()
             local cur_side_check = PBEM_GetCurSideFromTime()
             local cur_side_name = PBEM_PLAYABLE_SIDES[cur_side_check] or "!!CHEATER!!"
-            if cur_side_name ~= curPlayerSide and curPlayerSide ~= PBEM_DUMMY_SIDE then
+            if cur_side_name ~= curPlayerSide and curPlayerSide ~= dummy_side and curPlayerSide ~= PBEM_DUMMY_SIDE then
                 --probably attempting to cheat
                 PBEM_SelfDestruct()
                 return
@@ -295,11 +295,7 @@ function PBEM_UpdateTick()
                 
                 --check for order phase
                 local time_check = scenCurTime - PBEM_TURN_START_TIME
-                if curPlayerSide ~= PBEM_DUMMY_SIDE then
-                    -- register unit to trigger contact sharing
-                    PBEM_AddDummyUnit()
-                    --add special actions to dummy side
-                    PBEM_AddRTSide(PBEM_DUMMY_SIDE)
+                if curPlayerSide ~= dummy_side then
                     --make sure the dummy side has no RPs
                     PBEM_WipeRPs()
                     --switch to dummy side
@@ -309,10 +305,6 @@ function PBEM_UpdateTick()
                     PBEM_TransferRPs()
                     -- start giving orders again
                     PBEM_StartOrderPhase()
-                    --remove the dummy sensor unit if it exists
-                    PBEM_RemoveDummyUnit()
-                    --remove special actions from dummy side
-                    PBEM_RemoveRTSide(PBEM_DUMMY_SIDE)
                 end
             end
         end
@@ -332,14 +324,8 @@ function PBEM_EndTurn()
     local next_turn_time = PBEM_GetNextTurnStartTime()
     local turn_num = Turn_GetTurnNumber()
     local player_side = PBEM_SIDENAME
-
-    if not PBEM_UNLIMITED_ORDERS then
-        ScenEdit_SetScore(PBEM_DUMMY_SIDE, 0, "----------------")
-        --remove the dummy sensor unit if it exists
-        PBEM_RemoveDummyUnit()
-        PBEM_RemoveRTSide(PBEM_DUMMY_SIDE)
-    end
     Turn_NextSide()
+
     ScenEdit_PlaySound("radioChirp5.mp3")
     local msg = Message_Header(Format(Localize("END_OF_TURN_HEADER"), {
         player_side,

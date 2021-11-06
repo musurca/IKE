@@ -197,8 +197,12 @@ function PBEM_UserChangePosture()
     local sidelist = ""
     local myside = Turn_GetCurSideName()
     local non_player_sides = {}
+    local dummy_sides = {}
+    for i, v in ipairs(PBEM_PLAYABLE_SIDES) do
+        dummy_sides[i] = PBEM_ConstructDummySideName(v)
+    end
     for k,side in ipairs(VP_GetSides()) do
-        if side.name ~= myside and side.name ~= PBEM_DUMMY_SIDE then
+        if side.name ~= myside and side.name ~= PBEM_DUMMY_SIDE and not IsIn(side.name, PBEM_PLAYABLE_SIDES) and not IsIn(side.name, dummy_sides) then
             table.insert(non_player_sides, side.name)
         end
     end

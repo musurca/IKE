@@ -157,7 +157,14 @@ function PBEM_Wizard()
     
     --next, create the PBEM dummy side and initialize PBEM events
     ScenEdit_AddSide({name=PBEM_DUMMY_SIDE})
-    --ScenEdit_SetSideOptions({side=PBEM_DUMMY_SIDE, awareness='BLIND'})
+    ScenEdit_SetSideOptions({side=PBEM_DUMMY_SIDE, awareness='BLIND'})
+    for i, v in ipairs(PBEM_PLAYABLE_SIDES) do
+        local ds = PBEM_ConstructDummySideName(v)
+        if Side_Exists(ds) then
+            ScenEdit_RemoveSide({name=ds})
+        end
+        ScenEdit_AddSide({name=ds})
+    end
 
     -- initialize IKE on load by injecting its own code into the VM
     local loadEvent = Event_Create("PBEM: Scenario Loaded", {
@@ -246,9 +253,13 @@ function PBEM_Wizard()
     }))
 
     -- next, set up the playable sides
-    for i=1,#PBEM_PLAYABLE_SIDES do
+    for i, v in ipairs(PBEM_PLAYABLE_SIDES) do
+        local ds = PBEM_ConstructDummySideName(v)
+        PBEM_AddDummyUnit(ds)
+        PBEM_AddRTSide(ds)
+
         -- add special actions
-        PBEM_AddRTSide(PBEM_PLAYABLE_SIDES[i])
+        PBEM_AddRTSide(v)
 
         -- initialize message registers
         PBEM_SetLossRegister(i, "")

@@ -48,11 +48,7 @@ function PBEM_PlayerSide()
         return ScenEdit_PlayerSide()
     end
 
-    local side = __PBEM_FN_PLAYERSIDE()
-    if side == PBEM_DUMMY_SIDE then
-        return Turn_GetCurSideName()
-    end
-    return side
+    return Turn_GetCurSideName()
 end
 
 function PBEM_SpecialMessage(side, message, location, priority)
@@ -150,9 +146,8 @@ function PBEM_ScenarioOver()
         return
     end
 
+    PBEM_ShowFinalPosition()
     ScenEdit_SetSideOptions({side=PBEM_DUMMY_SIDE, awareness='OMNI'})
-    PBEM_MirrorSide(PBEM_SIDENAME)
-    PBEM_MirrorSideScore()
     local scores = PBEM_ScoreSummary()
     local msg = Message_Header(Localize("END_OF_SCENARIO_HEADER"))..scores..Localize("END_OF_SCENARIO_MESSAGE")
     PBEM_SpecialMessage('playerside', msg, nil, true)
