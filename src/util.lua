@@ -27,6 +27,18 @@ function ForEachDo(table, func)
 end
 
 --[[
+iterates through table, calling func(e) on each e in table,
+breaking out if func(e) returns false
+]]--
+function ForEachDo_Break(table, func)
+    for i=1,#table do
+        if func(table[i]) == false then
+            break
+        end
+    end
+end
+
+--[[
 true if value is present in table, false otherwise
 ]]--
 function IsIn(value, t)

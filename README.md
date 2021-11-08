@@ -68,6 +68,9 @@ This will produce compiled but unminified Lua code in `debug/ike_debug.lua`. _Do
 For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.41/IKE.v1.41.zip).
 
 ### VERSION HISTORY
+v1.42 (????):
+* fixed: Event_Delete failure on self-destruct
+
 v1.41 (11/7/2021):
 * changed: no-editor check earlier in chain
 * fixed: enemy contact detection info appearing in log

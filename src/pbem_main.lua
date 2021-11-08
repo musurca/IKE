@@ -10,7 +10,7 @@ for the IKE system.
 ----------------------------------------------
 ]]--
 
-IKE_VERSION = "1.41"
+IKE_VERSION = "1.42"
 IKE_MIN_ALLOWED_BUILD_MAJOR = 1147
 IKE_MIN_ALLOWED_BUILD_MINOR = 34
 
