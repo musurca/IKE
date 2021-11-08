@@ -65,7 +65,7 @@ This will produce compiled but unminified Lua code in `debug/ike_debug.lua`. _Do
 **IKE** is designed primarily for scenario authors who want to create a multiplayer version of their existing scenario, but it may also be used productively by players who want to convert their favorite scenario for use with a friend.
 
 ### How do I use it?
-For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.41/IKE.v41.zip).
+For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.41/IKE.v1.41.zip).
 
 ### VERSION HISTORY
 v1.41 (11/7/2021):
