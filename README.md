@@ -72,6 +72,8 @@ v1.41 (???):
 * changed: no-editor check earlier in chain
 * fixed: enemy contact detection info appearing in log
 * fixed: ScenEdit_SpecialMessage behavior reverted
+* fixed: exploits related to scenario end
+* fixed: typo in French locale
 
 v1.4 (10/30/2021):
 * added: final order phase before the end of a turn in Limited Order mode

@@ -175,5 +175,17 @@ function PBEM_SelfDestruct()
         StoreString("__SIDE_"..tostring(i).."_PASSWD","")
         ScenEdit_RemoveSide({side=sides[i].name})
     end
+    if Event_Exists("PBEM: Scenario Loaded") then
+        Event_Delete("PBEM: Scenario Loaded", true)
+    end
+    if Event_Exists("PBEM: Update Tick") then
+        Event_Delete("PBEM: Update Tick", true)
+    end
+    if Event_Exists("PBEM: Destroyed Unit Tracker") then
+        Event_Delete("PBEM: Destroyed Unit Tracker", true)
+    end
+    if Event_Exists("PBEM: New Contact Tracker") then
+        Event_Delete("PBEM: New Contact Tracker", true)
+    end
     PBEM_EndAPIReplace()
 end

@@ -29,24 +29,6 @@ function PBEM_DummySideName()
     return PBEM_ConstructDummySideName(PBEM_SIDENAME)
 end
 
-function PBEM_ShowFinalPosition()
-    local sidescore = ScenEdit_GetScore(PBEM_SIDENAME)
-    if ScenEdit_GetScore(PBEM_DUMMY_SIDE) ~= sidescore then
-        ScenEdit_SetScore(PBEM_DUMMY_SIDE, sidescore, PBEM_SIDENAME)
-    end
-
-    ScenEdit_SetSidePosture(PBEM_SIDENAME, PBEM_DUMMY_SIDE, "F")
-    ScenEdit_SetSidePosture(PBEM_DUMMY_SIDE, PBEM_SIDENAME, "F")
-    local sides = VP_GetSides()
-    for i=1,#sides do
-        local side = sides[i].name
-        if PBEM_SIDENAME ~= side then
-            local posture = ScenEdit_GetSidePosture(PBEM_SIDENAME, side)
-            ScenEdit_SetSidePosture(PBEM_DUMMY_SIDE, side, posture)
-        end
-    end
-end
-
 function PBEM_MirrorSideScore()
     --mirror side score
     local dummy_side = PBEM_DummySideName()

@@ -146,14 +146,17 @@ function PBEM_ScenarioOver()
         return
     end
 
-    PBEM_ShowFinalPosition()
-    ScenEdit_SetSideOptions({side=PBEM_DUMMY_SIDE, awareness='OMNI'})
+    if GetBoolean("PBEM_MATCHOVER") == true then
+        return
+    end
+
+    StoreBoolean("PBEM_MATCHOVER", true)
+
+    ScenEdit_SetSideOptions({side=PBEM_SIDENAME, switchto=true})
     local scores = PBEM_ScoreSummary()
     local msg = Message_Header(Localize("END_OF_SCENARIO_HEADER"))..scores..Localize("END_OF_SCENARIO_MESSAGE")
     PBEM_SpecialMessage('playerside', msg, nil, true)
     __PBEM_FN_ENDSCENARIO()
-
-    PBEM_EndAPIReplace()
 end
 
 function PBEM_RandomSeed(a)

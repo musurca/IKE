@@ -118,10 +118,11 @@ function PBEM_StartTurn()
     local turnnum = Turn_GetTurnNumber()
     local curtime = ScenEdit_CurrentTime()
 
-    --see if scenario  is over
-    if ScenEdit_GetSideOptions({side=PBEM_DUMMY_SIDE}).awareness == 'Omniscient' then
-        local msg = Message_Header(Format(Localize("END_OF_SCENARIO_SUMMARY"), {turnnum}))..PBEM_ScoreSummary()
-        ScenEdit_SpecialMessage('playerside', msg)
+    --see if scenario is over
+    if GetBoolean("PBEM_MATCHOVER") == true then
+        StoreBoolean("PBEM_MATCHOVER", false)
+        PBEM_ScenarioOver()
+        PBEM_FlushSpecialMessages()
         return
     end
 
@@ -263,6 +264,12 @@ function PBEM_UpdateTick()
     local scenCurTime = ScenEdit_CurrentTime()
     local turnnum = Turn_GetTurnNumber()
     local nextTurnStartTime = PBEM_GetNextTurnStartTime()
+
+    if GetBoolean("PBEM_MATCHOVER") == true then
+        PBEM_SpecialMessage('playerside', Message_Header(Localize("END_OF_SCENARIO_HEADER")))
+        PBEM_FlushSpecialMessages()
+        return
+    end
 
     if turnnum > 0 then
         if scenCurTime >= nextTurnStartTime then
