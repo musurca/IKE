@@ -86,6 +86,7 @@ end
 
 function PBEM_InitScenGlobals()
     PBEM_TURNOVER = 0
+    PBEM_LIMITED_LAST_PHASE = nil
     PBEM_SETUP_PHASE = PBEM_HasSetupPhase()
     PBEM_TURN_LENGTH = PBEM_TurnLength()
     PBEM_PLAYABLE_SIDES = PBEM_PlayableSides()
@@ -120,9 +121,7 @@ function PBEM_StartTurn()
 
     --see if scenario is over
     if GetBoolean("PBEM_MATCHOVER") == true then
-        StoreBoolean("PBEM_MATCHOVER", false)
-        PBEM_ScenarioOver()
-        PBEM_FlushSpecialMessages()
+        ScenEdit_EndScenario()
         return
     end
 
@@ -266,14 +265,18 @@ function PBEM_UpdateTick()
     local nextTurnStartTime = PBEM_GetNextTurnStartTime()
 
     if GetBoolean("PBEM_MATCHOVER") == true then
-        PBEM_SpecialMessage('playerside', Message_Header(Localize("END_OF_SCENARIO_HEADER")))
-        PBEM_FlushSpecialMessages()
+        ScenEdit_EndScenario()
         return
     end
 
     if turnnum > 0 then
         if scenCurTime >= nextTurnStartTime then
             if PBEM_TURNOVER < 1 then
+                if (not PBEM_UNLIMITED_ORDERS) and (not PBEM_LIMITED_LAST_PHASE) then
+                    -- guard against time overrun in 30x time compression
+                    ScenEdit_SetTime(PBEM_CustomTimeToUTC(nextTurnStartTime-1))
+                    return
+                end
                 PBEM_EndTurn()
             elseif PBEM_TURNOVER < 2 then
                 -- safety net
@@ -303,15 +306,17 @@ function PBEM_UpdateTick()
                 --check for order phase
                 local time_check = scenCurTime - PBEM_TURN_START_TIME
                 if curPlayerSide ~= dummy_side then
-                    --make sure the dummy side has no RPs
-                    PBEM_WipeRPs()
-                    --switch to dummy side
-                    PBEM_EndOrderPhase()
+                    if PBEM_LIMITED_LAST_PHASE then
+                        --make sure the dummy side has no RPs
+                        PBEM_WipeRPs()
+                        --switch to dummy side
+                        PBEM_EndOrderPhase()
+                    end
                 elseif (time_check % PBEM_ORDER_INTERVAL == 0) or (scenCurTime == (nextTurnStartTime-1)) then
                     --transfer any temporary RPs to the correct side
                     PBEM_TransferRPs()
                     -- start giving orders again
-                    PBEM_StartOrderPhase()
+                    PBEM_StartOrderPhase(scenCurTime)
                 end
             end
         end
@@ -328,6 +333,7 @@ function PBEM_UpdateTick()
 end
 
 function PBEM_EndTurn()
+    PBEM_LIMITED_LAST_PHASE = nil
     local next_turn_time = PBEM_GetNextTurnStartTime()
     local turn_num = Turn_GetTurnNumber()
     local player_side = PBEM_SIDENAME

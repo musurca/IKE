@@ -146,17 +146,41 @@ function PBEM_ScenarioOver()
         return
     end
 
-    if GetBoolean("PBEM_MATCHOVER") == true then
-        return
+    local score_tbl
+    local match_over = GetBoolean("PBEM_MATCHOVER")
+    if match_over == false then
+        if PBEM_UNLIMITED_ORDERS then
+            ScenEdit_SetSideOptions({
+                side=PBEM_SIDENAME, 
+                switchto=true
+            })
+        else
+            ScenEdit_SetSideOptions({
+                side=PBEM_ConstructDummySideName(PBEM_SIDENAME), 
+                switchto=true
+            })
+        end
+        score_tbl = {}
+        for i=1,#PBEM_PLAYABLE_SIDES do
+            local sidename = PBEM_PLAYABLE_SIDES[i]
+            score_tbl[i] = ScenEdit_GetScore(sidename)
+        end
+        StoreNumberArray("PBEM_MATCH_FINALSCORE", score_tbl)
+    else
+        score_tbl = GetNumberArray("PBEM_MATCH_FINALSCORE")
     end
 
-    StoreBoolean("PBEM_MATCHOVER", true)
-
-    ScenEdit_SetSideOptions({side=PBEM_SIDENAME, switchto=true})
-    local scores = PBEM_ScoreSummary()
+    local scores = PBEM_ScoreSummary(score_tbl)
     local msg = Message_Header(Localize("END_OF_SCENARIO_HEADER"))..scores..Localize("END_OF_SCENARIO_MESSAGE")
     PBEM_SpecialMessage('playerside', msg, nil, true)
-    __PBEM_FN_ENDSCENARIO()
+    
+    if match_over == false then
+        StoreBoolean("PBEM_MATCHOVER", true)
+        __PBEM_FN_ENDSCENARIO()
+    end
+
+    --make sure scenario stops immediately
+    PBEM_FlushSpecialMessages()
 end
 
 function PBEM_RandomSeed(a)

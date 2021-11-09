@@ -69,6 +69,8 @@ For detailed instructions, please refer to the manual included with the [latest 
 
 ### VERSION HISTORY
 v1.42 (????):
+* fixed: score fixed after scenario's end
+* fixed: order phases disappearing on 30x compression
 * fixed: Event_Delete failure on self-destruct
 
 v1.41 (11/7/2021):

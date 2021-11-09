@@ -169,12 +169,15 @@ function PBEM_RegisterUnitKilled()
     end
 end
 
-function PBEM_ScoreSummary()
+function PBEM_ScoreSummary(score_tbl)
     local scoretxt = ""
     for i=1,#PBEM_PLAYABLE_SIDES do
         local sidename = PBEM_PLAYABLE_SIDES[i]
-        local finalscore = ScenEdit_GetScore(sidename)
-        scoretxt = scoretxt..'<center><b>'..sidename..':  '..finalscore..'</b></center><br/><br/>'
+        local finalscore = score_tbl[i]
+        scoretxt = scoretxt..'<center><b>'..sidename..':  '..finalscore..'</b></center>'
+        if i < #PBEM_PLAYABLE_SIDES then
+            scoretxt = scoretxt..'<br/>'
+        end
     end
     return scoretxt
 end
