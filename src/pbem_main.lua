@@ -238,6 +238,8 @@ function PBEM_StartTurn()
                     --remind us what order phase we were in
                     PBEM_StartOrderPhase()
                 else
+                    -- turn start
+                    PBEM_LIMITED_LAST_PHASE = true
                     ScenEdit_SetSideOptions({
                         side=PBEM_SIDENAME,
                         switchto=true
