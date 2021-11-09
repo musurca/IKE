@@ -155,8 +155,11 @@ function PBEM_ScenarioOver()
                 switchto=true
             })
         else
+            local dside = PBEM_ConstructDummySideName(PBEM_SIDENAME)
+            local fscore = ScenEdit_GetScore(PBEM_SIDENAME)
+            ScenEdit_SetScore(dside, fscore, "END OF SCENARIO")
             ScenEdit_SetSideOptions({
-                side=PBEM_ConstructDummySideName(PBEM_SIDENAME), 
+                side=dside,
                 switchto=true
             })
         end
@@ -173,7 +176,7 @@ function PBEM_ScenarioOver()
     local scores = PBEM_ScoreSummary(score_tbl)
     local msg = Message_Header(Localize("END_OF_SCENARIO_HEADER"))..scores..Localize("END_OF_SCENARIO_MESSAGE")
     PBEM_SpecialMessage('playerside', msg, nil, true)
-    
+
     if match_over == false then
         StoreBoolean("PBEM_MATCHOVER", true)
         __PBEM_FN_ENDSCENARIO()
