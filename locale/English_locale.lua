@@ -73,6 +73,7 @@
 		["THIRD"] = "THIRD",
 		["VERSION_MISMATCH"] = "ERROR: You're using CMO build %1, but this PBEM game was created with %2. All players must use the same build.",
 		["VERSION_TOO_OLD"] = "Your version of CMO (%1) is outdated. Please upgrade to build %2 or later to play this PBEM scenario.",
+		["VERSION_UPGRADE"] = "(The game has been automatically updated to CMO build %1.)",
 		["WIZARD_BACKUP"] = "Please save a backup first, then RUN this tool again.",
 		["WIZARD_CLEAR_MISSIONS"] = "Clear any existing missions for the %1 side?",
 		["WIZARD_GO_ORDER"] = "Should the %1 side go %2?",

@@ -69,6 +69,7 @@ For detailed instructions, please refer to the manual included with the [latest 
 
 ### VERSION HISTORY
 v1.42 (????):
+* changed: explicit message if game build is updated
 * fixed: score fixed after scenario's end
 * fixed: order phases disappearing on 30x compression
 * fixed: Event_Delete failure on self-destruct

@@ -24,11 +24,14 @@ function PBEM_SetHostBuildNumber()
 end
 
 function PBEM_CheckHostBuildNumber()
+    local mybuild = GetBuildNumber()
+    local hostbuild = GetString("__PBEM_HOST_BUILDNUM")
     if Turn_GetCurSide() == 1 then
-        PBEM_SetHostBuildNumber()
+        if hostbuild ~= mybuild then
+            PBEM_SetHostBuildNumber()
+            Input_OK(Format(Localize("VERSION_UPGRADE"), {mybuild}))
+        end
     else
-        local mybuild = GetBuildNumber()
-        local hostbuild = GetString("__PBEM_HOST_BUILDNUM")
         if mybuild ~= hostbuild then
             Input_OK(Format(Localize("VERSION_MISMATCH"), {
                 mybuild,

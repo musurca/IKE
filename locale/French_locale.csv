@@ -71,6 +71,7 @@ START_ORDER_MESSAGE|Donnez vos ordres à vos unités. Quand vous aurez terminé,
 THIRD|TROISIÈME
 VERSION_MISMATCH|ERREUR: Vous utilisez CMO build %1, mais ce scénario PBEM à été créé avec %2. Tous les joueurs doivent avoir la même version
 VERSION_TOO_OLD|Votre version de CMO (%1) est ancienne. Merci d'installer la version %2 ou une version plus récente pour jouer ce scénario en PBEM.
+VERSION_UPGRADE|(Le jeu a été automatiquement mis à jour pour la version (build) %1 de CMO)
 WIZARD_BACKUP|Sauvegardez une copie, puis RELANCEZ cet outil.
 WIZARD_CLEAR_MISSIONS|Effacez toutes les missions existantes pour le camp %1 ?
 WIZARD_GO_ORDER|Le camp %1 doit-il jouer en %2?
