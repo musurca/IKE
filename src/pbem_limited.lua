@@ -59,13 +59,17 @@ function PBEM_MirrorContactPostures()
     local mirrorside_guid = SideGUIDByName(mirrorside)
     for k, contact in ipairs(contacts) do
         local unit = ScenEdit_GetUnit({guid=contact.actualunitid})
-        for j, ascon in ipairs(unit.ascontact) do
-            if ascon.side == mirrorside_guid then
-                local mcontact = ScenEdit_GetContact({side=mirrorside, guid=ascon.guid})
-                if mcontact.posture ~= contact.posture then
-                    contact.posture = mcontact.posture
+        if unit then
+            for j, ascon in ipairs(unit.ascontact) do
+                if ascon.side == mirrorside_guid then
+                    local mcontact = ScenEdit_GetContact({side=mirrorside, guid=ascon.guid})
+                    if mcontact then
+                        if mcontact.posture ~= contact.posture then
+                            contact.posture = mcontact.posture
+                        end
+                    end
+                    break
                 end
-                break
             end
         end
     end

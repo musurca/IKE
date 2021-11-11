@@ -55,6 +55,9 @@ function PBEM_RegisterNewContact()
             local actual_unit = ScenEdit_GetUnit({
                 guid=contact.actualunitid
             })
+            if not actual_unit then
+                return
+            end
             if actual_unit.side == detecting_side then
                 --it's annoying to be notified of out-of-comms contacts
                 --on our own side, so we'll just ignore them
@@ -65,10 +68,13 @@ function PBEM_RegisterNewContact()
             local contacts = PBEM_GetContactRegister(sidenum)
             local detection_data = ""
             if detector then
-                detection_data = Format(Localize("DETECTED_MARKER"), {
-                    contactname,
-                    detector.unit.name
-                })
+                local detector_unit = detector.unit
+                if detector_unit then
+                    detection_data = Format(Localize("DETECTED_MARKER"), {
+                        contactname,
+                        detector_unit.name
+                    })
+                end
             end
             contacts = contacts.."<i>"..contacttime.."</i> // "..detection_data.."<br/>"
             PBEM_SetContactRegister(sidenum, contacts)
