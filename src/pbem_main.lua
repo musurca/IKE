@@ -357,6 +357,10 @@ function PBEM_EndTurn()
 end
 
 function PBEM_StartSetupPhase()
+    --set the language for this player
+    PBEM_SetLocale()
+
+    -- show setup phase intro
     local msg = Format(Localize("SETUP_PHASE_INTRO"), {
         Turn_GetCurSideName()
     })

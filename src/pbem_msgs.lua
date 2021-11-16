@@ -42,14 +42,14 @@ function PBEM_RegisterNewContact()
     local contact = ScenEdit_UnitC()
     local detector = ScenEdit_UnitY()
     local contacttime = PBEM_CurrentTimeMilitary()
-   
+
     if not contact then
         return
     end
 
     local contactname = contact.name
     local detecting_side = contact.fromside.name
-    
+
     if IsIn(detecting_side, PBEM_PLAYABLE_SIDES) then
         if detecting_side ~= Turn_GetCurSideName() then
             local actual_unit = ScenEdit_GetUnit({
@@ -70,10 +70,16 @@ function PBEM_RegisterNewContact()
             if detector then
                 local detector_unit = detector.unit
                 if detector_unit then
-                    detection_data = Format(Localize("DETECTED_MARKER"), {
-                        contactname,
-                        detector_unit.name
-                    })
+                    detection_data = Format(
+                        LocalizeForSide(
+                            detecting_side,
+                            "DETECTED_MARKER"
+                        ),
+                        {
+                            contactname,
+                            detector_unit.name
+                        }
+                    )
                 end
             end
             contacts = contacts.."<i>"..contacttime.."</i> // "..detection_data.."<br/>"
@@ -82,10 +88,16 @@ function PBEM_RegisterNewContact()
             --mark contact on the map
             ScenEdit_AddReferencePoint({
                 side=detecting_side,
-                name=Format(Localize("CONTACT_MARKER"), {
-                    contactname,
-                    contacttime
-                }),
+                name=Format(
+                    LocalizeForSide(
+                        detecting_side,
+                        "CONTACT_MARKER"
+                    ),
+                    {
+                        contactname,
+                        contacttime
+                    }
+                ),
                 lat=contact.latitude,
                 lon=contact.longitude,
                 highlighted=true
@@ -110,7 +122,8 @@ function PBEM_RegisterUnitKilled()
     -- register loss
     if IsIn(killed.side, PBEM_PLAYABLE_SIDES) then
         if killed.side ~= Turn_GetCurSideName() then
-            local sidenum = PBEM_SideNumberByName(killed.side)
+            local killed_side = killed.side
+            local sidenum = PBEM_SideNumberByName(killed_side)
             local losses = PBEM_GetLossRegister(sidenum)
             local unitname
             if killed.name == killed.classname then
@@ -120,9 +133,12 @@ function PBEM_RegisterUnitKilled()
             end
             if killer_unit then
                 if killer_unit.classname then
-                    unitname = unitname.." "..Format(Localize("LOSS_LISTING"), {
-                        killer_unit.classname
-                    })
+                    unitname = unitname.." "..Format(
+                        LocalizeForSide(killed_side, "LOSS_LISTING"),
+                        {
+                            killer_unit.classname
+                        }
+                    )
                 end
             end
             losses = losses.."<i>"..killtime.."</i> // "..unitname.."<br/>"
@@ -130,10 +146,15 @@ function PBEM_RegisterUnitKilled()
 
             --mark loss on the map
             ScenEdit_AddReferencePoint({
-                side=killed.side, 
-                name=Format(Localize("LOSS_MARKER"), {killed.name}), 
-                lat=killed.latitude, 
-                lon=killed.longitude, 
+                side=killed_side,
+                name=Format(
+                    LocalizeForSide(killed_side, "LOSS_MARKER"),
+                    {
+                        killed.name
+                    }
+                ),
+                lat=killed.latitude,
+                lon=killed.longitude,
                 highlighted=true
             })
         end
@@ -155,9 +176,12 @@ function PBEM_RegisterUnitKilled()
                 end
                 local unitname = known_name
                 if killer_unit.classname then
-                    unitname = unitname.." "..Format(Localize("KILL_LISTING"), {
-                        killer_unit.classname
-                    })
+                    unitname = unitname.." "..Format(
+                        LocalizeForSide(killer_side, "KILL_LISTING"),
+                        {
+                            killer_unit.classname
+                        }
+                    )
                 end
                 kills = kills.."<i>"..killtime.."</i> // "..unitname.."<br/>"
                 PBEM_SetKillRegister(sidenum, kills)
@@ -165,7 +189,12 @@ function PBEM_RegisterUnitKilled()
                 --mark kill on the map
                 ScenEdit_AddReferencePoint({
                     side=killer_side,
-                    name=Format(Localize("KILL_MARKER"), {known_name}), 
+                    name=Format(
+                        LocalizeForSide(killer_side, "KILL_MARKER"),
+                        {
+                            known_name
+                        }
+                    ),
                     lat=killed.latitude,
                     lon=killed.longitude,
                     highlighted=true
