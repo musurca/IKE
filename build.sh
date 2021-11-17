@@ -21,7 +21,7 @@ IKE_WIZARD_INCLUDE=("pbem_wizard.lua")
 
 # Edit this line to enable new locales. 
 # A corresponding CSV should be present in the locales path.
-IKE_LOCALES=("English" "French" "Spanish")
+IKE_LOCALES=("English" "French" "Spanish" "Chinese")
 
 # -------DO NOT EDIT BELOW THIS LINE--------
 IKE_STARTTURN="xx_startturn.lua"
