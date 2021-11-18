@@ -1,6 +1,6 @@
--- EXPORTED FROM ./locale/Chinese_locale.csv
+-- EXPORTED FROM ./locale/Chinese (Simplified)_locale.csv
 
-	["Chinese"] = {
+	["Chinese (Simplified)"] = {
 		["CHANGE_POSTURE"] = "变更为哪一方阵营?\n\n选项: %1",
 		["CHAT_ALREADY_SCHEDULED"] = "您已经有一条待发送短消息！",
 		["CHAT_CANCELLED"] = "短消息取消.",
@@ -77,7 +77,7 @@
 		["WIZARD_BACKUP"] = "请先进行备份保存，然后运行此插件.",
 		["WIZARD_CLEAR_MISSIONS"] = "是否清除 %1 阵营已有的任务?",
 		["WIZARD_GO_ORDER"] = " %1 这一方能否进行 %2 吗?",
-		["WIZARD_INTRO_MESSAGE"] = "欢迎使用IKE v%1! 本插件能够应用于CMO任何剧本, 将其改为邮件对战或热座模式.\n\nRunning this tool cannot be undone. Have you saved a backup of this scenario?",
+		["WIZARD_INTRO_MESSAGE"] = "欢迎使用IKE v%1! 本插件能够应用于CMO任何剧本, 将其改为邮件对战或热座模式.\n\n运行插件之后源文件将被修改. 你是否已经对剧本进行了备份?",
 		["WIZARD_ORDER_NUMBER"] = "%1 这一方玩家每回合最少能够进行几次操作? (最少2次)",
 		["WIZARD_PLAYABLE_SIDE"] = "玩家能否扮演 %1 这一方吗?",
 		["WIZARD_PREVENT_EDITOR"] = "你需要防止玩家在剧本完成之前使用编辑器模式吗?",

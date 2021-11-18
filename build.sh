@@ -21,7 +21,7 @@ IKE_WIZARD_INCLUDE=("pbem_wizard.lua")
 
 # Edit this line to enable new locales. 
 # A corresponding CSV should be present in the locales path.
-IKE_LOCALES=("English" "French" "Spanish" "Chinese")
+IKE_LOCALES=("English" "French" "Spanish" "Chinese (Simplified)")
 
 # -------DO NOT EDIT BELOW THIS LINE--------
 IKE_STARTTURN="xx_startturn.lua"
@@ -49,9 +49,9 @@ fi
 
 # build IKE locales
 cat $IKE_SRC_PATH/$IKE_LOCALE_HEADER >> tmp/header.lua
-for f in ${IKE_LOCALES[@]}; do
-    python3 csv2locale.py "$IKE_LOCALE_PATH/$f"_locale.csv $f
-    cat "$IKE_LOCALE_PATH/$f"_locale.lua >> tmp/header.lua
+for f in "${IKE_LOCALES[@]}"; do
+    python3 csv2locale.py "$IKE_LOCALE_PATH"/"$f"_locale.csv "$f"
+    cat "$IKE_LOCALE_PATH"/"$f"_locale.lua >> tmp/header.lua
     printf "\n" >> tmp/header.lua
 done
 printf "\n}\n\n" >> tmp/header.lua # close up the locale table
