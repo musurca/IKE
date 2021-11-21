@@ -1,9 +1,9 @@
 <p align="center"><img src="https://github.com/musurca/IKE/raw/main/logo.jpg" /></p>
 
 ## PBEM/hotseat multiplayer for *Command: Modern Operations* scenarios
-FOR PLAYERS: [**DOWNLOAD LATEST SCENARIO PACK HERE (v1.41)**](https://github.com/musurca/IKE/releases/download/v1.41-scenarios/IKE_Scenario_Pack_v1.41.zip)
+FOR PLAYERS: [**DOWNLOAD LATEST SCENARIO PACK HERE (v1.42)**](https://github.com/musurca/IKE/releases/download/v1.42-scenarios/IKE_Scenario_Pack_v1.42.zip)
 
-FOR SCENARIO AUTHORS: [**DOWNLOAD LATEST RELEASE HERE (v1.41)**](https://github.com/musurca/IKE/releases/download/v1.41/IKE.v1.41.zip)
+FOR SCENARIO AUTHORS: [**DOWNLOAD LATEST RELEASE HERE (v1.42)**](https://github.com/musurca/IKE/releases/download/v1.42/IKE_v1.42.zip)
 
 If you're a scenario author or player looking to convert a new or existing scenario for multiplayer use, you only need to download either the latest release or scenario pack using the links above. 
 
@@ -65,15 +65,16 @@ This will produce compiled but unminified Lua code in `debug/ike_debug.lua`. _Do
 **IKE** is designed primarily for scenario authors who want to create a multiplayer version of their existing scenario, but it may also be used productively by players who want to convert their favorite scenario for use with a friend.
 
 ### How do I use it?
-For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.41/IKE.v1.41.zip).
+For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.42/IKE_v1.42.zip).
 
 ### VERSION HISTORY
-v1.42 (????):
+v1.42 (11/20/2021):
 * added: Chinese (Simplified) localization (thanks to @cristianwj!)
 * added: Chinese (Simplified) translation of Scenario Author's Manual (thanks to @GolasYH 叶含!)
 * added: Twin Head Dragon Exercise 2021 (by @cristianwj)
 * changed: explicit message if game build is updated
 * changed: various scenarios - Realistic Sub Comms disabled
+* changed: various scenarios - civilian collective resp. disabled
 * fixed: contact mirroring/register nils during heavy combat
 * fixed: kill & contact records in wrong language
 * fixed: score fixed after scenario's end
