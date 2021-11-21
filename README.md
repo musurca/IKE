@@ -70,7 +70,7 @@ For detailed instructions, please refer to the manual included with the [latest 
 ### VERSION HISTORY
 v1.42 (????):
 * added: Chinese (Simplified) localization (thanks to @cristianwj!)
-* added: Chinese (Simplified) translation of Scenario Author's Manual (thanks to @Yehan 叶含!)
+* added: Chinese (Simplified) translation of Scenario Author's Manual (thanks to @GolasYH 叶含!)
 * added: Twin Head Dragon Exercise 2021 (by @cristianwj)
 * changed: explicit message if game build is updated
 * changed: various scenarios - Realistic Sub Comms disabled
