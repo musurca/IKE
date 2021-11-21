@@ -30,6 +30,7 @@ COMMAND                 Limited Orders
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          IJN
 
+
 **** Twin Head Dragon Exercise, 2021 - Blue (PLAAF) vs. Red (PLAAF) ****
 AUTHOR: cristianwj
 DURATION: 8 hours
