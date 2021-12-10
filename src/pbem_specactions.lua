@@ -30,8 +30,64 @@ local IKE_SPECACTIONS = {
         script = "PBEM_UserChangePosture()",
         name   = Localize("SPEC_CHANGEPOST_NAME"),
         desc   = Localize("SPEC_CHANGEPOST_DESC")
+    },
+    {
+        script = "PBEM_ResignMatch()",
+        name   = Localize("SPEC_RESIGN_NAME"),
+        desc   = Localize("SPEC_RESIGN_DESC")
+    },
+    {
+        script = "PBEM_OfferDraw()",
+        name   = Localize("SPEC_DRAW_NAME"),
+        desc   = Localize("SPEC_DRAW_DESC")
     }
 }
+
+function PBEM_OfferDraw()
+    if Turn_GetTurnNumber() == 0 and PBEM_SETUP_PHASE then
+        Input_OK(Localize("DRAW_NOSETUP"))
+        return
+    end
+
+    local offered = GetBoolean("__PBEM_DRAWOFFERED")
+    if not offered then
+        if Input_YesNo(Localize("DRAW_WILLOFFER")) then
+            StoreBoolean("__PBEM_DRAWOFFERED", true)
+            Input_OK(Localize("DRAW_OFFERED"))
+        end
+    else
+        Input_OK(Localize("DRAW_ALREADY"))
+    end
+end
+
+function PBEM_ResignMatch()
+    if Input_YesNo(Localize("RESIGN_ARESURE")) then
+        local otherside = ""
+        for n, sidename in ipairs(PBEM_PLAYABLE_SIDES) do
+            if sidename ~= PBEM_SIDENAME then
+                otherside = sidename
+                break
+            end
+        end
+        local msg = Format(
+            Localize("RESIGN_RESIGNED"),
+            {PBEM_SIDENAME}
+        )
+        local newscore = ScenEdit_GetScore(otherside)
+        if newscore == 0 then
+            ScenEdit_SetScore(otherside, 1, msg)
+            ScenEdit_SetScore(PBEM_ConstructDummySideName(otherside), 1, msg)
+            newscore = 1
+        end
+        local myscore = ScenEdit_GetScore(PBEM_SIDENAME)
+        if myscore > newscore then
+            myscore = newscore - 1
+            ScenEdit_SetScore(PBEM_SIDENAME, myscore, msg)
+            ScenEdit_SetScore(PBEM_ConstructDummySideName(PBEM_SIDENAME), myscore, msg)
+        end
+        ScenEdit_EndScenario()
+    end
+end
 
 function PBEM_SendChatMessage(scheduled)
     scheduled = scheduled or false

@@ -90,3 +90,23 @@ FRIENDLY|AMICAL
 NEUTRAL|NEUTRE
 UNFRIENDLY|INAMICAL
 HOSTILE|HOSTILE
+DRAW_NOSETUP|Vous ne pouvez pas proposer une partie nulle pendant la phase de setup.
+DRAW_WILLOFFER|Voulez-vous proposer une partie nulle à l’autre joueur?
+DRAW_OFFERED|Vous avez proposé une partie nulle. L’autre joueur va décider s’il accepte lors de son prochain tour.
+DRAW_ALREADY|Vous avez déjà offert une partie nulle pendant ce tour.
+DRAW_ACCEPT|L’autre joueur a offert une partie nulle. Voulez vous accepter? Si OUI le match se terminera sans gagnant.
+DRAW_ARESURE|Etes-vous sûr de vouloir accepter la partie nulle?
+DRAW_MATCHOVER|Le match s’est arrêté. Partie nulle.
+RESIGN_ARESURE|Etes-vous sûr de vouloir abandonner?
+RESIGN_RESIGNED|%1 a abandonné
+SPEC_RESIGN_NAME|(PBEM) Abandonner la partie
+SPEC_RESIGN_DESC|Termine le match immédiatement par une défaite de votre camp.
+SPEC_DRAW_NAME|(PBEM) Proposer une partie nulle
+SPEC_DRAW_DESC|Propose de terminer le match par une partie nulle. Si l‘autre joueur accepte, le match se terminera sans gagnant. 
+SCEN_END_DRAW|MATCH NUL
+SCEN_END_VICTORY|%1 VICTOIRE
+SCEN_END_DEFEAT|%1 DEFAITE
+DAMAGE_LISTING|struck by %1
+DAMAGES_REPORTED|Damaged:
+HIT_LISTING|struck %1
+HITS_REPORTED|Strikes:

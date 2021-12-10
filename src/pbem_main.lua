@@ -10,7 +10,7 @@ for the IKE system.
 ----------------------------------------------
 ]]--
 
-IKE_VERSION = "1.42"
+IKE_VERSION = "1.43"
 IKE_MIN_ALLOWED_BUILD_MAJOR = 1147
 IKE_MIN_ALLOWED_BUILD_MINOR = 34
 
@@ -222,6 +222,13 @@ function PBEM_StartTurn()
             end
         end
         
+        -- First, see if other player has offered a draw
+        if PBEM_CheckDraw() then
+            ScenEdit_EndScenario()
+            return
+        end
+
+        -- Otherwise start the turn
         local turnStartTime = PBEM_TURN_START_TIME
         local nextTurnStartTime = PBEM_GetNextTurnStartTime()
         local curTime = ScenEdit_CurrentTime()

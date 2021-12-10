@@ -192,3 +192,47 @@ function PBEM_SelfDestruct()
     end
     PBEM_EndAPIReplace()
 end
+
+function PBEM_CheckDraw()
+    local draw_offered = GetBoolean("__PBEM_DRAWOFFERED")
+    if draw_offered then
+        if Input_YesNo(Localize("DRAW_ACCEPT")) then
+            if Input_YesNo(Localize("DRAW_ARESURE")) then
+                local otherside = ""
+                for n, sidename in ipairs(PBEM_PLAYABLE_SIDES) do
+                    if sidename ~= PBEM_SIDENAME then
+                        otherside = sidename
+                        break
+                    end
+                end
+                local myscore = ScenEdit_GetScore(PBEM_SIDENAME)
+                local otherscore = ScenEdit_GetScore(otherside)
+                local finalscore
+                if myscore > otherscore then
+                    finalscore = myscore
+                    local msg = LocalizeForSide(otherside, "DRAW_MATCHOVER")
+                    ScenEdit_SetScore(otherside, finalscore, msg)
+                    ScenEdit_SetScore(
+                        PBEM_ConstructDummySideName(otherside),
+                        finalscore,
+                        msg
+                    )
+                elseif otherscore > myscore then
+                    finalscore = otherscore
+                    local msg = LocalizeForSide(PBEM_SIDENAME, "DRAW_MATCHOVER")
+                    ScenEdit_SetScore(PBEM_SIDENAME, finalscore, msg)
+                    ScenEdit_SetScore(
+                        PBEM_ConstructDummySideName(PBEM_SIDENAME),
+                        finalscore,
+                        msg
+                    )
+                end
+
+                return true
+            end
+        end
+    end
+
+    StoreBoolean("__PBEM_DRAWOFFERED", false)
+    return false
+end

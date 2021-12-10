@@ -90,3 +90,23 @@ FRIENDLY|AMISTOSO
 NEUTRAL|NEUTRAL
 UNFRIENDLY|NO AMISTOSO
 HOSTILE|HOSTIL
+DRAW_NOSETUP|No puedes ofrecer un empate durante la fase de preparación.
+DRAW_WILLOFFER|¿Te gustaría ofrecer un empate al otro jugador?
+DRAW_OFFERED|Has ofrecido un empate. El otro jugador elegirá si acepta en su próximo turno.
+DRAW_ALREADY|Ya ofreciste un empate en este turno.
+DRAW_ACCEPT|El otro jugador ha ofrecido un empate. ¿Aceptas? En caso afirmativo, el partido terminará sin ganador.
+DRAW_ARESURE|¿Estás seguro de que quieres aceptar?
+DRAW_MATCHOVER|El partido terminó en empate.
+RESIGN_ARESURE|¿Estás seguro de que quieres renunciar?
+RESIGN_RESIGNED|%1 renunció
+SPEC_RESIGN_NAME|(PBEM) Renunciar al juego
+SPEC_RESIGN_DESC|Termina el juego inmediatamente en la derrota para ti.
+SPEC_DRAW_NAME|(PBEM) Ofrecer un empate
+SPEC_DRAW_DESC|Ofertas para terminar el juego en empate. Si el otro jugador lo acepta, el partido terminará sin ganador.
+SCEN_END_DRAW|UN EMPATE
+SCEN_END_VICTORY|%1 VICTORIA
+SCEN_END_DEFEAT|%1 DERROTA
+DAMAGE_LISTING|struck by %1
+DAMAGES_REPORTED|Damaged:
+HIT_LISTING|struck %1
+HITS_REPORTED|Strikes:

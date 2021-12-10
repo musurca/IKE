@@ -148,6 +148,9 @@ function PBEM_Wizard()
     if Event_Exists("PBEM: Destroyed Unit Tracker") then
         Event_Delete("PBEM: Destroyed Unit Tracker", true)
     end
+    if Event_Exists("PBEM: Damaged Unit Tracker") then
+        Event_Delete("PBEM: Damaged Unit Tracker", true)
+    end
     if Event_Exists("PBEM: New Contact Tracker") then
         Event_Delete("PBEM: New Contact Tracker", true)
     end

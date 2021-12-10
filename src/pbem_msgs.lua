@@ -42,6 +42,14 @@ function PBEM_SetDamageRegister(sidenum, damages)
     StoreString("__SIDE_"..tostring(sidenum)..'_DAMAGES', damages)
 end
 
+function PBEM_GetHitRegister(sidenum)
+    return string.sub(GetString("__SIDE_"..tostring(sidenum)..'_HITS'), 0)
+end
+
+function PBEM_SetHitRegister(sidenum, hits)
+    StoreString("__SIDE_"..tostring(sidenum)..'_HITS', hits)
+end
+
 function Message_Header(text)
     return '<br/><hr><br/><center><b>'..text..'</b></center><br/><hr><br/>'
 end
@@ -119,9 +127,11 @@ function PBEM_RegisterUnitDamaged()
     local damager = ScenEdit_UnitY()
     local damage_time = PBEM_CurrentTimeMilitary()
     local damager_unit = nil
+    local damager_side = ""
     if damager then
         if damager.unit then
             damager_unit = damager.unit
+            damager_side = damager_unit.side
         end
     end
 
@@ -149,6 +159,36 @@ function PBEM_RegisterUnitDamaged()
             end
             damage_register = damage_register.."<i>"..damage_time.."</i> // "..unitname.."<br/>"
             PBEM_SetDamageRegister(sidenum, damage_register)
+        end
+    end
+
+    --register hit
+    if damager_unit then
+        if IsIn(damager_side, PBEM_PLAYABLE_SIDES) then
+            if damager_side ~= Turn_GetCurSideName() then
+                -- record the hit for the player
+                local sidenum = PBEM_SideNumberByName(damager_side)
+                local hits = PBEM_GetHitRegister(sidenum)
+                local damager_side_guid = SideGUIDByName(damager_side)
+                local known_name = damaged.classname
+                for k, contact in pairs(damaged.ascontact) do
+                    if contact.side == damager_side_guid then
+                        known_name = contact.name
+                        break
+                    end
+                end
+                local unitname = known_name
+                if damager_unit.classname then
+                    unitname = damager_unit.classname.." "..Format(
+                        LocalizeForSide(damager_side, "HIT_LISTING"),
+                        {
+                            known_name
+                        }
+                    )
+                end
+                hits = hits.."<i>"..damage_time.."</i> // "..unitname.."<br/>"
+                PBEM_SetHitRegister(sidenum, hits)
+            end
         end
     end
 end
@@ -219,6 +259,7 @@ function PBEM_RegisterUnitKilled()
                 for k, contact in pairs(killed.ascontact) do
                     if contact.side == killer_side_guid then
                         known_name = contact.name
+                        break
                     end
                 end
                 local unitname = known_name
@@ -273,6 +314,12 @@ function PBEM_ShowTurnIntro()
     if contacts ~= "" then
         lossreport = lossreport.."<br/><u>"..Localize("CONTACTS_REPORTED").."</u><br/><br/>"..contacts
         PBEM_SetContactRegister(cursidenum, "")
+    end
+    -- show hits from previous turn
+    local hits = PBEM_GetHitRegister(cursidenum)
+    if hits ~= "" then
+        lossreport = lossreport.."<br/><u>"..Localize("HITS_REPORTED").."</u><br/><br/>"..hits
+        PBEM_SetHitRegister(cursidenum, "")
     end
     -- show kills from previous turn
     local kills = PBEM_GetKillRegister(cursidenum)

@@ -90,3 +90,23 @@ FRIENDLY|友好
 NEUTRAL|中立
 UNFRIENDLY|非友好
 HOSTILE|敌对
+DRAW_NOSETUP|可以在布置阶段提出求和.
+DRAW_WILLOFFER|你是否想向其他玩家发出求和申请?
+DRAW_OFFERED|你已经提出求和. 另一方玩家将在下回合决定是否接受.
+DRAW_ALREADY|本回合已经发送求和申请.
+DRAW_ACCEPT|另一方玩家提出求和. 是否接受? 如果是, 比赛将以平局结束.
+DRAW_ARESURE|请确认是否接受平局?
+DRAW_MATCHOVER|比赛以平局结束.
+RESIGN_ARESURE|你确定要认输吗?
+RESIGN_RESIGNED|%1 已经认输
+SPEC_RESIGN_NAME|(PBEM) 认输
+SPEC_RESIGN_DESC|立即认输并结束比赛.
+SPEC_DRAW_NAME|(PBEM) 提出求和
+SPEC_DRAW_DESC|提出以平局结束比赛. 如果其他玩家接受, 比赛将以平局结束.
+SCEN_END_DRAW|平局
+SCEN_END_VICTORY|%1 胜利
+SCEN_END_DEFEAT|%1 失败
+DAMAGE_LISTING|struck by %1
+DAMAGES_REPORTED|Damaged:
+HIT_LISTING|struck %1
+HITS_REPORTED|Strikes:

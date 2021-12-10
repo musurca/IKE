@@ -69,6 +69,9 @@ For detailed instructions, please refer to the manual included with the [latest 
 
 ### VERSION HISTORY
 v1.43 (????):
+* added: new action - Offer a Draw
+* added: new action - Resign
+* added: weapon strike report
 * added: damage report for ships, subs, and facilities
 * added: customizable event handler for end of Setup Phase
 * fixed: Chinese language typos (@cristianwj)
