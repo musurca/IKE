@@ -21,6 +21,16 @@ ORDER PHASES PER TURN   2
 WHO GOES FIRST          United States
 
 
+**** Red/Blue Hawaii, 1985 - RED (US) vs. BLUE (US) ****
+AUTHOR: Nicholas Musurca & Casey Calloway
+DURATION: 12 hours
+Recommended settings:
+TURN LENGTH             20 minutes
+COMMAND                 Limited Orders
+ORDER PHASES PER TURN   2
+WHO GOES FIRST          RED
+
+
 **** Second Battle of Guadalcanal, 1942 - IJN vs. USN ****
 AUTHOR: Revan227
 DURATION: 6 hours

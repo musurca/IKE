@@ -73,6 +73,7 @@ v1.43 (????):
 * added: new action - Resign
 * added: weapon strike report
 * added: damage report for ships, subs, and facilities
+* added: Red-Blue Hawaii, 1985
 * added: customizable event handler for end of Setup Phase
 * fixed: Chinese language typos (@cristianwj)
 
