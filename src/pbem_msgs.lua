@@ -34,6 +34,14 @@ function PBEM_GetLossRegister(sidenum)
     return string.sub(GetString("__SIDE_"..tostring(sidenum)..'_LOSSES'), 0)
 end
 
+function PBEM_GetDamageRegister(sidenum)
+    return string.sub(GetString("__SIDE_"..tostring(sidenum)..'_DAMAGES'), 0)
+end
+
+function PBEM_SetDamageRegister(sidenum, damages)
+    StoreString("__SIDE_"..tostring(sidenum)..'_DAMAGES', damages)
+end
+
 function Message_Header(text)
     return '<br/><hr><br/><center><b>'..text..'</b></center><br/><hr><br/>'
 end
@@ -102,6 +110,45 @@ function PBEM_RegisterNewContact()
                 lon=contact.longitude,
                 highlighted=true
             })
+        end
+    end
+end
+
+function PBEM_RegisterUnitDamaged()
+    local damaged = ScenEdit_UnitX()
+    local damager = ScenEdit_UnitY()
+    local damage_time = PBEM_CurrentTimeMilitary()
+    local damager_unit = nil
+    if damager then
+        if damager.unit then
+            damager_unit = damager.unit
+        end
+    end
+
+    -- register damage
+    if IsIn(damaged.side, PBEM_PLAYABLE_SIDES) then
+        if damaged.side ~= Turn_GetCurSideName() then
+            local damaged_side = damaged.side
+            local sidenum = PBEM_SideNumberByName(damaged_side)
+            local damage_register = PBEM_GetDamageRegister(sidenum)
+            local unitname
+            if damaged.name == damaged.classname then
+                unitname = damaged.name
+            else
+                unitname = damaged.name..' ('..damaged.classname..')'
+            end
+            if damager_unit then
+                if damager_unit.classname then
+                    unitname = unitname.." "..Format(
+                        LocalizeForSide(damaged_side, "DAMAGE_LISTING"),
+                        {
+                            damager_unit.classname
+                        }
+                    )
+                end
+            end
+            damage_register = damage_register.."<i>"..damage_time.."</i> // "..unitname.."<br/>"
+            PBEM_SetDamageRegister(sidenum, damage_register)
         end
     end
 end
@@ -232,6 +279,12 @@ function PBEM_ShowTurnIntro()
     if kills ~= "" then
         lossreport = lossreport.."<br/><u>"..Localize("KILLS_REPORTED").."</u><br/><br/>"..kills
         PBEM_SetKillRegister(cursidenum, "")
+    end
+    -- show damages from previous turn
+    local damages = PBEM_GetDamageRegister(cursidenum)
+    if damages ~= "" then
+        lossreport = lossreport.."<br/><u>"..Localize("DAMAGES_REPORTED").."</u><br/><br/>"..damages
+        PBEM_SetDamageRegister(cursidenum, "")
     end
     -- show losses from previous turn
     local losses = PBEM_GetLossRegister(cursidenum)

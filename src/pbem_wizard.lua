@@ -220,6 +220,32 @@ function PBEM_Wizard()
         ScriptText="PBEM_RegisterUnitKilled()"
     }))
 
+    -- track some damaged units
+    local PBEM_DAMTYPES = {
+        2, --ship
+        3, --submarine
+        4 --facility
+    }
+    local destEvent = Event_Create("PBEM: Damaged Unit Tracker", {
+        IsRepeatable=true,
+        IsShown=false
+    })
+    for i=1,#PBEM_DAMTYPES do
+        local triggername = 'PBEM_Unit_Damaged_'..i
+        Event_AddTrigger(destEvent, Trigger_Create(triggername, {
+            type = "UnitDamaged",
+            DamagePercent = 1,
+            TargetFilter = {
+                TargetType = PBEM_DAMTYPES[i],
+                TargetSubType = 0
+            }
+        }))
+    end
+    Event_AddAction(destEvent, Action_Create("PBEM: Register Unit Damaged", {
+        type="LuaScript",
+        ScriptText="PBEM_RegisterUnitDamaged()"
+    }))
+
     -- track all new contacts
     local PBEM_DETECTORS = {
         1, --aircraft

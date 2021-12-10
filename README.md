@@ -69,6 +69,8 @@ For detailed instructions, please refer to the manual included with the [latest 
 
 ### VERSION HISTORY
 v1.43 (????):
+* added: damage report for ships, subs, and facilities
+* added: customizable event handler for end of Setup Phase
 * fixed: Chinese language typos (@cristianwj)
 
 v1.42 (11/20/2021):

@@ -370,6 +370,14 @@ end
 function PBEM_EndSetupPhase()
     --save current side before advancing
     local sidename = Turn_GetCurSideName()
+
+    -- if handler registered, run it
+    if ScenEdit_GetKeyValue("PBEM_SETUP_END_EVENT") == "1" then
+        if PBEM_OnSetupPhaseEnd then
+            pcall(PBEM_OnSetupPhaseEnd, sidename)
+        end
+    end
+
     Turn_NextSide()
     ScenEdit_PlaySound("radioChirp5.mp3")
     local msg = Message_Header(Format(Localize("END_OF_SETUP_HEADER"), {
