@@ -347,33 +347,24 @@ function PBEM_ShowTurnIntro()
     end
     local msg_header
     local turn_len_min = math.floor(PBEM_TURN_LENGTH / 60)
-    if PBEM_UNLIMITED_ORDERS then
-        msg_header = Format(Localize("START_OF_TURN_HEADER"), {
-            PBEM_SIDENAME, 
-            turnnum,
-            turn_len_min
-        })
+    local orderNumStr
+    if PBEM_ORDER_INTERVAL == PBEM_TURN_LENGTH then
+        orderNumStr = ""
     else
-        local orderNumStr
-        if PBEM_ORDER_INTERVAL == PBEM_TURN_LENGTH then
-            orderNumStr = ""
-        else
-            orderNumStr = Format(Localize("ORDER_PHASE_DIVIDER"), {
-                "1",
-                math.floor(PBEM_TURN_LENGTH / PBEM_ORDER_INTERVAL) + 1
-            })
-        end
-        msg_header = Format(Localize("START_ORDER_HEADER"), {
-            PBEM_SIDENAME,
-            tostring(turnnum),
-            turn_len_min,
-            orderNumStr
+        orderNumStr = Format(Localize("ORDER_PHASE_DIVIDER"), {
+            "1",
+            math.floor(PBEM_TURN_LENGTH / PBEM_ORDER_INTERVAL) + 1
         })
     end
+    msg_header = Format(Localize("START_ORDER_HEADER"), {
+        PBEM_SIDENAME,
+        tostring(turnnum),
+        turn_len_min,
+        orderNumStr
+    })
+
     local msg = Message_Header(msg_header)
-    if not PBEM_UNLIMITED_ORDERS then
-        msg = msg..Localize("START_ORDER_MESSAGE").."<br/><br/>"
-    end
+    msg = msg..Localize("START_ORDER_MESSAGE").."<br/><br/>"
     msg = msg..lossreport
     PBEM_SpecialMessage('playerside', msg, nil, true)
 end

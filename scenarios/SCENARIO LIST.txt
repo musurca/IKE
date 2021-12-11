@@ -6,7 +6,6 @@ AUTHOR: Ragnar Emsoy
 DURATION: 6 hours
 Recommended settings:
 TURN LENGTH             10 minutes
-COMMAND                 Limited Orders
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          Norway
 
@@ -16,7 +15,6 @@ AUTHOR: Mike Mykytyn
 DURATION: 6 hours
 Recommended settings:
 TURN LENGTH             20 minutes
-COMMAND                 Limited Orders
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          United States
 
@@ -26,7 +24,6 @@ AUTHOR: Nicholas Musurca & Casey Calloway
 DURATION: 12 hours
 Recommended settings:
 TURN LENGTH             20 minutes
-COMMAND                 Limited Orders
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          RED
 
@@ -36,7 +33,6 @@ AUTHOR: Revan227
 DURATION: 6 hours
 Recommended settings:
 TURN LENGTH             8 minutes
-COMMAND                 Limited Orders
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          IJN
 
@@ -46,7 +42,6 @@ AUTHOR: cristianwj
 DURATION: 8 hours
 Recommended settings:
 TURN LENGTH             15 minutes
-COMMAND                 Limited Orders
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          Red
 
@@ -59,7 +54,6 @@ AUTHOR: Mike Mykytyn
 DURATION: 2 days
 Recommended settings:
 TURN LENGTH             30 minutes
-COMMAND                 Limited Orders
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          United Kingdom
 
@@ -69,7 +63,6 @@ AUTHOR: Miguel Molina
 DURATION: 20 hours
 Recommended settings:
 TURN LENGTH             30 minutes
-COMMAND                 Limited Orders
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          Chile
 
@@ -79,7 +72,6 @@ AUTHOR: Miguel Molina
 DURATION: 1 day, 12 hours
 Recommended settings:
 TURN LENGTH             30 minutes
-COMMAND                 Limited Orders
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          Libya
 
@@ -99,7 +91,6 @@ AUTHOR: Mike Mykytyn
 DURATION: 24 hours
 Recommended settings:
 TURN LENGTH             20 minutes
-COMMAND                 Limited Orders
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          USAF
 
@@ -111,7 +102,6 @@ AUTHOR: Miguel Molina
 DURATION: 2 days, 6 hours
 Recommended settings:
 TURN LENGTH             30 minutes
-COMMAND                 Limited Orders
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          Spain
 
@@ -121,7 +111,6 @@ AUTHOR: Miguel Molina
 DURATION: 6 days
 Recommended settings:
 TURN LENGTH             30 minutes
-COMMAND                 Limited Orders
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          Argentina
 
@@ -131,6 +120,5 @@ AUTHOR: Miguel Molina
 DURATION: 3 days
 Recommended settings:
 TURN LENGTH             30 minutes
-COMMAND                 Limited Orders
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          Japan

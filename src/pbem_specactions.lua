@@ -40,6 +40,11 @@ local IKE_SPECACTIONS = {
         script = "PBEM_OfferDraw()",
         name   = Localize("SPEC_DRAW_NAME"),
         desc   = Localize("SPEC_DRAW_DESC")
+    },
+    {
+        script = "PBEM_EnterPassword()",
+        name   = Localize("SPEC_PASSCHANGE_NAME"),
+        desc   = Localize("SPEC_PASSCHANGE_DESC")
     }
 }
 

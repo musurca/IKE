@@ -55,7 +55,7 @@ This will produce compiled but unminified Lua code in `debug/ike_debug.lua`. _Do
 * keeps track of turn order and length, and stops the scenario automatically when a player’s turn is over.
 * provides a summary of any losses sustained or messages received during the last turn.
 * adds an (optional) Setup Phase, allowing players to configure loadouts, missions, and orders before the game begins.
-* supports either Unlimited Orders (traditional CMO play) or Limited Orders to simulate command delay and friction.
+* uses Limited Order play to simulate command delay and friction.
 * provides password protection for each player’s turn.
 * allows players to either use the scenario’s recommended PBEM settings, or customize them at game start.
 * maintains a consistent random seed, to discourage replaying turns for more advantageous results.
@@ -68,13 +68,15 @@ This will produce compiled but unminified Lua code in `debug/ike_debug.lua`. _Do
 For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.42/IKE_v1.42.zip).
 
 ### VERSION HISTORY
-v1.43 (????):
+v1.5 (????):
 * added: new action - Offer a Draw
 * added: new action - Resign
+* added: new action - Change Password
 * added: weapon strike report
 * added: damage report for ships, subs, and facilities
-* added: Red-Blue Hawaii, 1985
 * added: customizable event handler for end of Setup Phase
+* added: Red-Blue Hawaii, 1985
+* removed: Unlimited Orders mode
 * fixed: Chinese language typos (@cristianwj)
 
 v1.42 (11/20/2021):

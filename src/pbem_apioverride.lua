@@ -149,20 +149,14 @@ function PBEM_ScenarioOver()
     local score_tbl
     local match_over = GetBoolean("PBEM_MATCHOVER")
     if match_over == false then
-        if PBEM_UNLIMITED_ORDERS then
-            ScenEdit_SetSideOptions({
-                side=PBEM_SIDENAME, 
-                switchto=true
-            })
-        else
-            local dside = PBEM_ConstructDummySideName(PBEM_SIDENAME)
-            local fscore = ScenEdit_GetScore(PBEM_SIDENAME)
-            ScenEdit_SetScore(dside, fscore, "END OF SCENARIO")
-            ScenEdit_SetSideOptions({
-                side=dside,
-                switchto=true
-            })
-        end
+        local dside = PBEM_ConstructDummySideName(PBEM_SIDENAME)
+        local fscore = ScenEdit_GetScore(PBEM_SIDENAME)
+        ScenEdit_SetScore(dside, fscore, "END OF SCENARIO")
+        ScenEdit_SetSideOptions({
+            side=dside,
+            switchto=true
+        })
+        
         score_tbl = {}
         for i=1,#PBEM_PLAYABLE_SIDES do
             local sidename = PBEM_PLAYABLE_SIDES[i]

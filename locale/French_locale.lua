@@ -111,5 +111,7 @@
 		["DAMAGE_LISTING"] = "struck by %1",
 		["DAMAGES_REPORTED"] = "Damaged:",
 		["HIT_LISTING"] = "struck %1",
-		["HITS_REPORTED"] = "Strikes:"
+		["HITS_REPORTED"] = "Strikes:",
+		["SPEC_PASSCHANGE_NAME"] = "(PBEM) Change your password",
+		["SPEC_PASSCHANGE_DESC"] = "Changes your password. Useful if you want to show the turn to another player, but don't want to reveal your normal password."
 	},

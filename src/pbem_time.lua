@@ -131,39 +131,15 @@ function PBEM_ScenarioStartTime()
 end
 
 --[[
-determines what the current side SHOULD be from the current time
-]]--
-function PBEM_GetCurSideFromTime()
-    local scenStartTime = VP_GetScenario().StartTimeNum
-    local scenCurTime = ScenEdit_CurrentTime()
-    local round_length = PBEM_RoundLength()
-
-    local offset = scenCurTime - scenStartTime
-    local turn_num = math.floor(offset / round_length)
-    local turn_start_time = scenStartTime + turn_num*round_length
-    
-    return math.floor((scenCurTime - turn_start_time) / PBEM_TURN_LENGTH) + 1
-end
-
---[[
 returns the start time of the current turn in seconds
 ]]--
 function PBEM_GetCurTurnStartTime()
-    local scenStartTime = VP_GetScenario().StartTimeNum
-    local turnNumber = Turn_GetTurnNumber()
-    if turnNumber == 0 then
-        -- setup phase
-        return scenStartTime
-    end
-    local round_length = PBEM_RoundLength()
-    local offset = (turnNumber-1)*round_length
-
-    return scenStartTime + offset + PBEM_TURN_LENGTH*(Turn_GetCurSide()-1)
+    return GetNumber("__CUR_TURN_TIME")
 end
 
 --[[
 return the start time of the next turn in seconds
 ]]--
 function PBEM_GetNextTurnStartTime()
-    return PBEM_TURN_START_TIME + PBEM_TURN_LENGTH
+    return PBEM_GetCurTurnStartTime() + PBEM_TurnLength()
 end

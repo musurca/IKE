@@ -10,7 +10,7 @@ for the IKE system.
 ----------------------------------------------
 ]]--
 
-IKE_VERSION = "1.43"
+IKE_VERSION = "1.5"
 IKE_MIN_ALLOWED_BUILD_MAJOR = 1147
 IKE_MIN_ALLOWED_BUILD_MINOR = 34
 
@@ -91,11 +91,8 @@ function PBEM_InitScenGlobals()
     PBEM_TURN_LENGTH = PBEM_TurnLength()
     PBEM_PLAYABLE_SIDES = PBEM_PlayableSides()
     PBEM_ROUND_LENGTH = PBEM_TURN_LENGTH * #PBEM_PLAYABLE_SIDES
-    PBEM_UNLIMITED_ORDERS = PBEM_OrdersUnlimited()
-    if not PBEM_UNLIMITED_ORDERS then
-        PBEM_ORDER_PHASES = PBEM_OrderPhases()
-        PBEM_ORDER_INTERVAL = PBEM_OrderInterval()
-    end
+    PBEM_ORDER_PHASES = PBEM_OrderPhases()
+    PBEM_ORDER_INTERVAL = PBEM_OrderInterval()
     PBEM_SIDENAME = Turn_GetCurSideName()
     PBEM_TURN_START_TIME = PBEM_GetCurTurnStartTime()
 
@@ -167,26 +164,8 @@ function PBEM_StartTurn()
         end
 
         -- Enter a password
-        local passwordsMatch = false
-        local attemptNum = 0
-        local pass = ""
-        while not passwordsMatch do
-            attemptNum = attemptNum + 1
-            local msg = ""
-            if attemptNum > 1 then
-                msg = Localize("PASSWORDS_DIDNT_MATCH")
-            else
-                msg = Format(Localize("CHOOSE_PASSWORD"), {
-                    PBEM_SIDENAME
-                })
-            end
-            pass = Input_String(msg)
-            local passcheck = Input_String(Localize("CONFIRM_PASSWORD"))
-            if pass == passcheck then
-                passwordsMatch = true
-            end
-        end
-        PBEM_SetPassword(Turn_GetCurSide(), pass)
+        PBEM_EnterPassword()
+
         ScenEdit_SetSideOptions({
             side=PBEM_SIDENAME,
             switchto=true
@@ -204,22 +183,10 @@ function PBEM_StartTurn()
             return
         end
 
-        -- Check our password
-        local passwordAccepted = false
-        while not passwordAccepted do
-            local pass = Input_String(Format(Localize("ENTER_PASSWORD"), {
-                PBEM_SIDENAME, 
-                turnnum
-            }))
-            if PBEM_CheckPassword(Turn_GetCurSide(), pass) then
-                passwordAccepted = true
-            else
-                local choice = ScenEdit_MsgBox(Localize("WRONG_PASSWORD"), 5)
-                if choice ~= 'Retry' then
-                    PBEM_SelfDestruct()
-                    return
-                end
-            end
+        -- Verify our password
+        if PBEM_VerifyPassword() == false then
+            PBEM_SelfDestruct()
+            return
         end
         
         -- First, see if other player has offered a draw
@@ -234,29 +201,22 @@ function PBEM_StartTurn()
         local curTime = ScenEdit_CurrentTime()
         local time_check = curTime - turnStartTime
         
-        if PBEM_UNLIMITED_ORDERS then
-            ScenEdit_SetSideOptions({
-                side=PBEM_SIDENAME,
-                switchto=true
-            })
-        else
-            if (time_check % PBEM_ORDER_INTERVAL == 0) or (curTime == (nextTurnStartTime-1)) then
-                if curTime > turnStartTime then
-                    --remind us what order phase we were in
-                    PBEM_StartOrderPhase()
-                else
-                    -- turn start
-                    PBEM_LIMITED_LAST_PHASE = true
-                    ScenEdit_SetSideOptions({
-                        side=PBEM_SIDENAME,
-                        switchto=true
-                    })
-                end
+        if (time_check % PBEM_ORDER_INTERVAL == 0) or (curTime == (nextTurnStartTime-1)) then
+            if curTime > turnStartTime then
+                --remind us what order phase we were in
+                PBEM_StartOrderPhase()
             else
-                -- resume order phase in the middle
-                PBEM_EndOrderPhase()
-                PBEM_ShowOrderPhase(true)
+                -- turn start
+                PBEM_LIMITED_LAST_PHASE = true
+                ScenEdit_SetSideOptions({
+                    side=PBEM_SIDENAME,
+                    switchto=true
+                })
             end
+        else
+            -- resume order phase in the middle
+            PBEM_EndOrderPhase()
+            PBEM_ShowOrderPhase(true)
         end
 
         if curTime == turnStartTime then
@@ -281,7 +241,7 @@ function PBEM_UpdateTick()
     if turnnum > 0 then
         if scenCurTime >= nextTurnStartTime then
             if PBEM_TURNOVER < 1 then
-                if (not PBEM_UNLIMITED_ORDERS) and (not PBEM_LIMITED_LAST_PHASE) then
+                if not PBEM_LIMITED_LAST_PHASE then
                     -- guard against time overrun in 30x time compression
                     ScenEdit_SetTime(PBEM_CustomTimeToUTC(nextTurnStartTime-1))
                     return
@@ -297,17 +257,14 @@ function PBEM_UpdateTick()
                 return
             end
         else
-            -- Make sure the player isn't trying to modify another side's orders
+            -- Make sure the player isn't trying to play another side
             local dummy_side = PBEM_DummySideName()
-            local cur_side_check = PBEM_GetCurSideFromTime()
-            local cur_side_name = PBEM_PLAYABLE_SIDES[cur_side_check] or "!!CHEATER!!"
+            local cur_side_name = PBEM_SIDENAME
             if cur_side_name ~= curPlayerSide and curPlayerSide ~= dummy_side and curPlayerSide ~= PBEM_DUMMY_SIDE then
                 --probably attempting to cheat
                 PBEM_SelfDestruct()
                 return
-            elseif not PBEM_UNLIMITED_ORDERS then
-                -- handle limited orders
-
+            else
                 --mirror side score and contact postures
                 PBEM_MirrorSideScore()
                 PBEM_MirrorContactPostures()
@@ -358,6 +315,7 @@ function PBEM_EndTurn()
     })
     PBEM_SpecialMessage('playerside', msg, nil, true)
     ScenEdit_SetTime(PBEM_CustomTimeToUTC(next_turn_time))
+    StoreNumber("__CUR_TURN_TIME", next_turn_time)
 
     PBEM_EndAPIReplace()
     PBEM_TURNOVER = 1

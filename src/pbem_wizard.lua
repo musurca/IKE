@@ -41,22 +41,19 @@ function PBEM_Wizard()
         end
     end
     turn_length = turnLengthSec * 60
-    
-    --unlimited orders?
-    local unlimitedOrders = Input_YesNo(Localize("WIZARD_UNLIMITED_ORDERS"))
+
     local order_phases = {}
-    if not unlimitedOrders then
-        --number of orders per turn
-        ForEachDo(playableSides, function(side)
-            local orderNumber = Input_Number(
-                Format(Localize("WIZARD_ORDER_NUMBER"), {
-                    side
-                })
-            )
-            orderNumber = math.max(2, math.floor(orderNumber)) - 1
-            table.insert(order_phases, orderNumber)
-        end)
-    end
+    --number of orders per turn
+    ForEachDo(playableSides, function(side)
+        local orderNumber = Input_Number(
+            Format(Localize("WIZARD_ORDER_NUMBER"), {
+                side
+            })
+        )
+        orderNumber = math.max(2, math.floor(orderNumber)) - 1
+        table.insert(order_phases, orderNumber)
+    end)
+
     --turn order - set up to nine ranks
     local order_set = false
     local order_messages = {
@@ -84,11 +81,10 @@ function PBEM_Wizard()
                 playableSides[rank] = playableSides[i]
                 playableSides[i] = temp_side
                 --swap order_phases
-                if not unlimitedOrders then
-                    temp_side = order_phases[rank]
-                    order_phases[rank] = order_phases[i]
-                    order_phases[i] = temp_side
-                end
+                temp_side = order_phases[rank]
+                order_phases[rank] = order_phases[i]
+                order_phases[i] = temp_side
+
                 rank = rank + 1
                 break
             end
@@ -126,11 +122,8 @@ function PBEM_Wizard()
     StoreStringArray("__SCEN_PLAYABLESIDES", PBEM_PLAYABLE_SIDES)
     StoreNumber("__SCEN_TURN_LENGTH", turn_length)
     StoreBoolean('__SCEN_SETUPPHASE', PBEM_SETUP_PHASE)
-    StoreBoolean('__SCEN_UNLIMITEDORDERS', unlimitedOrders)
     StoreBoolean("__SCEN_PREVENTEDITOR", prevent_editor)
-    if not unlimitedOrders then
-        StoreNumberArray('__SCEN_ORDERINTERVAL', order_phases)
-    end
+    StoreNumberArray('__SCEN_ORDERINTERVAL', order_phases)
 
     -- Install IKE into the scenario
 
@@ -309,6 +302,7 @@ function PBEM_Wizard()
 
     -- reset the scenario to its starting time
     ScenEdit_SetTime(PBEM_StartTimeToUTC())
+    StoreNumber("__CUR_TURN_TIME", VP_GetScenario().StartTimeNum)
 
     -- finally, switch to the dummy side for scenario start
     ScenEdit_SetSideOptions({side=PBEM_DUMMY_SIDE, switchto=true})

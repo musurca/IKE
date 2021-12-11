@@ -9,10 +9,6 @@ Contains logic for IKE's Limited Orders mode.
 ----------------------------------------------
 ]]--
 
-function PBEM_OrdersUnlimited()
-    return GetBoolean('__SCEN_UNLIMITEDORDERS')
-end
-
 function PBEM_OrderPhases()
     return GetNumberArray("__SCEN_ORDERINTERVAL")
 end
