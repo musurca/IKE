@@ -192,7 +192,10 @@ function PBEM_EndOrderPhase()
     PBEM_LIMITED_LAST_PHASE = nil
     PBEM_MirrorSide(PBEM_SIDENAME)
     PBEM_MirrorSideScore()
-    ScenEdit_SetSideOptions({side=PBEM_DummySideName(), switchto=true})
+    ScenEdit_SetSideOptions({
+        side=PBEM_DummySideName(),
+        switchto=true
+    })
 end
 
 function PBEM_StartOrderPhase(curtime)

@@ -106,9 +106,9 @@ SPEC_DRAW_DESC|Ofertas para terminar el juego en empate. Si el otro jugador lo a
 SCEN_END_DRAW|UN EMPATE
 SCEN_END_VICTORY|%1 VICTORIA
 SCEN_END_DEFEAT|%1 DERROTA
-DAMAGE_LISTING|struck by %1
-DAMAGES_REPORTED|Damaged:
-HIT_LISTING|struck %1
-HITS_REPORTED|Strikes:
+DAMAGE_LISTING|hit by %1
+DAMAGES_REPORTED|Damaged units:
+HIT_LISTING|hit %1
+HITS_REPORTED|Weapon impacts:
 SPEC_PASSCHANGE_NAME|(PBEM) Change your password
 SPEC_PASSCHANGE_DESC|Changes your password. Useful if you want to show the turn to another player, but don't want to reveal your normal password.

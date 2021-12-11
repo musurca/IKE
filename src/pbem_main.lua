@@ -153,6 +153,10 @@ function PBEM_StartTurn()
 
     if (turnnum == 1 and not PBEM_SETUP_PHASE and curtime == PBEM_TURN_START_TIME) or (turnnum == 0 and PBEM_SETUP_PHASE) then
         -- do initial senario setup if this is the first run
+        
+        --set the language for this player
+        PBEM_SetLocale()
+
         if Turn_GetCurSide() == 1 then
             PBEM_SetHostBuildNumber()
             PBEM_UserCheckSettings()
@@ -171,9 +175,10 @@ function PBEM_StartTurn()
             switchto=true
         })
 
-        if turnnum == 0 and PBEM_SETUP_PHASE then
+        if turnnum == 0 then
             PBEM_StartSetupPhase()
         else
+            PBEM_LIMITED_LAST_PHASE = true
             PBEM_ShowTurnIntro()
         end
     else
@@ -202,12 +207,12 @@ function PBEM_StartTurn()
         local time_check = curTime - turnStartTime
         
         if (time_check % PBEM_ORDER_INTERVAL == 0) or (curTime == (nextTurnStartTime-1)) then
+            PBEM_LIMITED_LAST_PHASE = true
             if curTime > turnStartTime then
                 --remind us what order phase we were in
                 PBEM_StartOrderPhase()
             else
                 -- turn start
-                PBEM_LIMITED_LAST_PHASE = true
                 ScenEdit_SetSideOptions({
                     side=PBEM_SIDENAME,
                     switchto=true
@@ -244,9 +249,12 @@ function PBEM_UpdateTick()
                 if not PBEM_LIMITED_LAST_PHASE then
                     -- guard against time overrun in 30x time compression
                     ScenEdit_SetTime(PBEM_CustomTimeToUTC(nextTurnStartTime-1))
+                else
+                    PBEM_EndTurn()
+                    PBEM_CheckScheduledMessages()
+                    PBEM_FlushSpecialMessages()
                     return
                 end
-                PBEM_EndTurn()
             elseif PBEM_TURNOVER < 2 then
                 -- safety net
                 ScenEdit_SetTime(PBEM_CustomTimeToUTC(PBEM_GetCurTurnStartTime()))
@@ -256,35 +264,35 @@ function PBEM_UpdateTick()
                 PBEM_SelfDestruct()
                 return
             end
-        else
-            -- Make sure the player isn't trying to play another side
-            local dummy_side = PBEM_DummySideName()
-            local cur_side_name = PBEM_SIDENAME
-            if cur_side_name ~= curPlayerSide and curPlayerSide ~= dummy_side and curPlayerSide ~= PBEM_DUMMY_SIDE then
-                --probably attempting to cheat
-                PBEM_SelfDestruct()
-                return
-            else
-                --mirror side score and contact postures
-                PBEM_MirrorSideScore()
-                PBEM_MirrorContactPostures()
-                
-                --check for order phase
-                local time_check = scenCurTime - PBEM_TURN_START_TIME
-                if curPlayerSide ~= dummy_side then
-                    if PBEM_LIMITED_LAST_PHASE then
-                        --make sure the dummy side has no RPs
-                        PBEM_WipeRPs()
-                        --switch to dummy side
-                        PBEM_EndOrderPhase()
-                    end
-                elseif (time_check % PBEM_ORDER_INTERVAL == 0) or (scenCurTime == (nextTurnStartTime-1)) then
-                    --transfer any temporary RPs to the correct side
-                    PBEM_TransferRPs()
-                    -- start giving orders again
-                    PBEM_StartOrderPhase(scenCurTime)
-                end
+        end
+
+        -- Make sure the player isn't trying to play another side
+        local dummy_side = PBEM_DummySideName()
+        local cur_side_name = PBEM_SIDENAME
+        if cur_side_name ~= curPlayerSide and curPlayerSide ~= dummy_side and curPlayerSide ~= PBEM_DUMMY_SIDE then
+            --probably attempting to cheat
+            PBEM_SelfDestruct()
+            return
+        end
+
+        --mirror side score and contact postures
+        PBEM_MirrorSideScore()
+        PBEM_MirrorContactPostures()
+        
+        --check for order phase
+        local time_check = scenCurTime - PBEM_TURN_START_TIME
+        if curPlayerSide ~= dummy_side then
+            if PBEM_LIMITED_LAST_PHASE then
+                --make sure the dummy side has no RPs
+                PBEM_WipeRPs()
+                --switch to dummy side
+                PBEM_EndOrderPhase()
             end
+        elseif (time_check % PBEM_ORDER_INTERVAL == 0) or (scenCurTime == (nextTurnStartTime-1)) then
+            --transfer any temporary RPs to the correct side
+            PBEM_TransferRPs()
+            -- start giving orders again
+            PBEM_StartOrderPhase(scenCurTime)
         end
     else
         -- ending a setup phase
@@ -322,9 +330,6 @@ function PBEM_EndTurn()
 end
 
 function PBEM_StartSetupPhase()
-    --set the language for this player
-    PBEM_SetLocale()
-
     -- show setup phase intro
     local msg = Format(Localize("SETUP_PHASE_INTRO"), {
         Turn_GetCurSideName()

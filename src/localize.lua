@@ -54,7 +54,7 @@ function LocalizeForSide(side, msg_code)
 end
 
 function PBEM_SetLocale()
-    local sidenum = Turn_GetTurnNumber()
+    local sidenum = Turn_GetCurSide()
     StoreString(
         "PBEM_SIDE_LOCALE_"..sidenum,
         GetLanguageName()

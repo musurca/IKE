@@ -77,6 +77,9 @@ v1.5 (????):
 * added: customizable event handler for end of Setup Phase
 * added: Red-Blue Hawaii, 1985
 * removed: Unlimited Orders mode
+* fixed: first order phase message displayed correctly 
+* fixed: limited control in scenarios without a Setup Phase
+* fixed: kill & contact records in wrong language (for real this time)
 * fixed: Chinese language typos (@cristianwj)
 
 v1.42 (11/20/2021):

@@ -347,15 +347,10 @@ function PBEM_ShowTurnIntro()
     end
     local msg_header
     local turn_len_min = math.floor(PBEM_TURN_LENGTH / 60)
-    local orderNumStr
-    if PBEM_ORDER_INTERVAL == PBEM_TURN_LENGTH then
-        orderNumStr = ""
-    else
-        orderNumStr = Format(Localize("ORDER_PHASE_DIVIDER"), {
-            "1",
-            math.floor(PBEM_TURN_LENGTH / PBEM_ORDER_INTERVAL) + 1
-        })
-    end
+    local orderNumStr = Format(Localize("ORDER_PHASE_DIVIDER"), {
+        "1",
+        math.floor(PBEM_TURN_LENGTH / PBEM_ORDER_INTERVAL) + 1
+    })
     msg_header = Format(Localize("START_ORDER_HEADER"), {
         PBEM_SIDENAME,
         tostring(turnnum),
