@@ -179,10 +179,10 @@ function PBEM_RegisterUnitDamaged()
                 end
                 local unitname = known_name
                 if damager_unit.classname then
-                    unitname = damager_unit.classname.." "..Format(
+                    unitname = known_name.." "..Format(
                         LocalizeForSide(damager_side, "HIT_LISTING"),
                         {
-                            known_name
+                            damager_unit.classname
                         }
                     )
                 end
@@ -306,6 +306,12 @@ function PBEM_ScoreSummary(score_tbl)
 end
 
 function PBEM_ShowTurnIntro()
+    -- first deal with variable turn length issues
+    if PBEM_HasVariableTurnLengths() then
+        PBEM_CheckTacticalTime()
+        PBEM_CheckIntermediateTime()
+    end
+
     local cursidenum = Turn_GetCurSide()
     local turnnum = Turn_GetTurnNumber()
     local lossreport = ""

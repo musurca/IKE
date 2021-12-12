@@ -69,6 +69,7 @@ For detailed instructions, please refer to the manual included with the [latest 
 
 ### VERSION HISTORY
 v1.5 (????):
+* added: optional variable turn lengths
 * added: new action - Offer a Draw
 * added: new action - Resign
 * added: new action - Change Password

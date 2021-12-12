@@ -46,6 +46,16 @@ function PBEM_PlayableSides()
     return GetStringArray('__SCEN_PLAYABLESIDES')
 end
 
+function PBEM_HasVariableTurnLengths()
+    return GetBoolean("__SCEN_VAR_TURN_LENGTHS")
+end
+
+function PBEM_SetTurnLength(len)
+    StoreNumber("__SCEN_TURN_LENGTH", len)
+    PBEM_TURN_LENGTH = len
+    PBEM_ORDER_INTERVAL = PBEM_OrderInterval()
+end
+
 function PBEM_TurnLength()
     return GetNumber("__SCEN_TURN_LENGTH")
 end
@@ -249,13 +259,14 @@ function PBEM_UpdateTick()
                 if not PBEM_LIMITED_LAST_PHASE then
                     -- guard against time overrun in 30x time compression
                     ScenEdit_SetTime(PBEM_CustomTimeToUTC(nextTurnStartTime-1))
+                    return
                 else
                     PBEM_EndTurn()
                     PBEM_CheckScheduledMessages()
                     PBEM_FlushSpecialMessages()
                     return
                 end
-            elseif PBEM_TURNOVER < 2 then
+            elseif PBEM_TURNOVER == 1 then
                 -- safety net
                 ScenEdit_SetTime(PBEM_CustomTimeToUTC(PBEM_GetCurTurnStartTime()))
                 PBEM_TURNOVER = PBEM_TURNOVER + 1
@@ -289,6 +300,9 @@ function PBEM_UpdateTick()
                 PBEM_EndOrderPhase()
             end
         elseif (time_check % PBEM_ORDER_INTERVAL == 0) or (scenCurTime == (nextTurnStartTime-1)) then
+            if scenCurTime == nextTurnStartTime then
+                scenCurTime = nextTurnStartTime-1
+            end
             --transfer any temporary RPs to the correct side
             PBEM_TransferRPs()
             -- start giving orders again
@@ -307,26 +321,29 @@ function PBEM_UpdateTick()
 end
 
 function PBEM_EndTurn()
-    PBEM_LIMITED_LAST_PHASE = nil
-    local next_turn_time = PBEM_GetNextTurnStartTime()
-    local turn_num = Turn_GetTurnNumber()
-    local player_side = PBEM_SIDENAME
-    Turn_NextSide()
+    if PBEM_LIMITED_LAST_PHASE == true then
+        PBEM_LIMITED_LAST_PHASE = nil
+        local next_turn_time = PBEM_GetNextTurnStartTime()
+        ScenEdit_SetTime(PBEM_CustomTimeToUTC(next_turn_time))
 
-    ScenEdit_PlaySound("radioChirp5.mp3")
-    local msg = Message_Header(Format(Localize("END_OF_TURN_HEADER"), {
-        player_side,
-        turn_num
-    }))
-    msg = msg..Format(Localize("END_OF_TURN_MESSAGE"), {
-        Turn_GetCurSideName()
-    })
-    PBEM_SpecialMessage('playerside', msg, nil, true)
-    ScenEdit_SetTime(PBEM_CustomTimeToUTC(next_turn_time))
-    StoreNumber("__CUR_TURN_TIME", next_turn_time)
+        local turn_num = Turn_GetTurnNumber()
+        local player_side = PBEM_SIDENAME
+        Turn_NextSide()
 
-    PBEM_EndAPIReplace()
-    PBEM_TURNOVER = 1
+        ScenEdit_PlaySound("radioChirp5.mp3")
+        local msg = Message_Header(Format(Localize("END_OF_TURN_HEADER"), {
+            player_side,
+            turn_num
+        }))
+        msg = msg..Format(Localize("END_OF_TURN_MESSAGE"), {
+            Turn_GetCurSideName()
+        })
+        PBEM_SpecialMessage('playerside', msg, nil, true)
+        StoreNumber("__CUR_TURN_TIME", next_turn_time)
+
+        PBEM_EndAPIReplace()
+        PBEM_TURNOVER = 1
+    end
 end
 
 function PBEM_StartSetupPhase()

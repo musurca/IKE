@@ -82,7 +82,6 @@ WIZARD_PREVENT_EDITOR|你需要防止玩家在剧本完成之前使用编辑器�
 WIZARD_SETUP_PHASE|游戏是否需要单独的设置阶段?
 WIZARD_SUCCESS|成功! 你的邮件对战/热座对战剧本已经初始化完成. 选择文件 -> 另存为... 将其用新的文件名保存. 再下次读取时就能进行对战.\n\n(如果您计划将其发布在Steam创意工坊, 可以先不关闭此剧本并现在就上传.)\n\n感谢使用IKE!
 WIZARD_TURN_LENGTH|输入回合长度（X分钟）：
-WIZARD_UNLIMITED_ORDERS|玩家能否在回合内下达无限命令?\n(点击 No 选择每回合有限命令的数量.)
 WIZARD_ZERO_LENGTH|错误:回合长度必须大于0!
 WRONG_PASSWORD|密码不正确.
 YES|是
@@ -108,7 +107,25 @@ SCEN_END_VICTORY|%1 胜利
 SCEN_END_DEFEAT|%1 失败
 DAMAGE_LISTING|hit by %1
 DAMAGES_REPORTED|Damaged units:
-HIT_LISTING|hit %1
-HITS_REPORTED|Weapon impacts:
+HIT_LISTING|hit with %1
+HITS_REPORTED|Successful strikes:
 SPEC_PASSCHANGE_NAME|(PBEM) Change your password
 SPEC_PASSCHANGE_DESC|Changes your password. Useful if you want to show the turn to another player, but don't want to reveal your normal password.
+WIZARD_CONST_TURN_LENGTHS|Use Constant Turn Lengths?\n(Click No to allow players to alternate between Intermediate and Tactical turn lengths.)
+WIZARD_INTERMEDIATE_LENGTH|Enter the INTERMEDIATE TURN LENGTH in minutes:
+WIZARD_TACTICAL_LENGTH|Enter the TACTICAL TURN LENGTH in minutes:
+SPEC_TACTICAL_NAME|(TIME) Enter Tactical turn time
+SPEC_TACTICAL_DESC|Switches the turn length to Tactical, for more granular control over your units during intense action. This can only be done at the start of your turn.
+SPEC_INTERMEDIATE_NAME|(TIME) Offer to enter Intermediate turn time
+SPEC_INTERMEDIATE_DESC|Offers to enter Intermediate turn time, for faster game resolution during less intense parts of a scenario. If the other player agrees, Intermediate time will start on their turn.
+TACTICAL_SETUP|You can't enter Tactical time during the Setup phase.
+TACTICAL_NOTSTART|You can only enter Tactical time at the beginning of your turn.
+TACTICAL_ENTERED|You have entered Tactical turn time. The length of all turns will now be %1 minutes.
+TACTICAL_INITIATED|Another player has initiated Tactical turn time. The length of all turns will now be %1 minutes.
+INTERMEDIATE_WILLOFFER|Would you like to offer to enter Intermediate turn time?
+INTERMEDIATE_OFFERED|You have offered to enter Intermediate turn time. The other player will choose whether to accept on their next turn.
+INTERMEDIATE_HASOFFER|Another player wants to enter Intermediate turn time. Do you accept? If YES, the length of all turns will now be %1 minutes.
+INTERMEDIATE_ALREADY|An offer to enter Intermediate turn time has already been made.
+INTERMEDIATE_VOTED|You have voted to enter Intermediate turn time. If the vote passes, Intermediate time will start on the turn of the last voting player.
+INTERMEDIATE_DECLINED|You have declined the offer to enter Intermediate turn time.
+INTERMEDIATE_ENTERED|The vote to enter Intermediate turn time has passed. The length of all turns will now be %1 minutes.

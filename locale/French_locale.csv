@@ -82,7 +82,6 @@ WIZARD_PREVENT_EDITOR|Voulez-vous empêcher les joueurs d'ouvrir le jeu en MODE 
 WIZARD_SETUP_PHASE|Le jeu doit-il commencer par une PHASE DE SETUP?
 WIZARD_SUCCESS|Succès ! Votre scénario PBEM/hotseat a bien été initialisé. Allez dans FILE -> SAVE AS…pour le sauvegarder sous un nouveau nom. Il sera prêt à être joué la prochaine fois que vous le chargerez.\n\n(si vous envisagez de le publier dans le Workshop de Steam, faites le maintenant, avant de refermer le scénario.)\n\nMerci d’avoir utilisé IKE !
 WIZARD_TURN_LENGTH|Entrez la DURÉE D'UN TOUR en minutes:
-WIZARD_UNLIMITED_ORDERS|Les joueurs doivent-ils pouvoir donner un nombre ILLIMITÉ d'ordes pendant un tour ?\n(Cliquez « No » pour un nombre limité de phases par tour.) 
 WIZARD_ZERO_LENGTH|ERREUR: La durée d'un tour doit être supérieure à 0!
 WRONG_PASSWORD|Le mot de passe est incorrect.
 YES|Oui
@@ -108,7 +107,25 @@ SCEN_END_VICTORY|%1 VICTOIRE
 SCEN_END_DEFEAT|%1 DEFAITE
 DAMAGE_LISTING|hit by %1
 DAMAGES_REPORTED|Damaged units:
-HIT_LISTING|hit %1
-HITS_REPORTED|Weapon impacts:
+HIT_LISTING|hit with %1
+HITS_REPORTED|Successful strikes:
 SPEC_PASSCHANGE_NAME|(PBEM) Change your password
 SPEC_PASSCHANGE_DESC|Changes your password. Useful if you want to show the turn to another player, but don't want to reveal your normal password.
+WIZARD_CONST_TURN_LENGTHS|Use Constant Turn Lengths?\n(Click No to allow players to alternate between Intermediate and Tactical turn lengths.)
+WIZARD_INTERMEDIATE_LENGTH|Enter the INTERMEDIATE TURN LENGTH in minutes:
+WIZARD_TACTICAL_LENGTH|Enter the TACTICAL TURN LENGTH in minutes:
+SPEC_TACTICAL_NAME|(TIME) Enter Tactical turn time
+SPEC_TACTICAL_DESC|Switches the turn length to Tactical, for more granular control over your units during intense action. This can only be done at the start of your turn.
+SPEC_INTERMEDIATE_NAME|(TIME) Offer to enter Intermediate turn time
+SPEC_INTERMEDIATE_DESC|Offers to enter Intermediate turn time, for faster game resolution during less intense parts of a scenario. If the other player agrees, Intermediate time will start on their turn.
+TACTICAL_SETUP|You can't enter Tactical time during the Setup phase.
+TACTICAL_NOTSTART|You can only enter Tactical time at the beginning of your turn.
+TACTICAL_ENTERED|You have entered Tactical turn time. The length of all turns will now be %1 minutes.
+TACTICAL_INITIATED|Another player has initiated Tactical turn time. The length of all turns will now be %1 minutes.
+INTERMEDIATE_WILLOFFER|Would you like to offer to enter Intermediate turn time?
+INTERMEDIATE_OFFERED|You have offered to enter Intermediate turn time. The other player will choose whether to accept on their next turn.
+INTERMEDIATE_HASOFFER|Another player wants to enter Intermediate turn time. Do you accept? If YES, the length of all turns will now be %1 minutes.
+INTERMEDIATE_ALREADY|An offer to enter Intermediate turn time has already been made.
+INTERMEDIATE_VOTED|You have voted to enter Intermediate turn time. If the vote passes, Intermediate time will start on the turn of the last voting player.
+INTERMEDIATE_DECLINED|You have declined the offer to enter Intermediate turn time.
+INTERMEDIATE_ENTERED|The vote to enter Intermediate turn time has passed. The length of all turns will now be %1 minutes.

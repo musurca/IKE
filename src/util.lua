@@ -171,6 +171,18 @@ function Input_String(question)
     return ""
 end
 
+--[[
+Presents the user with an input box that expects a string.
+Supports cancellation.
+]]--
+function Input_String_Cancel(question)
+    local val = ScenEdit_InputBox(question)
+    if val then
+        return tostring(val)
+    end
+    return val
+end
+
 function SideGUIDByName(name)
     for k, side in ipairs(VP_GetSides()) do
         if side.name == name then

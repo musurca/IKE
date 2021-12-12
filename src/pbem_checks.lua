@@ -33,6 +33,32 @@ function PBEM_EnterPassword()
     PBEM_SetPassword(Turn_GetCurSide(), pass)
 end
 
+function PBEM_ChangePassword()
+    local passwordsMatch = false
+    local attemptNum = 0
+    local pass = ""
+    while not passwordsMatch do
+        attemptNum = attemptNum + 1
+        local msg = ""
+        if attemptNum > 1 then
+            msg = Localize("PASSWORDS_DIDNT_MATCH")
+        else
+            msg = Format(Localize("CHOOSE_PASSWORD"), {
+                PBEM_SIDENAME
+            })
+        end
+        pass = Input_String_Cancel(msg)
+        if pass == nil then
+            return
+        end
+        local passcheck = Input_String(Localize("CONFIRM_PASSWORD"))
+        if pass == passcheck then
+            passwordsMatch = true
+        end
+    end
+    PBEM_SetPassword(Turn_GetCurSide(), pass)
+end
+
 function PBEM_SetPassword(sidenum, password)
     StoreString("__SIDE_"..tostring(sidenum).."_PASSWD", md5.Calc(password))
 end
@@ -92,25 +118,95 @@ function PBEM_UserCheckSettings()
         return
     end
 
+    --determine whether you use constant turn lengths
+    local variable_turn_lengths = GetBoolean("__SCEN_VAR_TURN_LENGTHS")
+    local prev_var_tl = variable_turn_lengths
     local turn_length = 0
-    local order_phases = {}
-
-    local default_length = math.floor(PBEM_TURN_LENGTH/60)
-    local turnLengthSec = Input_Number_Default(
-        Format("%1\n\n%2", {
-            Localize("WIZARD_TURN_LENGTH"),
+    local intermed_length = 0
+    local tactical_length = 0
+    local tl_msg = Format(
+        "%1\n\n%2",
+        {
+            Localize("WIZARD_CONST_TURN_LENGTHS"),
             Format(Localize("RECOMMENDED"), {
-                default_length
+                BooleanToString(not variable_turn_lengths)
             })
-        }),
-        default_length
+        }
     )
-    turnLengthSec = math.max(0, math.floor(turnLengthSec))
-    if turnLengthSec == 0 then
-        turnLengthSec = default_length
-    end
-    turn_length = turnLengthSec*60
+    if Input_YesNo(tl_msg) then
+        variable_turn_lengths = false
+        --determine turn length
+        local default_length = math.floor(PBEM_TURN_LENGTH/60)
+        local turnLengthSec = Input_Number_Default(
+            Format("%1\n\n%2", {
+                Localize("WIZARD_TURN_LENGTH"),
+                Format(Localize("RECOMMENDED"), {
+                    default_length
+                })
+            }),
+            default_length
+        )
+        turnLengthSec = math.max(0, math.floor(turnLengthSec))
+        if turnLengthSec == 0 then
+            turnLengthSec = default_length
+        end
+        turn_length = turnLengthSec * 60
+    else
+        variable_turn_lengths = true
 
+        --determine length of Intermediate turn
+        local def_intermed_length = math.floor(
+            GetNumber("__SCEN_INTERMED_LENGTH") / 60
+        )
+        if def_intermed_length == 0 then
+            def_intermed_length = 30
+        end
+        local intermed_turn_length_min = 0
+        while intermed_turn_length_min == 0 do
+            intermed_turn_length_min = Input_Number_Default(
+                Format("%1\n\n%2", {
+                    Localize("WIZARD_INTERMEDIATE_LENGTH"),
+                    Format(Localize("RECOMMENDED"), {
+                        def_intermed_length
+                    })
+                }),
+                def_intermed_length
+            )
+            intermed_turn_length_min = math.max(0, math.floor(intermed_turn_length_min))
+            if intermed_turn_length_min == 0 then
+                Input_OK(Localize("WIZARD_ZERO_LENGTH"))
+            end
+        end
+        intermed_length = intermed_turn_length_min * 60
+        turn_length = intermed_length
+        
+        -- determine length of Tactical turn
+        local def_tactical_length = math.floor(
+            GetNumber("__SCEN_TACTICAL_LENGTH") / 60
+        )
+        if def_tactical_length == 0 then
+            def_tactical_length = 5
+        end
+        local tactical_turn_length_min = 0
+        while tactical_turn_length_min == 0 do
+            tactical_turn_length_min = Input_Number_Default(
+                Format("%1\n\n%2", {
+                    Localize("WIZARD_TACTICAL_LENGTH"),
+                    Format(Localize("RECOMMENDED"), {
+                        def_tactical_length
+                    })
+                }),
+                def_tactical_length
+            )
+            tactical_turn_length_min = math.max(0, math.floor(tactical_turn_length_min))
+            if tactical_turn_length_min == 0 then
+                Input_OK(Localize("WIZARD_ZERO_LENGTH"))
+            end
+        end
+        tactical_length = tactical_turn_length_min * 60
+    end
+
+    local order_phases = {}
     --number of orders per turn
     local sidenum = 1
     ForEachDo(PBEM_PLAYABLE_SIDES, function(side)
@@ -192,11 +288,34 @@ function PBEM_UserCheckSettings()
     }))
 
     -- commit to settings
-    StoreNumber("__SCEN_TURN_LENGTH", turn_length)
     StoreNumberArray('__SCEN_ORDERINTERVAL', order_phases)
     PBEM_PLAYABLE_SIDES = playableSides
     StoreStringArray("__SCEN_PLAYABLESIDES", PBEM_PLAYABLE_SIDES)
     StoreBoolean("__SCEN_PREVENTEDITOR", prevent_editor)
+    StoreNumber("__SCEN_TURN_LENGTH", turn_length)
+    if variable_turn_lengths then
+        StoreBoolean("__SCEN_VAR_TURN_LENGTHS", true)
+        StoreBoolean("__SCEN_TIME_INTERMEDIATE", true)
+        StoreNumber("__SCEN_INTERMED_LENGTH", intermed_length)
+        StoreNumber("__SCEN_TACTICAL_LENGTH", tactical_length)
+
+        if prev_var_tl == false then
+            for i, v in ipairs(PBEM_PLAYABLE_SIDES) do
+                StoreBoolean("__SCEN_WASINTERMEDIATE_"..i, true)
+                -- add action to enter tactical time
+                PBEM_AddActionTacticalTimeSide(v)
+            end
+        end
+    else
+        StoreBoolean("__SCEN_VAR_TURN_LENGTHS", false)
+
+        if prev_var_tl == true then
+            for i, v in ipairs(PBEM_PLAYABLE_SIDES) do
+                -- remove action to enter tactical time
+                PBEM_RemoveActionTacticalTimeSide(v)
+            end
+        end
+    end
 
     -- reinit the scenario globals
     PBEM_InitScenGlobals()
