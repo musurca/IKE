@@ -107,25 +107,27 @@ SCEN_END_VICTORY|%1 胜利
 SCEN_END_DEFEAT|%1 失败
 DAMAGE_LISTING|hit by %1
 DAMAGES_REPORTED|Damaged units:
+UNKNOWN_WEAPON|unknown weapon
 HIT_LISTING|hit with %1
 HITS_REPORTED|Successful strikes:
 SPEC_PASSCHANGE_NAME|(PBEM) Change your password
 SPEC_PASSCHANGE_DESC|Changes your password. Useful if you want to show the turn to another player, but don't want to reveal your normal password.
-WIZARD_CONST_TURN_LENGTHS|Use Constant Turn Lengths?\n(Click No to allow players to alternate between Intermediate and Tactical turn lengths.)
+WIZARD_CONST_TURN_LENGTHS|Use constant turn lengths?\n\n(ADVANCED: Click No to allow players to alternate between Intermediate and Tactical turn lengths.)
 WIZARD_INTERMEDIATE_LENGTH|Enter the INTERMEDIATE TURN LENGTH in minutes:
 WIZARD_TACTICAL_LENGTH|Enter the TACTICAL TURN LENGTH in minutes:
-SPEC_TACTICAL_NAME|(TIME) Enter Tactical turn time
-SPEC_TACTICAL_DESC|Switches the turn length to Tactical, for more granular control over your units during intense action. This can only be done at the start of your turn.
-SPEC_INTERMEDIATE_NAME|(TIME) Offer to enter Intermediate turn time
-SPEC_INTERMEDIATE_DESC|Offers to enter Intermediate turn time, for faster game resolution during less intense parts of a scenario. If the other player agrees, Intermediate time will start on their turn.
+VARIABLE_TIME_WARNING|This scenario uses variable turn lengths (Intermediate vs. Tactical). You can change the current turn length from your Special Actions menu.
+SPEC_TACTICAL_NAME|(TIME) Begin Tactical time (%1 minute turns)
+SPEC_TACTICAL_DESC|Switches the turn length to Tactical (%1 minutes), for more granular control over your units during intense action. This can only be done at the start of your turn.
+SPEC_INTERMEDIATE_NAME|(TIME) Offer to enter Intermediate time (%1 minute turns)
+SPEC_INTERMEDIATE_DESC|Offers to switch the turn length to Intermediate (%1 minutes), for faster game resolution during less intense parts of a scenario. If the other player agrees, Intermediate time will start on their turn.
 TACTICAL_SETUP|You can't enter Tactical time during the Setup phase.
 TACTICAL_NOTSTART|You can only enter Tactical time at the beginning of your turn.
-TACTICAL_ENTERED|You have entered Tactical turn time. The length of all turns will now be %1 minutes.
-TACTICAL_INITIATED|Another player has initiated Tactical turn time. The length of all turns will now be %1 minutes.
-INTERMEDIATE_WILLOFFER|Would you like to offer to enter Intermediate turn time?
-INTERMEDIATE_OFFERED|You have offered to enter Intermediate turn time. The other player will choose whether to accept on their next turn.
-INTERMEDIATE_HASOFFER|Another player wants to enter Intermediate turn time. Do you accept? If YES, the length of all turns will now be %1 minutes.
-INTERMEDIATE_ALREADY|An offer to enter Intermediate turn time has already been made.
-INTERMEDIATE_VOTED|You have voted to enter Intermediate turn time. If the vote passes, Intermediate time will start on the turn of the last voting player.
-INTERMEDIATE_DECLINED|You have declined the offer to enter Intermediate turn time.
-INTERMEDIATE_ENTERED|The vote to enter Intermediate turn time has passed. The length of all turns will now be %1 minutes.
+TACTICAL_ENTERED|You have entered Tactical time. The length of all turns will now be %1 minutes.
+TACTICAL_INITIATED|Another player has initiated Tactical time. The length of all turns will now be %1 minutes.
+INTERMEDIATE_WILLOFFER|Would you like to offer to enter Intermediate time?
+INTERMEDIATE_OFFERED|You have offered to enter Intermediate time. The other player will choose whether to accept on their next turn.
+INTERMEDIATE_HASOFFER|Another player wants to enter Intermediate time. Do you accept? If YES, the length of all turns will now be %1 minutes.
+INTERMEDIATE_ALREADY|An offer to enter Intermediate time has already been made.
+INTERMEDIATE_VOTED|You have voted to enter Intermediate time. If the vote passes, Intermediate time will start on the turn of the last voting player.
+INTERMEDIATE_DECLINED|You have declined the offer to enter Intermediate time.
+INTERMEDIATE_ENTERED|The vote to enter Intermediate time has passed. The length of all turns will now be %1 minutes.

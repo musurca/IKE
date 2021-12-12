@@ -336,11 +336,21 @@ function PBEM_UserChangePosture()
 end
 
 function PBEM_AddRTSide(side)
+    local ds = PBEM_ConstructDummySideName(side)
+
     ForEachDo(IKE_SPECACTIONS, function(action)
         ScenEdit_AddSpecialAction({
             ActionNameOrID=action.name,
             Description=action.desc,
             Side=side,
+            IsActive=true,
+            IsRepeatable=true,
+            ScriptText=action.script
+        })
+        ScenEdit_AddSpecialAction({
+            ActionNameOrID=action.name,
+            Description=action.desc,
+            Side=ds,
             IsActive=true,
             IsRepeatable=true,
             ScriptText=action.script
@@ -357,15 +367,30 @@ function PBEM_AddRTSide(side)
                 IsRepeatable=true,
                 ScriptText=action.script
             })
+            ScenEdit_AddSpecialAction({
+                ActionNameOrID=action.name,
+                Description=action.desc,
+                Side=ds,
+                IsActive=true,
+                IsRepeatable=true,
+                ScriptText=action.script
+            })
         end)
     end
 end
 
 function PBEM_RemoveRTSide(side)
+    local ds = PBEM_ConstructDummySideName(side)
+
     ForEachDo(IKE_SPECACTIONS, function(action)
         pcall(ScenEdit_SetSpecialAction, {
             ActionNameOrID=action.name,
             Side=side,
+            mode="remove"
+        })
+        pcall(ScenEdit_SetSpecialAction, {
+            ActionNameOrID=action.name,
+            Side=ds,
             mode="remove"
         })
     end)
@@ -377,13 +402,27 @@ function PBEM_RemoveRTSide(side)
                 Side=side,
                 mode="remove"
             })
+            pcall(ScenEdit_SetSpecialAction, {
+                ActionNameOrID=action.name,
+                Side=ds,
+                mode="remove"
+            })
         end)
     end
 end
 
 function PBEM_AddActionTacticalTimeSide(side)
-    local action_name = LocalizeForSide(side, "SPEC_TACTICAL_NAME")
-    local action_desc = LocalizeForSide(side, "SPEC_TACTICAL_DESC")
+    local tac_len_min = math.floor(
+        GetNumber("__SCEN_TACTICAL_LENGTH") / 60
+    )
+    local action_name = Format(
+        LocalizeForSide(side, "SPEC_TACTICAL_NAME"),
+        {tac_len_min}
+    )
+    local action_desc = Format(
+        LocalizeForSide(side, "SPEC_TACTICAL_DESC"),
+        {tac_len_min}
+    )
 
     ScenEdit_AddSpecialAction({
         ActionNameOrID=action_name,
@@ -393,13 +432,37 @@ function PBEM_AddActionTacticalTimeSide(side)
         IsRepeatable=true,
         ScriptText="PBEM_EnterTacticalTime()"
     })
+
+    local ds = PBEM_ConstructDummySideName(side)
+    ScenEdit_AddSpecialAction({
+        ActionNameOrID=action_name,
+        Description=action_desc,
+        Side=ds,
+        IsActive=true,
+        IsRepeatable=true,
+        ScriptText="PBEM_EnterTacticalTime()"
+    })
 end
 
 function PBEM_RemoveActionTacticalTimeSide(side)
-    local action_name = LocalizeForSide(side, "SPEC_TACTICAL_NAME")
+    local tac_len_min = math.floor(
+        GetNumber("__SCEN_TACTICAL_LENGTH") / 60
+    )
+    local action_name = Format(
+        LocalizeForSide(side, "SPEC_TACTICAL_NAME"),
+        {tac_len_min}
+    )
+
     pcall(ScenEdit_SetSpecialAction, {
         ActionNameOrID=action_name,
         Side=side,
+        mode="remove"
+    })
+
+    local ds = PBEM_ConstructDummySideName(side)
+    pcall(ScenEdit_SetSpecialAction, {
+        ActionNameOrID=action_name,
+        Side=ds,
         mode="remove"
     })
 end
@@ -420,7 +483,6 @@ function PBEM_EnterTacticalTime()
 
     -- add the intermediate time action
     PBEM_AddActionIntermediateTimeSide(PBEM_SIDENAME)
-    PBEM_AddActionIntermediateTimeSide(PBEM_DummySideName())
 
     -- Set the tactical turn length
     local tac_len = GetNumber("__SCEN_TACTICAL_LENGTH")
@@ -447,7 +509,6 @@ function PBEM_CheckTacticalTime()
 
             -- add the intermediate time action
             PBEM_AddActionIntermediateTimeSide(PBEM_SIDENAME)
-            PBEM_AddActionIntermediateTimeSide(PBEM_DummySideName())
 
             --notify that tactical time has started
             local tac_len_min = math.floor(GetNumber("__SCEN_TACTICAL_LENGTH") / 60)
@@ -462,8 +523,16 @@ function PBEM_CheckTacticalTime()
 end
 
 function PBEM_AddActionIntermediateTimeSide(side)
-    local action_name = LocalizeForSide(side, "SPEC_INTERMEDIATE_NAME")
-    local action_desc = LocalizeForSide(side, "SPEC_INTERMEDIATE_DESC")
+    local intermed_len = GetNumber("__SCEN_INTERMED_LENGTH")
+    local intermed_len_min = math.floor(intermed_len / 60)
+    local action_name = Format(
+        LocalizeForSide(side, "SPEC_INTERMEDIATE_NAME"),
+        { intermed_len_min }
+    )
+    local action_desc = Format(
+        LocalizeForSide(side, "SPEC_INTERMEDIATE_DESC"),
+        { intermed_len_min }
+    )
 
     ScenEdit_AddSpecialAction({
         ActionNameOrID=action_name,
@@ -473,13 +542,36 @@ function PBEM_AddActionIntermediateTimeSide(side)
         IsRepeatable=true,
         ScriptText="PBEM_EnterIntermediateTime()"
     })
+
+    local ds = PBEM_ConstructDummySideName(side)
+    ScenEdit_AddSpecialAction({
+        ActionNameOrID=action_name,
+        Description=action_desc,
+        Side=ds,
+        IsActive=true,
+        IsRepeatable=true,
+        ScriptText="PBEM_EnterIntermediateTime()"
+    })
 end
 
 function PBEM_RemoveActionIntermediateTimeSide(side)
-    local action_name = LocalizeForSide(side, "SPEC_INTERMEDIATE_NAME")
+    local intermed_len = GetNumber("__SCEN_INTERMED_LENGTH")
+    local intermed_len_min = math.floor(intermed_len / 60)
+    local action_name = Format(
+        LocalizeForSide(side, "SPEC_INTERMEDIATE_NAME"),
+        { intermed_len_min }
+    )
+
     pcall(ScenEdit_SetSpecialAction, {
         ActionNameOrID=action_name,
         Side=side,
+        mode="remove"
+    })
+
+    local ds = PBEM_ConstructDummySideName(side)
+    pcall(ScenEdit_SetSpecialAction, {
+        ActionNameOrID=action_name,
+        Side=ds,
         mode="remove"
     })
 end
@@ -519,7 +611,6 @@ function PBEM_CheckIntermediateTime()
 
                     -- remove the intermediate action
                     PBEM_RemoveActionIntermediateTimeSide(PBEM_SIDENAME)
-                    PBEM_RemoveActionIntermediateTimeSide(PBEM_DummySideName())
 
                     PBEM_SetTurnLength(intermed_len)
                     Input_OK(
@@ -554,7 +645,6 @@ function PBEM_CheckIntermediateTime()
 
             -- remove the intermediate action
             PBEM_RemoveActionIntermediateTimeSide(PBEM_SIDENAME)
-            PBEM_RemoveActionIntermediateTimeSide(PBEM_DummySideName())
 
             local intermed_len_min = math.floor(GetNumber("__SCEN_INTERMED_LENGTH") / 60)
             Input_OK(

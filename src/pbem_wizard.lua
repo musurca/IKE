@@ -326,10 +326,6 @@ function PBEM_Wizard()
     for i, v in ipairs(PBEM_PLAYABLE_SIDES) do
         local ds = PBEM_ConstructDummySideName(v)
         PBEM_AddDummyUnit(ds)
-        PBEM_AddRTSide(ds)
-
-        -- add special actions
-        PBEM_AddRTSide(v)
 
         -- initialize message registers
         PBEM_SetLossRegister(i, "")
@@ -338,8 +334,6 @@ function PBEM_Wizard()
 
         if variable_turn_lengths then
             StoreBoolean("__SCEN_WASINTERMEDIATE_"..i, true)
-            -- add action to enter tactical time
-            PBEM_AddActionTacticalTimeSide(v)
         end
 
         -- clear scheduled messages

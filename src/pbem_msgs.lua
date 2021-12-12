@@ -147,16 +147,18 @@ function PBEM_RegisterUnitDamaged()
             else
                 unitname = damaged.name..' ('..damaged.classname..')'
             end
+            local weap_name = LocalizeForSide(damaged_side, "UNKNOWN_WEAPON")
             if damager_unit then
                 if damager_unit.classname then
-                    unitname = unitname.." "..Format(
-                        LocalizeForSide(damaged_side, "DAMAGE_LISTING"),
-                        {
-                            damager_unit.classname
-                        }
-                    )
+                    weap_name = damager_unit.classname
                 end
             end
+            unitname = unitname.." "..Format(
+                LocalizeForSide(damaged_side, "DAMAGE_LISTING"),
+                {
+                    weap_name
+                }
+            )
             damage_register = damage_register.."<i>"..damage_time.."</i> // "..unitname.."<br/>"
             PBEM_SetDamageRegister(sidenum, damage_register)
         end

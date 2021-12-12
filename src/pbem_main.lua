@@ -177,6 +177,13 @@ function PBEM_StartTurn()
             return
         end
 
+        -- add special actions after locale is set
+        PBEM_AddRTSide(PBEM_SIDENAME)
+        if PBEM_HasVariableTurnLengths() then
+            -- add action to enter tactical time
+            PBEM_AddActionTacticalTimeSide(PBEM_SIDENAME)
+        end
+
         -- Enter a password
         PBEM_EnterPassword()
 
@@ -184,6 +191,10 @@ function PBEM_StartTurn()
             side=PBEM_SIDENAME,
             switchto=true
         })
+
+        if PBEM_HasVariableTurnLengths() then
+            Input_OK(Localize("VARIABLE_TIME_WARNING"))
+        end
 
         if turnnum == 0 then
             PBEM_StartSetupPhase()
@@ -321,29 +332,27 @@ function PBEM_UpdateTick()
 end
 
 function PBEM_EndTurn()
-    if PBEM_LIMITED_LAST_PHASE == true then
-        PBEM_LIMITED_LAST_PHASE = nil
-        local next_turn_time = PBEM_GetNextTurnStartTime()
-        ScenEdit_SetTime(PBEM_CustomTimeToUTC(next_turn_time))
+    PBEM_LIMITED_LAST_PHASE = nil
+    local next_turn_time = PBEM_GetNextTurnStartTime()
+    ScenEdit_SetTime(PBEM_CustomTimeToUTC(next_turn_time))
 
-        local turn_num = Turn_GetTurnNumber()
-        local player_side = PBEM_SIDENAME
-        Turn_NextSide()
+    local turn_num = Turn_GetTurnNumber()
+    local player_side = PBEM_SIDENAME
+    Turn_NextSide()
 
-        ScenEdit_PlaySound("radioChirp5.mp3")
-        local msg = Message_Header(Format(Localize("END_OF_TURN_HEADER"), {
-            player_side,
-            turn_num
-        }))
-        msg = msg..Format(Localize("END_OF_TURN_MESSAGE"), {
-            Turn_GetCurSideName()
-        })
-        PBEM_SpecialMessage('playerside', msg, nil, true)
-        StoreNumber("__CUR_TURN_TIME", next_turn_time)
+    ScenEdit_PlaySound("radioChirp5.mp3")
+    local msg = Message_Header(Format(Localize("END_OF_TURN_HEADER"), {
+        player_side,
+        turn_num
+    }))
+    msg = msg..Format(Localize("END_OF_TURN_MESSAGE"), {
+        Turn_GetCurSideName()
+    })
+    PBEM_SpecialMessage('playerside', msg, nil, true)
+    StoreNumber("__CUR_TURN_TIME", next_turn_time)
 
-        PBEM_EndAPIReplace()
-        PBEM_TURNOVER = 1
-    end
+    PBEM_EndAPIReplace()
+    PBEM_TURNOVER = 1
 end
 
 function PBEM_StartSetupPhase()

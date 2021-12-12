@@ -126,10 +126,6 @@ function PBEM_CurrentTimeMilitary()
     return PBEM_CustomTimeMilitary(VP_GetScenario().CurrentTimeNum)
 end
 
-function PBEM_ScenarioStartTime()
-    return GetNumber("__PBEM_STARTTIME")
-end
-
 --[[
 returns the start time of the current turn in seconds
 ]]--

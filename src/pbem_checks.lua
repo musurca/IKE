@@ -302,19 +302,10 @@ function PBEM_UserCheckSettings()
         if prev_var_tl == false then
             for i, v in ipairs(PBEM_PLAYABLE_SIDES) do
                 StoreBoolean("__SCEN_WASINTERMEDIATE_"..i, true)
-                -- add action to enter tactical time
-                PBEM_AddActionTacticalTimeSide(v)
             end
         end
     else
         StoreBoolean("__SCEN_VAR_TURN_LENGTHS", false)
-
-        if prev_var_tl == true then
-            for i, v in ipairs(PBEM_PLAYABLE_SIDES) do
-                -- remove action to enter tactical time
-                PBEM_RemoveActionTacticalTimeSide(v)
-            end
-        end
     end
 
     -- reinit the scenario globals
