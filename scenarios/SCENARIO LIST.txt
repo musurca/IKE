@@ -1,5 +1,13 @@
 ------------------ QUICK SCENARIOS ------------------
 
+**** The Bear and the Eagle, 1987 - USSR vs. USAF ****
+AUTHOR: Eskild
+DURATION: 12 hours
+Recommended settings:
+TURN LENGTH             30 minutes
+ORDER PHASES PER TURN   2
+WHO GOES FIRST          USSR
+
 
 **** First Contact, 1986 - Norway vs. Soviet Union ****
 AUTHOR: Ragnar Emsoy
