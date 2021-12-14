@@ -116,7 +116,7 @@
 		["SPEC_PASSCHANGE_DESC"] = "Changes your password. Useful if you want to show the turn to another player, but don't want to reveal your normal password.",
 		["WIZARD_CONST_TURN_LENGTHS"] = "Use constant turn lengths?\n\n(ADVANCED: Click No to allow players to alternate between Intermediate and Tactical turn lengths.)",
 		["WIZARD_INTERMEDIATE_LENGTH"] = "Enter the INTERMEDIATE TURN LENGTH in minutes:",
-		["WIZARD_TACTICAL_LENGTH"] = "Enter the TACTICAL TURN LENGTH in minutes:",
+		["WIZARD_TACTICAL_LENGTH"] = "Enter the TACTICAL TURN LENGTH in minutes:\n(Should be significantly shorter than Intermediate length)",
 		["VARIABLE_TIME_WARNING"] = "This scenario uses variable turn lengths (Intermediate vs. Tactical). You can change the current turn length from your Special Actions menu.",
 		["SPEC_TACTICAL_NAME"] = "(TIME) Begin Tactical time (%1 minute turns)",
 		["SPEC_TACTICAL_DESC"] = "Switches the turn length to Tactical (%1 minutes), for more granular control over your units during intense action. This can only be done at the start of your turn.",

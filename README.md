@@ -77,6 +77,7 @@ v1.5 (????):
 * added: damage report for ships, subs, and facilities
 * added: customizable event handler for end of Setup Phase
 * added: Red-Blue Hawaii, 1985
+* changed: added full airbases to Operation Soberania
 * removed: Unlimited Orders mode
 * fixed: first order phase message displayed correctly 
 * fixed: limited control in scenarios without a Setup Phase
