@@ -172,7 +172,26 @@ function PBEM_ScenarioOver()
     PBEM_SpecialMessage('playerside', msg, nil, true)
 
     if match_over == false then
+        -- mark the match as over
         StoreBoolean("PBEM_MATCHOVER", true)
+        
+        -- remove all special actions
+        for i, v in ipairs(PBEM_PLAYABLE_SIDES) do
+            PBEM_RemoveRTSide(v)
+        end
+        if PBEM_HasVariableTurnLengths() then
+            if GetBoolean("__SCEN_TIME_INTERMEDIATE") == false then
+                for i, v in ipairs(PBEM_PLAYABLE_SIDES) do
+                    PBEM_RemoveActionTacticalTimeSide(v)
+                end
+            else
+                for i, v in ipairs(PBEM_PLAYABLE_SIDES) do
+                    PBEM_RemoveActionIntermediateTimeSide(v)
+                end
+            end
+        end
+        
+        -- end the scenario
         __PBEM_FN_ENDSCENARIO()
     end
 
