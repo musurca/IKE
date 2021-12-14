@@ -33,32 +33,6 @@ function PBEM_EnterPassword()
     PBEM_SetPassword(Turn_GetCurSide(), pass)
 end
 
-function PBEM_ChangePassword()
-    local passwordsMatch = false
-    local attemptNum = 0
-    local pass = ""
-    while not passwordsMatch do
-        attemptNum = attemptNum + 1
-        local msg = ""
-        if attemptNum > 1 then
-            msg = Localize("PASSWORDS_DIDNT_MATCH")
-        else
-            msg = Format(Localize("CHOOSE_PASSWORD"), {
-                PBEM_SIDENAME
-            })
-        end
-        pass = Input_String_Cancel(msg)
-        if pass == nil then
-            return
-        end
-        local passcheck = Input_String(Localize("CONFIRM_PASSWORD"))
-        if pass == passcheck then
-            passwordsMatch = true
-        end
-    end
-    PBEM_SetPassword(Turn_GetCurSide(), pass)
-end
-
 function PBEM_SetPassword(sidenum, password)
     StoreString("__SIDE_"..tostring(sidenum).."_PASSWD", md5.Calc(password))
 end

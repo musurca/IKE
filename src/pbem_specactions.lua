@@ -32,7 +32,7 @@ local IKE_SPECACTIONS = {
         desc   = Localize("SPEC_CHANGEPOST_DESC")
     },
     {
-        script = "PBEM_ChangePassword()",
+        script = "PBEM_EnterPassword()",
         name   = Localize("SPEC_PASSCHANGE_NAME"),
         desc   = Localize("SPEC_PASSCHANGE_DESC")
     }

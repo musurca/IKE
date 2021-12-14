@@ -278,7 +278,7 @@ function PBEM_Wizard()
         local triggername = 'PBEM_Unit_Damaged_'..i
         Event_AddTrigger(destEvent, Trigger_Create(triggername, {
             type = "UnitDamaged",
-            DamagePercent = 9,
+            DamagePercent = 5,
             TargetFilter = {
                 TargetType = PBEM_DAMTYPES[i],
                 TargetSubType = 0
