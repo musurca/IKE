@@ -114,7 +114,7 @@
 		["HITS_REPORTED"] = "Successful strikes:",
 		["SPEC_PASSCHANGE_NAME"] = "(PBEM) Change your password",
 		["SPEC_PASSCHANGE_DESC"] = "Changes your password. Useful if you want to show the turn to another player, but don't want to reveal your normal password.",
-		["WIZARD_CONST_TURN_LENGTHS"] = "Use constant turn lengths?\n\n(ADVANCED: Click No to allow players to alternate between Intermediate and Tactical turn lengths.)",
+		["WIZARD_CONST_TURN_LENGTHS"] = "Use fixed turn lengths?\n\n(ADVANCED: Click No to allow players to alternate between Intermediate and Tactical turn lengths.)",
 		["WIZARD_INTERMEDIATE_LENGTH"] = "Enter the INTERMEDIATE TURN LENGTH in minutes:",
 		["WIZARD_TACTICAL_LENGTH"] = "Enter the TACTICAL TURN LENGTH in minutes:\n(Should be significantly shorter than Intermediate length)",
 		["VARIABLE_TIME_WARNING"] = "This scenario uses variable turn lengths (Intermediate vs. Tactical). You can change the current turn length from your Special Actions menu.",

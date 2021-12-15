@@ -105,29 +105,29 @@ SPEC_DRAW_DESC|提出以平局结束比赛. 如果其他玩家接受, 比赛将�
 SCEN_END_DRAW|平局
 SCEN_END_VICTORY|%1 胜利
 SCEN_END_DEFEAT|%1 失败
-DAMAGE_LISTING|hit by %1
-DAMAGES_REPORTED|Damaged units:
-UNKNOWN_WEAPON|unknown weapon
-HIT_LISTING|hit with %1
-HITS_REPORTED|Successful strikes:
-SPEC_PASSCHANGE_NAME|(PBEM) Change your password
-SPEC_PASSCHANGE_DESC|Changes your password. Useful if you want to show the turn to another player, but don't want to reveal your normal password.
-WIZARD_CONST_TURN_LENGTHS|Use fixed turn lengths?\n\n(ADVANCED: Click No to allow players to alternate between Intermediate and Tactical turn lengths.)
-WIZARD_INTERMEDIATE_LENGTH|Enter the INTERMEDIATE TURN LENGTH in minutes:
-WIZARD_TACTICAL_LENGTH|Enter the TACTICAL TURN LENGTH in minutes:\n(Should be significantly shorter than Intermediate length)
-VARIABLE_TIME_WARNING|This scenario uses variable turn lengths (Intermediate vs. Tactical). You can change the current turn length from your Special Actions menu.
-SPEC_TACTICAL_NAME|(TIME) Begin Tactical time (%1 minute turns)
-SPEC_TACTICAL_DESC|Switches the turn length to Tactical (%1 minutes), for more granular control over your units during intense action. This can only be done at the start of your turn.
-SPEC_INTERMEDIATE_NAME|(TIME) Offer to enter Intermediate time (%1 minute turns)
-SPEC_INTERMEDIATE_DESC|Offers to switch the turn length to Intermediate (%1 minutes), for faster game resolution during less intense parts of a scenario. If the other player agrees, Intermediate time will start on their turn.
-TACTICAL_SETUP|You can't enter Tactical time during the Setup phase.
-TACTICAL_NOTSTART|You can only enter Tactical time at the beginning of your turn.
-TACTICAL_ENTERED|You have entered Tactical time. The length of all turns will now be %1 minutes.
-TACTICAL_INITIATED|Another player has initiated Tactical time. The length of all turns will now be %1 minutes.
-INTERMEDIATE_WILLOFFER|Would you like to offer to enter Intermediate time?
-INTERMEDIATE_OFFERED|You have offered to enter Intermediate time. The other player will choose whether to accept on their next turn.
-INTERMEDIATE_HASOFFER|Another player wants to enter Intermediate time. Do you accept? If YES, the length of all turns will now be %1 minutes.
-INTERMEDIATE_ALREADY|An offer to enter Intermediate time has already been made.
-INTERMEDIATE_VOTED|You have voted to enter Intermediate time. If the vote passes, Intermediate time will start on the turn of the last voting player.
-INTERMEDIATE_DECLINED|You have declined the offer to enter Intermediate time.
-INTERMEDIATE_ENTERED|The vote to enter Intermediate time has passed. The length of all turns will now be %1 minutes.
+DAMAGE_LISTING|被 %1 击中
+DAMAGES_REPORTED|损伤:
+UNKNOWN_WEAPON|未知武器
+HIT_LISTING|由 %1 击中
+HITS_REPORTED|攻击成功:
+SPEC_PASSCHANGE_NAME|(PBEM) 改变密码
+SPEC_PASSCHANGE_DESC|如果想向他人展示对战，却不想泄露常用密码时，可以改变密码
+WIZARD_CONST_TURN_LENGTHS|是否使用固定回合长度?\n\n(提示: 点击 No 会在 战间期 和战术 回合间切换.)
+WIZARD_INTERMEDIATE_LENGTH|输入 战间期 回合长度，以分钟为单位:
+WIZARD_TACTICAL_LENGTH|输入 战术 回合长度，以分钟为单位:\n(需要明显短于战间期时间跨度)
+VARIABLE_TIME_WARNING|此剧本将使用可变时长回合 (战间期 和 战术回合). 可以在特殊行动菜单中更改时长.
+SPEC_TACTICAL_NAME|(时间)初始战术回合时长 (每回合 %1 分钟)
+SPEC_TACTICAL_DESC|切换回合长度至战术回合 (%1 分钟), 可以在激烈战斗中下达命令. 此设定只能在回合开始时执行.
+SPEC_INTERMEDIATE_NAME|(时间)切换至战间期回合时长 (每回合 %1 分钟)
+SPEC_INTERMEDIATE_DESC|切换回合长度至战间期 (%1 分钟), 适用于剧本中战斗不激烈的时段. 如果其他玩家同意, 战间期回合时长将会在其回合生效.
+TACTICAL_SETUP|在初始设置阶段无法进入战术回合.
+TACTICAL_NOTSTART|只能在回合开始时进入战术回合时段.
+TACTICAL_ENTERED|已经进入战术回合时段. 所有的回合时长将变为 %1 分钟.
+TACTICAL_INITIATED|另一位玩家已开启了战术回合时段. 回合时长将变为 %1 分钟.
+INTERMEDIATE_WILLOFFER|是否要提议进入战间期回合时段?
+INTERMEDIATE_OFFERED|已经提议进入战间期回合时段. 另一为玩家将在下回合选择是否接受提议.
+INTERMEDIATE_HASOFFER|另一为玩家想要进入战间期回合时段. 是否同意? 如果同意, 所有的回合时长将变为 %1 分钟.
+INTERMEDIATE_ALREADY|提议进入战间期的消息已经发送.
+INTERMEDIATE_VOTED|你已经提出进入战间期. 如果提议通过, 战间期将会从最后一名同意的玩家回合开始执行.
+INTERMEDIATE_DECLINED|你已经拒绝进入战间期的提议.
+INTERMEDIATE_ENTERED|进入战间期的提议获得通过. 所有回合的时长现在变为 %1 分钟.
