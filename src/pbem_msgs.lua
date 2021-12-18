@@ -132,7 +132,16 @@ function PBEM_RegisterUnitDamaged()
         if damager.unit then
             damager_unit = damager.unit
             damager_side = damager_unit.side
+            
+            if damaged then
+                StoreString("__LD_"..damaged.guid, damager_side)
+            end
         end
+    end
+
+    if damaged.type == "Aircraft" then
+        -- don't push aircraft damage to our turn log
+        return
     end
 
     -- register damage
@@ -200,7 +209,9 @@ function PBEM_RegisterUnitKilled()
     local killer = ScenEdit_UnitY()
     local killtime = PBEM_CurrentTimeMilitary()
     local killer_unit = nil
-    local killer_side = ""
+    local damstore_id = "__LD_"..killed.guid
+    local killer_side = GetString(damstore_id)
+    StoreString(damstore_id, "")
     if killer then
         if killer.unit then
             killer_unit = killer.unit
@@ -250,7 +261,7 @@ function PBEM_RegisterUnitKilled()
     end
 
     -- register and mark kill
-    if killer_unit then
+    if killer_unit or (killer_side ~= "") then
         if IsIn(killer_side, PBEM_PLAYABLE_SIDES) then
             if killer_side ~= Turn_GetCurSideName() then
                 -- record the kill for the player
@@ -265,13 +276,15 @@ function PBEM_RegisterUnitKilled()
                     end
                 end
                 local unitname = known_name
-                if killer_unit.classname then
-                    unitname = unitname.." "..Format(
-                        LocalizeForSide(killer_side, "KILL_LISTING"),
-                        {
-                            killer_unit.classname
-                        }
-                    )
+                if killer_unit then
+                    if killer_unit.classname then
+                        unitname = unitname.." "..Format(
+                            LocalizeForSide(killer_side, "KILL_LISTING"),
+                            {
+                                killer_unit.classname
+                            }
+                        )
+                    end
                 end
                 kills = kills.."<i>"..killtime.."</i> // "..unitname.."<br/>"
                 PBEM_SetKillRegister(sidenum, kills)

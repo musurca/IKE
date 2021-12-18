@@ -266,6 +266,7 @@ function PBEM_Wizard()
 
     -- track some damaged units
     local PBEM_DAMTYPES = {
+        1, --aircraft
         2, --ship
         3, --submarine
         4 --facility

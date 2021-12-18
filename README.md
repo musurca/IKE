@@ -79,6 +79,7 @@ v1.5 (????):
 * added: Red-Blue Hawaii, 1985
 * added: The Bear and the Eagle, 1987 (@Eskild)
 * changed: added full airbases to Operation Soberania
+* fixed: some kills not reported
 * fixed: end conditions for First Contact
 * fixed: first order phase message displayed correctly 
 * fixed: limited control in scenarios without a Setup Phase
