@@ -78,13 +78,14 @@ v1.5 (????):
 * added: customizable event handler for end of Setup Phase
 * added: Red-Blue Hawaii, 1985
 * added: The Bear and the Eagle, 1987 (@Eskild)
-* changed: added full airbases to Operation Soberania
+* changed: Operation Soberania - added full airbases
 * fixed: some kills not reported
-* fixed: end conditions for First Contact
 * fixed: first order phase message displayed correctly 
 * fixed: limited control in scenarios without a Setup Phase
 * fixed: kill & contact records in wrong language (for real this time)
 * fixed: Chinese language typos (@cristianwj)
+* fixed: First Contact - end condition
+* fixed: Operation Soberania - excessive fuel usage on CL Latorre
 * removed: Unlimited Orders mode
 
 v1.42 (11/20/2021):

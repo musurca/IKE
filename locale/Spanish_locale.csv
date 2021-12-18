@@ -58,11 +58,11 @@ SHOW_REMAINING_SETUP|Esta es la fase de preparación.
 SHOW_REMAINING_TIME|Tiempo restante en su turno: %1:%2:%3.
 SIXTH|SEXTO
 SPEC_CHANGEPOST_DESC|Cambios de postura hacia un lado. Útil en caso de que haya atacado a civiles accidentalmente y no quiere mantenerse hóstil hacia ellos.
-SPEC_CHANGEPOST_NAME|(PBEM) Cambiar la postura hacia un lado.
+SPEC_CHANGEPOST_NAME|(PBEM) Cambiar la postura hacia un lado
 SPEC_SCHEDMSG_DESC|Enviar un mensaje a otro jugador, a ser entregado en el tiempo que Ud. elije. Ojo que el mensaje solo puede contener 280 caracteres, tags HTML serán removidos y solo se puede progaramar un mensaje a la vez.
-SPEC_SCHEDMSG_NAME|(PBEM) Programar mensaje al otro jugador.
+SPEC_SCHEDMSG_NAME|(PBEM) Programar mensaje al otro jugador
 SPEC_SENDMSG_DESC|Enviar un mensaje a otro jugador para ser entregado al principio del próximo turno. Ojo que el mensaje solo puede contener 280 caracteres, tags HTML serán removidos.
-SPEC_SENDMSG_NAME|(PBEM) Enviar mensaje al otro jugador.
+SPEC_SENDMSG_NAME|(PBEM) Enviar mensaje al otro jugador
 SPEC_SHOWTIME_DESC|Mostrar el tiempo restante en el turno PBEM.
 SPEC_SHOWTIME_NAME|(PBEM) Mostrar tiempo restante en turno
 START_OF_TURN_HEADER|%1 Turno %2<br/>(%3 minutos)
