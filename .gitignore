@@ -2,3 +2,7 @@
 release/*
 debug/*
 .DS_Store
+locale/Chinese (Simplified)_locale.lua
+locale/English_locale.lua
+locale/French_locale.lua
+locale/Spanish_locale.lua
