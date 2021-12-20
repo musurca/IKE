@@ -52,10 +52,11 @@ This will produce compiled but unminified Lua code in `debug/ike_debug.lua`. _Do
 
 ### What does it do?
 **IKE**...
+* turns *Command: Modern Operations* into a WEGO-style multiplayer game in which players give orders in phases, then watch their units execute them.
 * keeps track of turn order and length, and stops the scenario automatically when a player’s turn is over.
 * provides a summary of any losses sustained or messages received during the last turn.
+* supports either fixed turn lengths, or *Harpoon*-style variable turn lengths (Intermediate vs. Tactical)
 * adds an (optional) Setup Phase, allowing players to configure loadouts, missions, and orders before the game begins.
-* uses Limited Order play to simulate command delay and friction.
 * provides password protection for each player’s turn.
 * allows players to either use the scenario’s recommended PBEM settings, or customize them at game start.
 * maintains a consistent random seed, to discourage replaying turns for more advantageous results.

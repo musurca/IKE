@@ -112,22 +112,22 @@ HIT_LISTING|由 %1 击中
 HITS_REPORTED|攻击成功:
 SPEC_PASSCHANGE_NAME|(PBEM) 改变密码
 SPEC_PASSCHANGE_DESC|如果想向他人展示对战，却不想泄露常用密码时，可以改变密码
-WIZARD_CONST_TURN_LENGTHS|是否使用固定回合长度?\n\n(提示: 点击 No 会在 战间期 和战术 回合间切换.)
-WIZARD_INTERMEDIATE_LENGTH|输入 战间期 回合长度，以分钟为单位:
-WIZARD_TACTICAL_LENGTH|输入 战术 回合长度，以分钟为单位:\n(需要明显短于战间期时间跨度)
-VARIABLE_TIME_WARNING|此剧本将使用可变时长回合 (战间期 和 战术回合). 可以在特殊行动菜单中更改时长.
+WIZARD_CONST_TURN_LENGTHS|是否使用固定回合长度?\n\n(提示: 点击 No 会在 中继回合 和战术 回合间切换.)
+WIZARD_INTERMEDIATE_LENGTH|输入中继回合长度，以分钟为单位:
+WIZARD_TACTICAL_LENGTH|输入战术回合长度，以分钟为单位:\n(需要明显短于中继回合时间跨度)
+VARIABLE_TIME_WARNING|此剧本将使用可变时长回合 (中继回合 和 战术回合). 可以在特殊行动菜单中更改时长.
 SPEC_TACTICAL_NAME|(时间)初始战术回合时长 (每回合 %1 分钟)
 SPEC_TACTICAL_DESC|切换回合长度至战术回合 (%1 分钟), 可以在激烈战斗中下达命令. 此设定只能在回合开始时执行.
-SPEC_INTERMEDIATE_NAME|(时间)切换至战间期回合时长 (每回合 %1 分钟)
-SPEC_INTERMEDIATE_DESC|切换回合长度至战间期 (%1 分钟), 适用于剧本中战斗不激烈的时段. 如果其他玩家同意, 战间期回合时长将会在其回合生效.
+SPEC_INTERMEDIATE_NAME|(时间)切换至中继回合时长 (每回合 %1 分钟)
+SPEC_INTERMEDIATE_DESC|切换回合长度至中继回合 (%1 分钟), 适用于剧本中战斗不激烈的时段. 如果其他玩家同意, 中继回合时长将会在其回合生效.
 TACTICAL_SETUP|在初始设置阶段无法进入战术回合.
 TACTICAL_NOTSTART|只能在回合开始时进入战术回合时段.
 TACTICAL_ENTERED|已经进入战术回合时段. 所有的回合时长将变为 %1 分钟.
 TACTICAL_INITIATED|另一位玩家已开启了战术回合时段. 回合时长将变为 %1 分钟.
-INTERMEDIATE_WILLOFFER|是否要提议进入战间期回合时段?
-INTERMEDIATE_OFFERED|已经提议进入战间期回合时段. 另一为玩家将在下回合选择是否接受提议.
-INTERMEDIATE_HASOFFER|另一为玩家想要进入战间期回合时段. 是否同意? 如果同意, 所有的回合时长将变为 %1 分钟.
-INTERMEDIATE_ALREADY|提议进入战间期的消息已经发送.
-INTERMEDIATE_VOTED|你已经提出进入战间期. 如果提议通过, 战间期将会从最后一名同意的玩家回合开始执行.
-INTERMEDIATE_DECLINED|你已经拒绝进入战间期的提议.
-INTERMEDIATE_ENTERED|进入战间期的提议获得通过. 所有回合的时长现在变为 %1 分钟.
+INTERMEDIATE_WILLOFFER|是否要提议进入中继回合时段?
+INTERMEDIATE_OFFERED|已经提议进入中继回合时段. 另一为玩家将在下回合选择是否接受提议.
+INTERMEDIATE_HASOFFER|另一为玩家想要进入中继回合时段. 是否同意? 如果同意, 所有的回合时长将变为 %1 分钟.
+INTERMEDIATE_ALREADY|提议进入中继回合的消息已经发送.
+INTERMEDIATE_VOTED|你已经提出进入中继回合. 如果提议通过, 中继回合将会从最后一名同意的玩家回合开始执行.
+INTERMEDIATE_DECLINED|你已经拒绝进入中继回合的提议.
+INTERMEDIATE_ENTERED|进入中继回合的提议获得通过. 所有回合的时长现在变为 %1 分钟.
