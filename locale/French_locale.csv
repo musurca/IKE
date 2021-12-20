@@ -105,29 +105,29 @@ SPEC_DRAW_DESC|Propose de terminer le match par une partie nulle. Si l‘autre j
 SCEN_END_DRAW|MATCH NUL
 SCEN_END_VICTORY|%1 VICTOIRE
 SCEN_END_DEFEAT|%1 DEFAITE
-DAMAGE_LISTING|hit by %1
-DAMAGES_REPORTED|Damaged units:
-UNKNOWN_WEAPON|unknown weapon
-HIT_LISTING|hit with %1
-HITS_REPORTED|Successful strikes:
-SPEC_PASSCHANGE_NAME|(PBEM) Change your password
-SPEC_PASSCHANGE_DESC|Changes your password. Useful if you want to show the turn to another player, but don't want to reveal your normal password.
-WIZARD_CONST_TURN_LENGTHS|Use fixed turn lengths?\n\n(ADVANCED: Click No to allow players to alternate between Intermediate and Tactical turn lengths.)
-WIZARD_INTERMEDIATE_LENGTH|Enter the INTERMEDIATE TURN LENGTH in minutes:
-WIZARD_TACTICAL_LENGTH|Enter the TACTICAL TURN LENGTH in minutes:\n(Should be significantly shorter than Intermediate length)
-VARIABLE_TIME_WARNING|This scenario uses variable turn lengths (Intermediate vs. Tactical). You can change the current turn length from your Special Actions menu.
-SPEC_TACTICAL_NAME|(TIME) Begin Tactical time (%1 minute turns)
-SPEC_TACTICAL_DESC|Switches the turn length to Tactical (%1 minutes), for more granular control over your units during intense action. This can only be done at the start of your turn.
-SPEC_INTERMEDIATE_NAME|(TIME) Offer to enter Intermediate time (%1 minute turns)
-SPEC_INTERMEDIATE_DESC|Offers to switch the turn length to Intermediate (%1 minutes), for faster game resolution during less intense parts of a scenario. If the other player agrees, Intermediate time will start on their turn.
-TACTICAL_SETUP|You can't enter Tactical time during the Setup phase.
-TACTICAL_NOTSTART|You can only enter Tactical time at the beginning of your turn.
-TACTICAL_ENTERED|You have entered Tactical time. The length of all turns will now be %1 minutes.
-TACTICAL_INITIATED|Another player has initiated Tactical time. The length of all turns will now be %1 minutes.
-INTERMEDIATE_WILLOFFER|Would you like to offer to enter Intermediate time?
-INTERMEDIATE_OFFERED|You have offered to enter Intermediate time. The other player will choose whether to accept on their next turn.
-INTERMEDIATE_HASOFFER|Another player wants to enter Intermediate time. Do you accept? If YES, the length of all turns will now be %1 minutes.
-INTERMEDIATE_ALREADY|An offer to enter Intermediate time has already been made.
-INTERMEDIATE_VOTED|You have voted to enter Intermediate time. If the vote passes, Intermediate time will start on the turn of the last voting player.
-INTERMEDIATE_DECLINED|You have declined the offer to enter Intermediate time.
-INTERMEDIATE_ENTERED|The vote to enter Intermediate time has passed. The length of all turns will now be %1 minutes.
+DAMAGE_LISTING|touché par %1
+DAMAGES_REPORTED|Unités endommagées:
+UNKNOWN_WEAPON|arme inconnue
+HIT_LISTING|touché avec %1
+HITS_REPORTED|Frappes réussies:
+SPEC_PASSCHANGE_NAME|(PBEM) Changer votre mot de passe
+SPEC_PASSCHANGE_DESC|Changer votre mot de passe. Utile si vous voulez faire voir votre tour à un autre joueur mais que vous ne voulez pas révéler votre mot de passe habituel. 
+WIZARD_CONST_TURN_LENGTHS|Utiliser une longueur de tour fixe ? \n\n(AVANCE: Cliquer « No » pour permettre aux joueurs d'alterner entre des durées de tours intermédiaires et tactiques.) 
+WIZARD_INTERMEDIATE_LENGTH|Entrez la LONGUEUR DE TOUR 'INTERMEDIAIRE' en minutes: 
+WIZARD_TACTICAL_LENGTH|Entrez la LONGUEUR DE TOUR 'TACTIQUE' en minutes: \n(doit être significativement inférieure à la durée 'intermédiaire')
+VARIABLE_TIME_WARNING|Ce scénario utilise des durées de tours variables (intermédiaire vs tactique). Vous pouvez changer la longueur du tour dans le menu « Special Actions ».
+SPEC_TACTICAL_NAME|(TEMPS) Commencer en durée tactique (tours de %1 minutes)
+SPEC_TACTICAL_DESC|Change la durée du tour en mode « tactique » (%1 minutes), pour un contrôle plus fin de vos unités lors des phases d'action intenses. Cette action ne peut être exécutée qu'au début de votre tour.
+SPEC_INTERMEDIATE_NAME|(TEMPS) Offrir d'entrer en tours de durée intermédiaire (tours de %1 minutes)
+SPEC_INTERMEDIATE_DESC|Propose de changer la durée d'un tour en « intermédiaire » (%1 minutes), pour une résolution plus rapide des phases de jeu moins intenses. Si l'autre joueur valide ce choix, la durée intermédiaire commencera lors de son tour de jeu.
+TACTICAL_SETUP|Vous ne pouvez pas passer en durée de tour tactique pendant la phase de setup.
+TACTICAL_NOTSTART|Vous ne pouvez passer en durée de tour tactique qu'au début de votre tour.
+TACTICAL_ENTERED|Vous êtes passé en durée de tour tactique. La durée des tours est maintenant de %1 minutes.
+TACTICAL_INITIATED|Un autre joueur a initié la durée de tours tactique. Les tours dureront maintenant %1 minutes.
+INTERMEDIATE_WILLOFFER|Voulez vous proposer d'entrer en mode de tours de durée intermédiaire ?
+INTERMEDIATE_OFFERED|Vous avez proposé d'entrer en tours de durée intermédiaire. L'autre joueur décidera lors de son prochain tour s'il accepte.
+INTERMEDIATE_HASOFFER|Un autre joueur souhaite entrer en durée de tours « intermédiaire ». Acceptez vous ? Si OUI, la durée d'un tour passera à %1 minutes.
+INTERMEDIATE_ALREADY|Une offre de passer en durée de tours « intermédiaire » a déjà été faite.
+INTERMEDIATE_VOTED|Vous avez voté pour entrer en temps intermédiaire. Si le vote passe, la durée intermédiaire commencera lors du tour du joueur qui a voté en dernier.
+INTERMEDIATE_DECLINED|Vous avez refusé l'offre de passer en tours de durée intermédiaire.
+INTERMEDIATE_ENTERED|Le vote pour entrer en tours de durée intermédiaire est passé. Tous les tours seront maintenant d'une durée de %1 minutes.
