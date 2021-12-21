@@ -69,14 +69,14 @@ function Event_Delete(evt_name, recurse)
     end
 
     -- remove the event
-    ScenEdit_SetEvent(evt_name, {mode="remove"})
+    pcall(ScenEdit_SetEvent, evt_name, {mode="remove"})
 end
 
 function Event_Create(evt_name, args)
     -- clear any existing events with that name
     ForEachDo(ScenEdit_GetEvents(), function(event)
         if event.details.description == evt_name then
-            ScenEdit_SetEvent(evt_name, {
+            pcall(ScenEdit_SetEvent, evt_name, {
                 mode="remove"
             })
         end

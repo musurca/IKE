@@ -151,7 +151,7 @@ function PBEM_ScenarioOver()
     if match_over == false then
         local dside = PBEM_ConstructDummySideName(PBEM_SIDENAME)
         local fscore = ScenEdit_GetScore(PBEM_SIDENAME)
-        ScenEdit_SetScore(dside, fscore, "END OF SCENARIO")
+        ScenEdit_SetScore(dside, fscore, Localize("END_OF_SCENARIO_HEADER"))
         ScenEdit_SetSideOptions({
             side=dside,
             switchto=true
