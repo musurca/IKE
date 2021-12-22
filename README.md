@@ -80,6 +80,7 @@ v1.5 (????):
 * added: Red-Blue Hawaii, 1985
 * added: The Bear and the Eagle, 1987 (@Eskild)
 * changed: Operation Soberania - added full airbases
+* changed: Operation Soberania - Chilean loadouts changed
 * fixed: some kills not reported
 * fixed: first order phase message displayed correctly 
 * fixed: limited control in scenarios without a Setup Phase

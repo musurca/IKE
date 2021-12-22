@@ -312,10 +312,7 @@ function PBEM_ScoreSummary(score_tbl)
     for i=1,#PBEM_PLAYABLE_SIDES do
         local sidename = PBEM_PLAYABLE_SIDES[i]
         local finalscore = score_tbl[i]
-        scoretxt = scoretxt..'<center><b>'..sidename..':  '..finalscore..'</b></center>'
-        if i < #PBEM_PLAYABLE_SIDES then
-            scoretxt = scoretxt..'<br/>'
-        end
+        scoretxt = scoretxt..'<center><b>'..sidename..':  '..finalscore..'</b></center><br/>'
     end
     return scoretxt
 end

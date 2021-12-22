@@ -13,7 +13,7 @@ WHO GOES FIRST          USSR
 AUTHOR: Ragnar Emsoy
 DURATION: 6 hours
 Recommended settings:
-TURN LENGTH             10 minutes
+TURN LENGTH             30 minutes (Intermediate) / 10 minutes (Tactical)
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          Norway
 
@@ -40,7 +40,7 @@ WHO GOES FIRST          RED
 AUTHOR: Revan227
 DURATION: 6 hours
 Recommended settings:
-TURN LENGTH             8 minutes
+TURN LENGTH             10 minutes
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          IJN
 
@@ -61,7 +61,7 @@ WHO GOES FIRST          Red
 AUTHOR: Mike Mykytyn
 DURATION: 2 days
 Recommended settings:
-TURN LENGTH             30 minutes
+TURN LENGTH             30 minutes (Intermediate) / 15 minutes (Tactical)
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          United Kingdom
 
@@ -70,7 +70,7 @@ WHO GOES FIRST          United Kingdom
 AUTHOR: Miguel Molina
 DURATION: 20 hours
 Recommended settings:
-TURN LENGTH             30 minutes
+TURN LENGTH             30 minutes (Intermediate) / 15 minutes (Tactical)
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          Chile
 
@@ -79,7 +79,7 @@ WHO GOES FIRST          Chile
 AUTHOR: Miguel Molina
 DURATION: 1 day, 12 hours
 Recommended settings:
-TURN LENGTH             30 minutes
+TURN LENGTH             30 minutes (Intermediate) / 15 minutes (Tactical)
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          Libya
 
@@ -88,7 +88,7 @@ WHO GOES FIRST          Libya
 AUTHOR: Miguel Molina
 DURATION: 1 day
 Recommended settings:
-TURN LENGTH             30 minutes
+TURN LENGTH             30 minutes (Intermediate) / 15 minutes (Tactical)
 COMMAND                 Limited Orders
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          Argentina
@@ -98,7 +98,7 @@ WHO GOES FIRST          Argentina
 AUTHOR: Mike Mykytyn
 DURATION: 24 hours
 Recommended settings:
-TURN LENGTH             20 minutes
+TURN LENGTH             30 minutes (Intermediate) / 15 minutes (Tactical)
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          USAF
 
@@ -109,7 +109,7 @@ WHO GOES FIRST          USAF
 AUTHOR: Miguel Molina
 DURATION: 2 days, 6 hours
 Recommended settings:
-TURN LENGTH             30 minutes
+TURN LENGTH             30 minutes (Intermediate) / 15 minutes (Tactical)
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          Spain
 
@@ -118,7 +118,7 @@ WHO GOES FIRST          Spain
 AUTHOR: Miguel Molina
 DURATION: 6 days
 Recommended settings:
-TURN LENGTH             30 minutes
+TURN LENGTH             60 minutes (Intermediate) / 15 minutes (Tactical)
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          Argentina
 
@@ -127,6 +127,6 @@ WHO GOES FIRST          Argentina
 AUTHOR: Miguel Molina
 DURATION: 3 days
 Recommended settings:
-TURN LENGTH             30 minutes
+TURN LENGTH             30 minutes (Intermediate) / 15 minutes (Tactical)
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          Japan
