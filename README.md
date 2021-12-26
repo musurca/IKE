@@ -69,6 +69,9 @@ This will produce compiled but unminified Lua code in `debug/ike_debug.lua`. _Do
 For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.5/IKE_v1.5.zip).
 
 ### VERSION HISTORY
+v1.51 (????):
+* fixed: friendly fire not marked as "successful strike"
+
 v1.5 (12/21/2021):
 * added: optional variable turn lengths
 * added: new action - Offer a Draw

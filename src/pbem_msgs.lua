@@ -175,7 +175,7 @@ function PBEM_RegisterUnitDamaged()
 
     --register hit
     if damager_unit then
-        if IsIn(damager_side, PBEM_PLAYABLE_SIDES) then
+        if IsIn(damager_side, PBEM_PLAYABLE_SIDES) and (damager_side ~= damaged.side) then
             if damager_side ~= Turn_GetCurSideName() then
                 -- record the hit for the player
                 local sidenum = PBEM_SideNumberByName(damager_side)
