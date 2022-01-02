@@ -71,6 +71,7 @@ For detailed instructions, please refer to the manual included with the [latest 
 ### VERSION HISTORY
 v1.51 (????):
 * fixed: friendly fire not marked as "successful strike"
+* fixed: end message when scenario exceeds duration
 
 v1.5 (12/21/2021):
 * added: optional variable turn lengths

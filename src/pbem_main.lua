@@ -10,7 +10,7 @@ for the IKE system.
 ----------------------------------------------
 ]]--
 
-IKE_VERSION = "1.5"
+IKE_VERSION = "1.51"
 IKE_MIN_ALLOWED_BUILD_MAJOR = 1147
 IKE_MIN_ALLOWED_BUILD_MINOR = 34
 
@@ -111,8 +111,9 @@ function PBEM_InitScenGlobals()
 end
 
 function PBEM_StartTurn()
+    local scen = VP_GetScenario()
     --check for editor mode prohibition
-    if VP_GetScenario().GameMode == 2 and GetBoolean("__SCEN_PREVENTEDITOR") then
+    if scen.GameMode == 2 and GetBoolean("__SCEN_PREVENTEDITOR") then
         --can't open a PBEM session in Editor mode
         Input_OK(Localize("NO_EDITOR_MODE"))
         PBEM_SelfDestruct()
@@ -127,7 +128,8 @@ function PBEM_StartTurn()
     local curtime = ScenEdit_CurrentTime()
 
     --see if scenario is over
-    if GetBoolean("PBEM_MATCHOVER") == true then
+    local time_elapsed = scen.CurrentTimeNum - scen.StartTimeNum
+    if (GetBoolean("PBEM_MATCHOVER") == true) or (time_elapsed >= scen.DurationNum) then
         ScenEdit_EndScenario()
         return
     end
@@ -259,7 +261,10 @@ function PBEM_UpdateTick()
     local turnnum = Turn_GetTurnNumber()
     local nextTurnStartTime = PBEM_GetNextTurnStartTime()
 
-    if GetBoolean("PBEM_MATCHOVER") == true then
+    -- check if scenario is over
+    local scen = VP_GetScenario()
+    local time_elapsed = scen.CurrentTimeNum - scen.StartTimeNum
+    if (GetBoolean("PBEM_MATCHOVER") == true) or (time_elapsed >= scen.DurationNum) then
         ScenEdit_EndScenario()
         return
     end
