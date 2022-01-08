@@ -24,7 +24,7 @@ For all others interested: welcome! Pull requests and bug reports are greatly ap
 
 Assuming you've installed the [WSL](https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/) and Ubuntu, run the following commands from the shell:
 ```
-sudo apt-get install npm
+sudo apt-get install python3 npm
 sudo npm install -g luamin
 ```
 
