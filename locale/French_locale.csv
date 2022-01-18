@@ -131,3 +131,4 @@ INTERMEDIATE_ALREADY|Une offre de passer en durée de tours « intermédiaire »
 INTERMEDIATE_VOTED|Vous avez voté pour entrer en temps intermédiaire. Si le vote passe, la durée intermédiaire commencera lors du tour du joueur qui a voté en dernier.
 INTERMEDIATE_DECLINED|Vous avez refusé l'offre de passer en tours de durée intermédiaire.
 INTERMEDIATE_ENTERED|Le vote pour entrer en tours de durée intermédiaire est passé. Tous les tours seront maintenant d'une durée de %1 minutes.
+FATALERROR_CORRUPT|ERROR: Your PBEM turn has been corrupted. Do NOT save this file.\n\nPlease reload your turn, and play it again.

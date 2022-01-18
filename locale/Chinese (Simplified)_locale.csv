@@ -131,3 +131,4 @@ INTERMEDIATE_ALREADY|提议进入中继回合的消息已经发送.
 INTERMEDIATE_VOTED|你已经提出进入中继回合. 如果提议通过, 中继回合将会从最后一名同意的玩家回合开始执行.
 INTERMEDIATE_DECLINED|你已经拒绝进入中继回合的提议.
 INTERMEDIATE_ENTERED|进入中继回合的提议获得通过. 所有回合的时长现在变为 %1 分钟.
+FATALERROR_CORRUPT|ERROR: Your PBEM turn has been corrupted. Do NOT save this file.\n\nPlease reload your turn, and play it again.

@@ -131,3 +131,4 @@ INTERMEDIATE_ALREADY|An offer to enter Intermediate time has already been made.
 INTERMEDIATE_VOTED|You have voted to enter Intermediate time. If the vote passes, Intermediate time will start on the turn of the last voting player.
 INTERMEDIATE_DECLINED|You have declined the offer to enter Intermediate time.
 INTERMEDIATE_ENTERED|The vote to enter Intermediate time has passed. The length of all turns will now be %1 minutes.
+FATALERROR_CORRUPT|ERROR: Your PBEM turn has been corrupted. Do NOT save this file.\n\nPlease reload your turn, and play it again.

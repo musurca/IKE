@@ -95,8 +95,6 @@ function Turn_NextSide()
 end
 
 function PBEM_InitScenGlobals()
-    PBEM_TURNOVER = 0
-    PBEM_LIMITED_LAST_PHASE = nil
     PBEM_SETUP_PHASE = PBEM_HasSetupPhase()
     PBEM_TURN_LENGTH = PBEM_TurnLength()
     PBEM_PLAYABLE_SIDES = PBEM_PlayableSides()
@@ -125,7 +123,9 @@ function PBEM_StartTurn()
     
     ScenEdit_SetSideOptions({side=PBEM_DUMMY_SIDE, switchto=true})
     local turnnum = Turn_GetTurnNumber()
-    local curtime = ScenEdit_CurrentTime()
+
+    -- set up CMO API replacements
+    PBEM_InitAPIReplace()
 
     --see if scenario is over
     local time_elapsed = scen.CurrentTimeNum - scen.StartTimeNum
@@ -133,9 +133,6 @@ function PBEM_StartTurn()
         ScenEdit_EndScenario()
         return
     end
-
-    -- set up CMO API replacements
-    PBEM_InitAPIReplace()
 
     -- prohibit excessively old clients
     local buildnum_string = GetBuildNumber()
@@ -163,13 +160,14 @@ function PBEM_StartTurn()
         return
     end
 
-    if (turnnum == 1 and not PBEM_SETUP_PHASE and curtime == PBEM_TURN_START_TIME) or (turnnum == 0 and PBEM_SETUP_PHASE) then
-        -- do initial senario setup if this is the first run
-        
+    local side_num = Turn_GetCurSide()
+    local side_init = "PBEM_SIDE_INITIALIZED_"..side_num
+    if GetBoolean(side_init) == false then
         --set the language for this player
         PBEM_SetLocale()
 
-        if Turn_GetCurSide() == 1 then
+        if side_num == 1 then
+            -- do initial scenario setup if this is the first run
             PBEM_SetHostBuildNumber()
             PBEM_UserCheckSettings()
             PBEM_DoInitialSetup()
@@ -198,13 +196,9 @@ function PBEM_StartTurn()
             Input_OK(Localize("VARIABLE_TIME_WARNING"))
         end
 
-        if turnnum == 0 then
-            PBEM_StartSetupPhase()
-        else
-            PBEM_LIMITED_LAST_PHASE = true
-            PBEM_ShowTurnIntro()
-        end
+        StoreBoolean(side_init, true)
     else
+        -- side already initialized
         if not PBEM_CheckHostBuildNumber() then
             -- version mismatch
             PBEM_SelfDestruct()
@@ -222,15 +216,19 @@ function PBEM_StartTurn()
             ScenEdit_EndScenario()
             return
         end
+    end
 
-        -- Otherwise start the turn
+    if turnnum == 0 then
+        -- start setup phase
+        PBEM_StartSetupPhase()
+    else
+        -- start/resume normal turn
         local turnStartTime = PBEM_TURN_START_TIME
         local nextTurnStartTime = PBEM_GetNextTurnStartTime()
         local curTime = ScenEdit_CurrentTime()
         local time_check = curTime - turnStartTime
-        
+
         if (time_check % PBEM_ORDER_INTERVAL == 0) or (curTime == (nextTurnStartTime-1)) then
-            PBEM_LIMITED_LAST_PHASE = true
             if curTime > turnStartTime then
                 --remind us what order phase we were in
                 PBEM_StartOrderPhase()
@@ -240,15 +238,19 @@ function PBEM_StartTurn()
                     side=PBEM_SIDENAME,
                     switchto=true
                 })
+
+                -- set flag to prevent high time compression overrun
+                StoreBoolean("PBEM_TURN_GUARD", true)
+                -- reset flag to guard against running turn after end
+                StoreNumber("PBEM_TURNOVER", 0)
+
+                -- show the turn intro
+                PBEM_ShowTurnIntro()
             end
         else
             -- resume order phase in the middle
             PBEM_EndOrderPhase()
             PBEM_ShowOrderPhase(true)
-        end
-
-        if curTime == turnStartTime then
-            PBEM_ShowTurnIntro()
         end
     end
 
@@ -256,6 +258,27 @@ function PBEM_StartTurn()
 end
 
 function PBEM_UpdateTick()
+    local turnover_num = GetNumber("PBEM_TURNOVER")
+    if turnover_num > 0 then
+        if turnover_num < 2 then
+            turnover_num = turnover_num + 1
+            ScenEdit_SetSideOptions({side=PBEM_DUMMY_SIDE, switchto=true})
+            ScenEdit_SpecialMessage("playerside", GetString("PBEM_ENDTURN_MSG"))
+            StoreNumber("PBEM_TURNOVER", turnover_num)
+
+            ScenEdit_SetTime(
+                PBEM_CustomTimeToUTC(
+                    GetNumber("__CUR_TURN_TIME")
+                )
+            )
+            return
+        else
+            Input_OK(Localize("FATALERROR_CORRUPT"))
+            PBEM_SelfDestruct()
+            return
+        end
+    end
+
     local curPlayerSide = __PBEM_FN_PLAYERSIDE()
     local scenCurTime = ScenEdit_CurrentTime()
     local turnnum = Turn_GetTurnNumber()
@@ -269,26 +292,27 @@ function PBEM_UpdateTick()
         return
     end
 
-    if turnnum > 0 then
+    local cannot_end_turn = GetBoolean("PBEM_TURN_GUARD")
+    local flip_turn_guard = false
+    local set_time = false
+
+    if turnnum == 0 then
+        -- ending a setup phase
+        PBEM_EndSetupPhase()
+    else
         if scenCurTime >= nextTurnStartTime then
-            if PBEM_TURNOVER < 1 then
-                if not PBEM_LIMITED_LAST_PHASE then
-                    -- guard against time overrun in 30x time compression
-                    ScenEdit_SetTime(PBEM_CustomTimeToUTC(nextTurnStartTime-1))
-                    return
-                else
-                    PBEM_EndTurn()
-                    PBEM_CheckScheduledMessages()
-                    PBEM_FlushSpecialMessages()
-                    return
-                end
-            elseif PBEM_TURNOVER == 1 then
-                -- safety net
-                ScenEdit_SetTime(PBEM_CustomTimeToUTC(PBEM_GetCurTurnStartTime()))
-                PBEM_TURNOVER = PBEM_TURNOVER + 1
-                return
+            if cannot_end_turn then
+                -- false ending, high time compression overrun
+                local last_orderphase_time = nextTurnStartTime-1
+                ScenEdit_SetTime(
+                    PBEM_CustomTimeToUTC(last_orderphase_time)
+                )
+                scenCurTime = last_orderphase_time
             else
-                PBEM_SelfDestruct()
+                -- turn ends
+                PBEM_EndTurn()
+                -- increase turn overrun threshold
+                StoreNumber("PBEM_TURNOVER", 1)
                 return
             end
         end
@@ -308,25 +332,22 @@ function PBEM_UpdateTick()
         
         --check for order phase
         local time_check = scenCurTime - PBEM_TURN_START_TIME
-        if curPlayerSide ~= dummy_side then
-            if PBEM_LIMITED_LAST_PHASE then
-                --make sure the dummy side has no RPs
-                PBEM_WipeRPs()
-                --switch to dummy side
-                PBEM_EndOrderPhase()
-            end
-        elseif (time_check % PBEM_ORDER_INTERVAL == 0) or (scenCurTime == (nextTurnStartTime-1)) then
-            if scenCurTime == nextTurnStartTime then
-                scenCurTime = nextTurnStartTime-1
+        if (time_check % PBEM_ORDER_INTERVAL == 0) or (scenCurTime == (nextTurnStartTime-1)) then
+            if scenCurTime == (nextTurnStartTime-1) then
+                flip_turn_guard = true
             end
             --transfer any temporary RPs to the correct side
             PBEM_TransferRPs()
             -- start giving orders again
-            PBEM_StartOrderPhase(scenCurTime)
+            PBEM_StartOrderPhase()
+
+            set_time = true
+        elseif curPlayerSide ~= dummy_side then
+            --make sure the dummy side has no RPs
+            PBEM_WipeRPs()
+            --switch to dummy side
+            PBEM_EndOrderPhase()
         end
-    else
-        -- ending a setup phase
-        PBEM_EndSetupPhase()
     end
 
     -- check for and deliver any scheduled messages
@@ -334,10 +355,21 @@ function PBEM_UpdateTick()
 
     -- display all special messages at once
     PBEM_FlushSpecialMessages()
+
+    if set_time then
+        -- to be safe, we set the proper time
+        ScenEdit_SetTime(
+            PBEM_CustomTimeToUTC(scenCurTime)
+        )
+    end
+
+    if flip_turn_guard then
+        -- enable turn end
+        StoreBoolean("PBEM_TURN_GUARD", false)
+    end
 end
 
 function PBEM_EndTurn()
-    PBEM_LIMITED_LAST_PHASE = nil
     local next_turn_time = PBEM_GetNextTurnStartTime()
     ScenEdit_SetTime(PBEM_CustomTimeToUTC(next_turn_time))
 
@@ -354,10 +386,10 @@ function PBEM_EndTurn()
         Turn_GetCurSideName()
     })
     PBEM_SpecialMessage('playerside', msg, nil, true)
+    StoreString("PBEM_ENDTURN_MSG", msg)
     StoreNumber("__CUR_TURN_TIME", next_turn_time)
 
     PBEM_EndAPIReplace()
-    PBEM_TURNOVER = 1
 end
 
 function PBEM_StartSetupPhase()

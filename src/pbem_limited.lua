@@ -189,7 +189,6 @@ function PBEM_ShowOrderPhase(resume)
 end
 
 function PBEM_EndOrderPhase()
-    PBEM_LIMITED_LAST_PHASE = nil
     PBEM_MirrorSide(PBEM_SIDENAME)
     PBEM_MirrorSideScore()
     ScenEdit_SetSideOptions({
@@ -198,13 +197,7 @@ function PBEM_EndOrderPhase()
     })
 end
 
-function PBEM_StartOrderPhase(curtime)
-    --set lock on last order phase for 30x time compression
-    PBEM_LIMITED_LAST_PHASE = true
-    if curtime then
-        ScenEdit_SetTime(PBEM_CustomTimeToUTC(curtime))
-    end
-
+function PBEM_StartOrderPhase()
     -- switch to the side
     ScenEdit_SetSideOptions({side=PBEM_SIDENAME, switchto=true})
     PBEM_ShowOrderPhase()
