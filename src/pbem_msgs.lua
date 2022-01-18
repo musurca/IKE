@@ -262,7 +262,7 @@ function PBEM_RegisterUnitKilled()
 
     -- register and mark kill
     if killer_unit or (killer_side ~= "") then
-        if IsIn(killer_side, PBEM_PLAYABLE_SIDES) then
+        if IsIn(killer_side, PBEM_PLAYABLE_SIDES) and (killer_side ~= killed.side) then
             if killer_side ~= Turn_GetCurSideName() then
                 -- record the kill for the player
                 local sidenum = PBEM_SideNumberByName(killer_side)

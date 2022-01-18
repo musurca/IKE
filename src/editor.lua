@@ -150,3 +150,53 @@ function Action_Delete(action_name)
         mode="remove"
     })
 end
+
+function ExecuteAt(timetoexecute, code)
+    local function uuid()
+        local template = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+        local function swap(c)
+            local v = (c == 'x') and math.random(0, 0xf) or math.random(8, 0xb)
+            return string.format('%x', v)
+        end
+        return string.gsub(template, '[xy]', swap)
+    end
+    local run_epoch = (62135596800 + timetoexecute) * 10000000
+    local evt_uuid = uuid()
+    while Event_Exists(evt_uuid) do
+        evt_uuid = uuid()
+    end
+    local evt_name = ""
+    while not Event_Exists(evt_uuid) do
+        -- create the event
+        evt_name = Event_Create(
+            evt_uuid,
+            {
+                IsRepeatable = false,
+                IsShown = false
+            }
+        )
+
+        -- trigger on time
+        local trigger_name = Trigger_Create(
+            uuid(),
+            {
+                type = 'Time',
+                Time = run_epoch
+            }
+        )
+        Event_AddTrigger(evt_name, trigger_name)
+
+        -- action to perform
+        local script = "__waitevt__=function()\r\n" .. code .. "\r\nend\r\npcall(__waitevt__)\r\npcall(Event_Delete, \"" .. evt_name .. "\")"
+        local action_name = Action_Create(
+            uuid(),
+            {
+                type = 'LuaScript',
+                ScriptText = script
+            }
+        )
+        Event_AddAction(evt_name, action_name)
+    end
+
+    return evt_name
+end

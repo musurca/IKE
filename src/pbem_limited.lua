@@ -197,8 +197,67 @@ function PBEM_EndOrderPhase()
     })
 end
 
-function PBEM_StartOrderPhase()
+function PBEM_MarkNextActionPhase()
+    local exact_time = ScenEdit_CurrentTime() + 1
+    ExecuteAt(exact_time, "PBEM_StartActionPhase("..exact_time..")")
+end
+
+function PBEM_SwitchOrderPhase()
     -- switch to the side
     ScenEdit_SetSideOptions({side=PBEM_SIDENAME, switchto=true})
     PBEM_ShowOrderPhase()
+end
+
+function PBEM_StartOrderPhase(exact_time)
+    local flip_turn_guard = false
+    local next_turn_start_time = PBEM_GetNextTurnStartTime()
+
+    if exact_time == (next_turn_start_time - 1) then
+        flip_turn_guard = true
+    end
+
+    --transfer any temporary RPs to the correct side
+    PBEM_TransferRPs()
+
+    PBEM_SwitchOrderPhase()
+
+    -- check for and deliver any scheduled messages
+    PBEM_CheckScheduledMessages()
+    -- display all special messages at once
+    PBEM_FlushSpecialMessages()
+
+    -- to be safe, we set the proper time
+    ScenEdit_SetTime(
+        PBEM_CustomTimeToUTC(exact_time)
+    )
+
+    if flip_turn_guard then
+        -- enable turn end
+        ExecuteAt(exact_time + 1, "PBEM_EndTurn()")
+    else
+        local etime = exact_time + 1
+        ExecuteAt(etime, "PBEM_StartActionPhase("..etime..")")
+    end
+end
+
+function PBEM_StartActionPhase(exact_time)
+    -- to be safe, we set the proper time
+    ScenEdit_SetTime(
+        PBEM_CustomTimeToUTC(exact_time)
+    )
+
+    local next_time = exact_time + PBEM_OrderInterval() - 1
+    if next_time == PBEM_GetNextTurnStartTime() then
+        next_time = next_time - 1
+    end
+    ExecuteAt(next_time, "PBEM_StartOrderPhase("..next_time..")")
+
+    --make sure the dummy side has no RPs
+    PBEM_WipeRPs()
+    --switch to dummy side
+    PBEM_EndOrderPhase()
+    -- check for and deliver any scheduled messages
+    PBEM_CheckScheduledMessages()
+    -- display all special messages at once
+    PBEM_FlushSpecialMessages()
 end

@@ -70,8 +70,8 @@ For detailed instructions, please refer to the manual included with the [latest 
 
 ### VERSION HISTORY
 v1.51 (????):
-* fixed: "infinite time" loop at end of turn in highest time compression
-* fixed: friendly fire not marked as "successful strike"
+* fixed: "never-ending-turn" loop in highest time compression
+* fixed: friendly fire not marked as "successful strike" or "kill"
 * fixed: end message when scenario exceeds duration
 
 v1.5 (12/21/2021):
