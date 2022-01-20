@@ -136,11 +136,13 @@ function PBEM_RegisterUnitDamaged()
     local damage_time = PBEM_CurrentTimeMilitary()
     local damager_unit = nil
     local damager_side = ""
+    local damager_side_guid = ""
     if damager then
         if damager.unit then
             damager_unit = damager.unit
             damager_side = damager_unit.side
-            
+            damager_side_guid = SideGUIDByName(damager_side)
+
             if damaged then
                 StoreString("__LD_"..damaged.guid, damager_side)
             end
@@ -164,10 +166,28 @@ function PBEM_RegisterUnitDamaged()
             else
                 unitname = damaged.name..' ('..damaged.classname..')'
             end
+            local damaged_side_guid = SideGUIDByName(damaged_side)
             local weap_name = LocalizeForSide(damaged_side, "UNKNOWN_WEAPON")
+            -- label weapon by how much the target knows about it
             if damager_unit then
-                if damager_unit.classname then
-                    weap_name = damager_unit.classname
+                for k, contact in pairs(damager_unit.ascontact) do
+                    if contact.side == damaged_side_guid then
+                        local success, con = pcall(
+                            ScenEdit_GetContact,
+                            {
+                                side=damaged_side,
+                                guid=contact.guid
+                            }
+                        )
+                        if con then
+                            if con.classificationlevel >= 3 then
+                                weap_name = damager_unit.classname
+                            elseif con.classificationlevel > 0 then
+                                weap_name = con.type
+                            end
+                        end
+                        break
+                    end
                 end
             end
             unitname = unitname.." "..Format(
@@ -188,7 +208,6 @@ function PBEM_RegisterUnitDamaged()
                 -- record the hit for the player
                 local sidenum = PBEM_SideNumberByName(damager_side)
                 local hits = PBEM_GetHitRegister(sidenum)
-                local damager_side_guid = SideGUIDByName(damager_side)
                 local known_name = damaged.classname
                 for k, contact in pairs(damaged.ascontact) do
                     if contact.side == damager_side_guid then
@@ -219,12 +238,16 @@ function PBEM_RegisterUnitKilled()
     local killer_unit = nil
     local damstore_id = "__LD_"..killed.guid
     local killer_side = GetString(damstore_id)
+    local killer_side_guid = ""
     StoreString(damstore_id, "")
     if killer then
         if killer.unit then
             killer_unit = killer.unit
             killer_side = killer_unit.side
         end
+    end
+    if killer_side ~= "" then
+        killer_side_guid = SideGUIDByName(killer_side)
     end
 
     local is_fratricide = (killer_side == killed.side)
@@ -246,16 +269,36 @@ function PBEM_RegisterUnitKilled()
             else
                 unitname = killed.name..' ('..killed.classname..')'
             end
+            local killed_side_guid = SideGUIDByName(killed_side)
+            local weap_name = LocalizeForSide(killed_side, "UNKNOWN_WEAPON")
+            -- label weapon by how much the target knows about it
             if killer_unit then
-                if killer_unit.classname then
-                    unitname = unitname.." "..Format(
-                        LocalizeForSide(killed_side, "LOSS_LISTING"),
-                        {
-                            killer_unit.classname
-                        }
-                    )
+                for k, contact in pairs(killer_unit.ascontact) do
+                    if contact.side == killed_side_guid then
+                        local success, con = pcall(
+                            ScenEdit_GetContact,
+                            {
+                                side=killed_side,
+                                guid=contact.guid
+                            }
+                        )
+                        if con then
+                            if con.classificationlevel >= 3 then
+                                weap_name = killer_unit.classname
+                            elseif con.classificationlevel > 0 then
+                                weap_name = con.type
+                            end
+                        end
+                        break
+                    end
                 end
             end
+            unitname = unitname.." "..Format(
+                LocalizeForSide(killed_side, "LOSS_LISTING"),
+                {
+                    weap_name
+                }
+            )
             losses = losses.."<i>"..killtime.."</i> // "..unitname.."<br/>"
             if is_fratricide == true then
                 PBEM_SetFratricideRegister(sidenum, losses)
@@ -291,7 +334,6 @@ function PBEM_RegisterUnitKilled()
                 -- record the kill for the player
                 local sidenum = PBEM_SideNumberByName(killer_side)
                 local kills = PBEM_GetKillRegister(sidenum)
-                local killer_side_guid = SideGUIDByName(killer_side)
                 local known_name = killed.classname
                 for k, contact in pairs(killed.ascontact) do
                     if contact.side == killer_side_guid then
