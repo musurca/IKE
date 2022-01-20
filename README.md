@@ -70,6 +70,7 @@ For detailed instructions, please refer to the manual included with the [latest 
 
 ### VERSION HISTORY
 v1.51 (????):
+* added: fratricides from off-turn reported
 * fixed: "never-ending-turn" loop in highest time compression
 * fixed: friendly fire not marked as "successful strike" or "kill"
 * fixed: end message when scenario exceeds duration

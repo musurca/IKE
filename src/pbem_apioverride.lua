@@ -26,6 +26,7 @@ function PBEM_EndAPIReplace()
     PBEM_EndPlayerSide()
 
     PBEM_OnInitialSetup = nil
+    PBEM_OnSetupPhaseEnd = nil
 end
 
 function PBEM_InitPlayerSide()

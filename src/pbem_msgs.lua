@@ -50,6 +50,14 @@ function PBEM_SetHitRegister(sidenum, hits)
     StoreString("__SIDE_"..tostring(sidenum)..'_HITS', hits)
 end
 
+function PBEM_GetFratricideRegister(sidenum)
+    return string.sub(GetString("__SIDE_"..tostring(sidenum)..'_FRAT'), 0)
+end
+
+function PBEM_SetFratricideRegister(sidenum, hits)
+    StoreString("__SIDE_"..tostring(sidenum)..'_FRAT', hits)
+end
+
 function Message_Header(text)
     return '<br/><hr><br/><center><b>'..text..'</b></center><br/><hr><br/>'
 end
@@ -219,12 +227,19 @@ function PBEM_RegisterUnitKilled()
         end
     end
 
+    local is_fratricide = (killer_side == killed.side)
+
     -- register loss
     if IsIn(killed.side, PBEM_PLAYABLE_SIDES) then
-        if killed.side ~= Turn_GetCurSideName() then
+        if killed.side ~= Turn_GetCurSideName() then       
             local killed_side = killed.side
             local sidenum = PBEM_SideNumberByName(killed_side)
-            local losses = PBEM_GetLossRegister(sidenum)
+            local losses
+            if is_fratricide == true then
+                losses = PBEM_GetFratricideRegister(sidenum)
+            else
+                losses = PBEM_GetLossRegister(sidenum)
+            end
             local unitname
             if killed.name == killed.classname then
                 unitname = killed.name
@@ -242,7 +257,11 @@ function PBEM_RegisterUnitKilled()
                 end
             end
             losses = losses.."<i>"..killtime.."</i> // "..unitname.."<br/>"
-            PBEM_SetLossRegister(sidenum, losses)
+            if is_fratricide == true then
+                PBEM_SetFratricideRegister(sidenum, losses)
+            else
+                PBEM_SetLossRegister(sidenum, losses)
+            end
 
             --mark loss on the map
             ScenEdit_AddReferencePoint({
@@ -260,9 +279,14 @@ function PBEM_RegisterUnitKilled()
         end
     end
 
+    if is_fratricide == true then
+        -- no need to mark the kill
+        return
+    end
+
     -- register and mark kill
     if killer_unit or (killer_side ~= "") then
-        if IsIn(killer_side, PBEM_PLAYABLE_SIDES) and (killer_side ~= killed.side) then
+        if IsIn(killer_side, PBEM_PLAYABLE_SIDES) then
             if killer_side ~= Turn_GetCurSideName() then
                 -- record the kill for the player
                 local sidenum = PBEM_SideNumberByName(killer_side)
@@ -356,6 +380,12 @@ function PBEM_ShowTurnIntro()
     if losses ~= "" then
         lossreport = lossreport.."<br/><u>"..Localize("LOSSES_REPORTED").."</u><br/><br/>"..losses
         PBEM_SetLossRegister(cursidenum, "")
+    end
+    -- show fratricides from previous turn
+    local frats = PBEM_GetFratricideRegister(cursidenum)
+    if frats ~= "" then
+        lossreport = lossreport.."<br/><u>"..Localize("FRATRICIDES_REPORTED").."</u><br/><br/>"..frats
+        PBEM_SetFratricideRegister(cursidenum, "")
     end
     -- get any special messages we missed
     local prev_msgs = GetString("__SCEN_PREVMSGS_"..cursidenum)

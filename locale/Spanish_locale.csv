@@ -131,4 +131,5 @@ INTERMEDIATE_ALREADY|Ya se ha hecho una oferta para entrar en el tiempo intermed
 INTERMEDIATE_VOTED|Ha votado para ingresar al tiempo intermedio. Si la votación pasa, el tiempo intermedio comenzará en el turno del último jugador votante.
 INTERMEDIATE_DECLINED|Has rechazado la oferta para entrar al tiempo intermedio.
 INTERMEDIATE_ENTERED|Ha pasado la votación para entrar en el Intermedio. La duración de todos los turnos será ahora de %1 minutos.
+FRATRICIDES_REPORTED|Fratricides:
 FATALERROR_CORRUPT|ERROR: Your PBEM turn has been corrupted. Do NOT save this file.\n\nPlease reload your turn, and play it again.
