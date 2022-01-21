@@ -167,29 +167,37 @@ function PBEM_RegisterUnitDamaged()
                 unitname = damaged.name..' ('..damaged.classname..')'
             end
             local damaged_side_guid = SideGUIDByName(damaged_side)
-            local weap_name = LocalizeForSide(damaged_side, "UNKNOWN_WEAPON")
             -- label weapon by how much the target knows about it
+            local weap_name = LocalizeForSide(damaged_side, "UNKNOWN_WEAPON")
             if damager_unit then
-                for k, contact in pairs(damager_unit.ascontact) do
-                    if contact.side == damaged_side_guid then
-                        local success, con = pcall(
-                            ScenEdit_GetContact,
-                            {
-                                side=damaged_side,
-                                guid=contact.guid
-                            }
-                        )
-                        if con then
-                            if con.classificationlevel >= 3 then
-                                weap_name = damager_unit.classname
-                            elseif con.classificationlevel > 0 then
-                                weap_name = con.type
+                local subtype = damager_unit.subtype
+                if subtype == 2001 or subtype == 4001 then
+                    -- if it's a guided weapon or torpedo
+                    for k, contact in pairs(damager_unit.ascontact) do
+                        if contact.side == damaged_side_guid then
+                            local success, con = pcall(
+                                ScenEdit_GetContact,
+                                {
+                                    side=damaged_side,
+                                    guid=contact.guid
+                                }
+                            )
+                            if con then
+                                if con.classificationlevel >= 3 then
+                                    weap_name = damager_unit.classname
+                                elseif con.classificationlevel > 0 then
+                                    weap_name = con.type
+                                end
                             end
+                            break
                         end
-                        break
                     end
+                elseif damager_unit.classname then
+                    -- anything else, just tell what it is
+                    weap_name = damager_unit.classname
                 end
             end
+            StoreString("__LDCLASS_"..damaged.guid, weap_name)
             unitname = unitname.." "..Format(
                 LocalizeForSide(damaged_side, "DAMAGE_LISTING"),
                 {
@@ -237,9 +245,12 @@ function PBEM_RegisterUnitKilled()
     local killtime = PBEM_CurrentTimeMilitary()
     local killer_unit = nil
     local damstore_id = "__LD_"..killed.guid
+    local damclass_id = "__LDCLASS_"..killed.guid
     local killer_side = GetString(damstore_id)
+    local damclass_default = GetString(damclass_id)
     local killer_side_guid = ""
     StoreString(damstore_id, "")
+    StoreString(damclass_id, "")
     if killer then
         if killer.unit then
             killer_unit = killer.unit
@@ -269,28 +280,37 @@ function PBEM_RegisterUnitKilled()
             else
                 unitname = killed.name..' ('..killed.classname..')'
             end
+            -- find the name of the weapon by how much is known about it
             local killed_side_guid = SideGUIDByName(killed_side)
-            local weap_name = LocalizeForSide(killed_side, "UNKNOWN_WEAPON")
-            -- label weapon by how much the target knows about it
+            local weap_name = damclass_default
+            if weap_name == "" then
+                weap_name = LocalizeForSide(killed_side, "UNKNOWN_WEAPON")
+            end
             if killer_unit then
-                for k, contact in pairs(killer_unit.ascontact) do
-                    if contact.side == killed_side_guid then
-                        local success, con = pcall(
-                            ScenEdit_GetContact,
-                            {
-                                side=killed_side,
-                                guid=contact.guid
-                            }
-                        )
-                        if con then
-                            if con.classificationlevel >= 3 then
-                                weap_name = killer_unit.classname
-                            elseif con.classificationlevel > 0 then
-                                weap_name = con.type
+                local subtype = killer_unit.subtype
+                if subtype == 2001 or subtype == 4001 then
+                    -- if it's a guided weapon or torpedo
+                    for k, contact in pairs(killer_unit.ascontact) do
+                        if contact.side == killed_side_guid then
+                            local success, con = pcall(
+                                ScenEdit_GetContact,
+                                {
+                                    side=killed_side,
+                                    guid=contact.guid
+                                }
+                            )
+                            if con then
+                                if con.classificationlevel >= 3 then
+                                    weap_name = killer_unit.classname
+                                elseif con.classificationlevel > 0 then
+                                    weap_name = con.type
+                                end
                             end
+                            break
                         end
-                        break
                     end
+                elseif killer_unit.classname then
+                    weap_name = killer_unit.classname
                 end
             end
             unitname = unitname.." "..Format(
