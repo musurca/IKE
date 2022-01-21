@@ -133,3 +133,14 @@ INTERMEDIATE_DECLINED|你已经拒绝进入中继回合的提议.
 INTERMEDIATE_ENTERED|进入中继回合的提议获得通过. 所有回合的时长现在变为 %1 分钟.
 FRATRICIDES_REPORTED|Fratricides:
 FATALERROR_CORRUPT|ERROR: Your PBEM turn has been corrupted. Do NOT save this file.\n\nPlease reload your turn, and play it again.
+ID_GUIDEDWEAP|missile
+ID_ROCKET|rocket
+ID_BOMB|bomb
+ID_GUNS|guns
+ID_SUICIDEBOMB|suicide bomb
+ID_SABOTAGEBOMB|IED
+ID_GUIDEDPROJ|guided projectile
+ID_TORPEDO|torpedo
+ID_DEPTHCHARGE|depth charge
+ID_MINE|mine
+ID_LASER|laser

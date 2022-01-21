@@ -133,3 +133,14 @@ INTERMEDIATE_DECLINED|You have declined the offer to enter Intermediate time.
 INTERMEDIATE_ENTERED|The vote to enter Intermediate time has passed. The length of all turns will now be %1 minutes.
 FRATRICIDES_REPORTED|Fratricides:
 FATALERROR_CORRUPT|ERROR: Your PBEM turn has been corrupted. Do NOT save this file.\n\nPlease reload your turn, and play it again.
+ID_GUIDEDWEAP|missile
+ID_ROCKET|rocket
+ID_BOMB|bomb
+ID_GUNS|guns
+ID_SUICIDEBOMB|suicide bomb
+ID_SABOTAGEBOMB|IED
+ID_GUIDEDPROJ|guided projectile
+ID_TORPEDO|torpedo
+ID_DEPTHCHARGE|depth charge
+ID_MINE|mine
+ID_LASER|laser
