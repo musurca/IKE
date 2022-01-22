@@ -157,11 +157,14 @@ function PBEM_KnownWeaponName(weapon_unit, detecting_side)
 
     if weapon_unit then
         -- find generic name of weapon
-        local subtype = weapon_unit.subtype
-        local weap_locale_id = PBEM_WEAPON_CODES[subtype]
-        if weap_locale_id then
-            weap_name = LocalizeForSide(detecting_side, weap_locale_id)
+        local subtype = tonumber(weapon_unit.subtype)
+        if subtype then
+            local weap_locale_id = PBEM_WEAPON_CODES[subtype]
+            if weap_locale_id then
+                weap_name = LocalizeForSide(detecting_side, weap_locale_id)
+            end
         end
+        
         -- see if we have enough info to get more specific
         for k, contact in ipairs(weapon_unit.ascontact) do
             if contact.side == detecting_side_guid then
@@ -192,6 +195,7 @@ function PBEM_RegisterUnitDamaged()
     local damager_unit = nil
     local damager_side = ""
     local damager_side_guid = ""
+    local dguid = string.upper(damaged.guid)
     if damager then
         if damager.unit then
             damager_unit = damager.unit
@@ -199,7 +203,7 @@ function PBEM_RegisterUnitDamaged()
             damager_side_guid = SideGUIDByName(damager_side)
 
             if damaged then
-                StoreString("__LD_"..damaged.guid, damager_side)
+                StoreString("__LD_"..dguid, damager_side)
             end
         end
     end
@@ -223,7 +227,7 @@ function PBEM_RegisterUnitDamaged()
             end
             -- find the name of the weapon by how much is known about it
             local weap_name = PBEM_KnownWeaponName(damager_unit, damaged_side)
-            StoreString("__LDCLASS_"..damaged.guid, weap_name)
+            StoreString("__LDCLASS_"..dguid, weap_name)
             unitname = unitname.." "..Format(
                 LocalizeForSide(damaged_side, "DAMAGE_LISTING"),
                 {
@@ -270,8 +274,9 @@ function PBEM_RegisterUnitKilled()
     local killer = ScenEdit_UnitY()
     local killtime = PBEM_CurrentTimeMilitary()
     local killer_unit = nil
-    local damstore_id = "__LD_"..killed.guid
-    local damclass_id = "__LDCLASS_"..killed.guid
+    local kguid = string.upper(killed.guid)
+    local damstore_id = "__LD_"..kguid
+    local damclass_id = "__LDCLASS_"..kguid
     local killer_side = GetString(damstore_id)
     local damclass_default = GetString(damclass_id)
     local killer_side_guid = ""
