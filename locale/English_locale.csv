@@ -138,8 +138,8 @@ ID_ROCKET|rocket
 ID_BOMB|bomb
 ID_GUNS|guns
 ID_SUICIDEBOMB|suicide bomb
-ID_SABOTAGEBOMB|IED
-ID_GUIDEDPROJ|guided projectile
+ID_SABOTAGEBOMB|explosives
+ID_GUIDEDPROJ|smart round
 ID_TORPEDO|torpedo
 ID_DEPTHCHARGE|depth charge
 ID_MINE|mine

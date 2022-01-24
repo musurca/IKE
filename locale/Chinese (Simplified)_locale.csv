@@ -131,16 +131,16 @@ INTERMEDIATE_ALREADY|提议进入中继回合的消息已经发送.
 INTERMEDIATE_VOTED|你已经提出进入中继回合. 如果提议通过, 中继回合将会从最后一名同意的玩家回合开始执行.
 INTERMEDIATE_DECLINED|你已经拒绝进入中继回合的提议.
 INTERMEDIATE_ENTERED|进入中继回合的提议获得通过. 所有回合的时长现在变为 %1 分钟.
-FRATRICIDES_REPORTED|Fratricides:
-FATALERROR_CORRUPT|ERROR: Your PBEM turn has been corrupted. Do NOT save this file.\n\nPlease reload your turn, and play it again.
-ID_GUIDEDWEAP|missile
-ID_ROCKET|rocket
-ID_BOMB|bomb
-ID_GUNS|guns
-ID_SUICIDEBOMB|suicide bomb
-ID_SABOTAGEBOMB|IED
-ID_GUIDEDPROJ|guided projectile
-ID_TORPEDO|torpedo
-ID_DEPTHCHARGE|depth charge
-ID_MINE|mine
-ID_LASER|laser
+FRATRICIDES_REPORTED|友军杀伤:
+FATALERROR_CORRUPT|错误: 你的PBEM回合崩溃了.请 不要 保存此文件.\n\n请重新读取存档再运行一次.
+ID_GUIDEDWEAP|导弹
+ID_ROCKET|火箭
+ID_BOMB|炸弹
+ID_GUNS|火炮
+ID_SUICIDEBOMB|自杀炸弹
+ID_SABOTAGEBOMB|爆炸物
+ID_GUIDEDPROJ|智能弹药
+ID_TORPEDO|鱼雷
+ID_DEPTHCHARGE|深水炸弹
+ID_MINE|水雷
+ID_LASER|激光

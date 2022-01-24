@@ -131,16 +131,16 @@ INTERMEDIATE_ALREADY|Une offre de passer en durée de tours « intermédiaire »
 INTERMEDIATE_VOTED|Vous avez voté pour entrer en temps intermédiaire. Si le vote passe, la durée intermédiaire commencera lors du tour du joueur qui a voté en dernier.
 INTERMEDIATE_DECLINED|Vous avez refusé l'offre de passer en tours de durée intermédiaire.
 INTERMEDIATE_ENTERED|Le vote pour entrer en tours de durée intermédiaire est passé. Tous les tours seront maintenant d'une durée de %1 minutes.
-FRATRICIDES_REPORTED|Tir fratricide:
+FRATRICIDES_REPORTED|Tirs fratricides:
 FATALERROR_CORRUPT|ERREUR: Votre tour de PBEM est corrompu. Ne PAS sauvegarder ce fichier.\n\nVeuillez recharger et rejouer votre tour.
 ID_GUIDEDWEAP|missile
-ID_ROCKET|rocket
-ID_BOMB|bomb
-ID_GUNS|guns
-ID_SUICIDEBOMB|suicide bomb
-ID_SABOTAGEBOMB|IED
-ID_GUIDEDPROJ|guided projectile
-ID_TORPEDO|torpedo
-ID_DEPTHCHARGE|depth charge
+ID_ROCKET|roquette
+ID_BOMB|bombe
+ID_GUNS|canon
+ID_SUICIDEBOMB|bombe suicide
+ID_SABOTAGEBOMB|explosifs
+ID_GUIDEDPROJ|projectile guidé
+ID_TORPEDO|torpille
+ID_DEPTHCHARGE|charge de profondeur
 ID_MINE|mine
 ID_LASER|laser
