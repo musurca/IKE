@@ -131,16 +131,16 @@ INTERMEDIATE_ALREADY|Ya se ha hecho una oferta para entrar en el tiempo intermed
 INTERMEDIATE_VOTED|Ha votado para ingresar al tiempo intermedio. Si la votación pasa, el tiempo intermedio comenzará en el turno del último jugador votante.
 INTERMEDIATE_DECLINED|Has rechazado la oferta para entrar al tiempo intermedio.
 INTERMEDIATE_ENTERED|Ha pasado la votación para entrar en el Intermedio. La duración de todos los turnos será ahora de %1 minutos.
-FRATRICIDES_REPORTED|Fratricides:
-FATALERROR_CORRUPT|ERROR: Your PBEM turn has been corrupted. Do NOT save this file.\n\nPlease reload your turn, and play it again.
-ID_GUIDEDWEAP|missile
-ID_ROCKET|rocket
-ID_BOMB|bomb
-ID_GUNS|guns
-ID_SUICIDEBOMB|suicide bomb
-ID_SABOTAGEBOMB|explosives
-ID_GUIDEDPROJ|smart round
+FRATRICIDES_REPORTED|Fratricidas:
+FATALERROR_CORRUPT|ERROR: Tu turno de PBEM se ha corrompido. NO guardes este archivo.\n\nVuelve a cargar tu turno y vuelve a jugarlo.
+ID_GUIDEDWEAP|misil
+ID_ROCKET|cohete
+ID_BOMB|bomba
+ID_GUNS|armas
+ID_SUICIDEBOMB|bomba suicida
+ID_SABOTAGEBOMB|explosivos
+ID_GUIDEDPROJ|proyectil guiado
 ID_TORPEDO|torpedo
-ID_DEPTHCHARGE|depth charge
-ID_MINE|mine
-ID_LASER|laser
+ID_DEPTHCHARGE|carga de profundidad
+ID_MINE|mio
+ID_LASER|láser
