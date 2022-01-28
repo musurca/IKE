@@ -18,13 +18,13 @@ ORDER PHASES PER TURN   2
 WHO GOES FIRST          Norway
 
 
-**** North Pacific Shootout, 1989 - United States vs. Soviet Union ****
+**** North Pacific Shootout, 1989 - Soviet Union vs. United States ****
 AUTHOR: Mike Mykytyn
 DURATION: 6 hours
 Recommended settings:
 TURN LENGTH             20 minutes
 ORDER PHASES PER TURN   2
-WHO GOES FIRST          United States
+WHO GOES FIRST          Soviet Union
 
 
 **** Red/Blue Hawaii, 1985 - RED (US) vs. BLUE (US) ****

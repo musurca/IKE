@@ -72,6 +72,8 @@ For detailed instructions, please refer to the manual included with the [latest 
 v1.51 (????):
 * added: fratricides from off-turn reported
 * changed: class of incoming weapon hits only reported if known
+* changed: North Pacific Shootout - P-3C on AI-controlled USN side
+* changed: North Pacific Shootout - Soviet Union goes first
 * fixed: "never-ending-turn" loop in highest time compression
 * fixed: fratricide not marked as "successful strike" or "kill"
 * fixed: end message when scenario exceeds duration
