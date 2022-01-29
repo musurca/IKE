@@ -66,6 +66,15 @@ ORDER PHASES PER TURN   2
 WHO GOES FIRST          United Kingdom
 
 
+**** En Garde, 2013 - France vs. United Kingdom ****
+AUTHOR: Miguel Molina & David Perez (converted by nukkxx)
+DURATION: 2 days
+Recommended settings:
+TURN LENGTH             30 minutes (Intermediate) / 15 minutes (Tactical)
+ORDER PHASES PER TURN   2
+WHO GOES FIRST          France
+
+
 **** Frozen War, 2014 - Chile vs. Argentina ****
 AUTHOR: Miguel Molina
 DURATION: 20 hours

@@ -71,6 +71,7 @@ For detailed instructions, please refer to the manual included with the [latest 
 ### VERSION HISTORY
 v1.51 (????):
 * added: fratricides from off-turn reported
+* added: En Garde, 2013 (Molina/Perez/@nukkxx)
 * changed: class of incoming weapon hits only reported if known
 * changed: North Pacific Shootout - P-3C on AI-controlled USN side
 * changed: North Pacific Shootout - Soviet Union goes first
