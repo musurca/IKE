@@ -248,6 +248,7 @@ function PBEM_StartActionPhase(exact_time)
 
     local next_time = exact_time + PBEM_OrderInterval() - 1
     if next_time == PBEM_GetNextTurnStartTime() then
+        -- final order phase is -1 second from normal interval
         next_time = next_time - 1
     end
     ExecuteAt(next_time, "PBEM_StartOrderPhase("..next_time..")")

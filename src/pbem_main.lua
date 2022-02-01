@@ -10,7 +10,7 @@ for the IKE system.
 ----------------------------------------------
 ]]--
 
-IKE_VERSION = "1.51"
+IKE_VERSION = "1.52"
 IKE_MIN_ALLOWED_BUILD_MAJOR = 1147
 IKE_MIN_ALLOWED_BUILD_MINOR = 34
 
@@ -221,6 +221,7 @@ function PBEM_StartTurn()
 
     if turnnum == 0 then
         if is_first_init == true then
+            --loading a saved game in the setup phase
             ScenEdit_SetSideOptions({
                 side=PBEM_SIDENAME,
                 switchto=true
