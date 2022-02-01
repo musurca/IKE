@@ -69,6 +69,9 @@ This will produce compiled but unminified Lua code in `debug/ike_debug.lua`. _Do
 For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.51/IKE_v1.51.zip).
 
 ### VERSION HISTORY
+v1.52 (?????):
+* fixed: blank scenario when loading game saved during setup phase
+
 v1.51 (1/30/2022):
 * added: fratricides from off-turn reported
 * added: En Garde, 2013 (Molina/Perez/@nukkxx)

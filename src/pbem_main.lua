@@ -162,7 +162,8 @@ function PBEM_StartTurn()
 
     local side_num = Turn_GetCurSide()
     local side_init = "PBEM_SIDE_INITIALIZED_"..side_num
-    if GetBoolean(side_init) == false then
+    local is_first_init = GetBoolean(side_init)
+    if is_first_init == false then
         --set the language for this player
         PBEM_SetLocale()
 
@@ -219,6 +220,13 @@ function PBEM_StartTurn()
     end
 
     if turnnum == 0 then
+        if is_first_init == true then
+            ScenEdit_SetSideOptions({
+                side=PBEM_SIDENAME,
+                switchto=true
+            })
+        end
+
         -- start setup phase
         PBEM_StartSetupPhase()
     else
