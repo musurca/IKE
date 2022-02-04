@@ -12,6 +12,11 @@ special actions
 
 local IKE_SPECACTIONS = {
     {
+        script = "PBEM_ShowIKEVersion()",
+        name   = Localize("SPEC_SHOWVERSION_NAME"),
+        desc   = Localize("SPEC_SHOWVERSION_DESC")
+    },
+    {
         script = "PBEM_ShowRemainingTime()",
         name   = Localize("SPEC_SHOWTIME_NAME"),
         desc   = Localize("SPEC_SHOWTIME_DESC")
@@ -50,6 +55,17 @@ local IKE_TWOP_ACTIONS = {
         desc   = Localize("SPEC_DRAW_DESC")
     }
 }
+
+function PBEM_ShowIKEVersion()
+    Input_OK(
+        Format(
+            Localize("MSG_IKE_VERSION"),
+            {
+                IKE_VERSION
+            }
+        )
+    )
+end
 
 function PBEM_OfferDraw()
     if Turn_GetTurnNumber() == 0 and PBEM_SETUP_PHASE then

@@ -144,3 +144,6 @@ ID_TORPEDO|鱼雷
 ID_DEPTHCHARGE|深水炸弹
 ID_MINE|水雷
 ID_LASER|激光
+SPEC_SHOWVERSION_NAME|(PBEM) About IKE
+SPEC_SHOWVERSION_DESC|Displays information about IKE, the underlying code that powers this scenario's PBEM capabilities.
+MSG_IKE_VERSION|IKE v%1\nLicensed under GNU GPL v3.\nhttps://github.com/musurca/IKE/

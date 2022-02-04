@@ -144,3 +144,6 @@ ID_TORPEDO|torpille
 ID_DEPTHCHARGE|charge de profondeur
 ID_MINE|mine
 ID_LASER|laser
+SPEC_SHOWVERSION_NAME|(PBEM) About IKE
+SPEC_SHOWVERSION_DESC|Displays information about IKE, the underlying code that powers this scenario's PBEM capabilities.
+MSG_IKE_VERSION|IKE v%1\nLicensed under GNU GPL v3.\nhttps://github.com/musurca/IKE/
