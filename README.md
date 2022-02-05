@@ -71,7 +71,7 @@ For detailed instructions, please refer to the manual included with the [latest 
 ### VERSION HISTORY
 v1.52 (2/4/2022):
 * added: new action - About IKE (for current version info)
-* added: Bersama Lima, 2013 (Bridge/@nukkxx)
+* added: Bersama Lima, 2003 (Bridge/@nukkxx)
 * added: Gaddafi's Legacy, 2024 (@nukkxx)
 * added: Sahel Slugfest, 2021 (WarfareSims/@nukkxx) - DLC required
 * fixed: blank scenario when loading game saved during setup phase
