@@ -4,7 +4,7 @@
 AUTHOR: Eskild
 DURATION: 12 hours
 Recommended settings:
-TURN LENGTH             30 minutes
+TURN LENGTH             15 minutes
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          USSR
 
@@ -56,6 +56,14 @@ WHO GOES FIRST          Red
 
 ------------------ MEDIUM-LENGTH SCENARIOS ------------------
 
+**** Bersama Lima, 2003 - UK-ANZAC Forces vs. China ****
+AUTHOR: Paul Bridge (converted by nukkxx)
+DURATION: 1 day, 12 hours
+Recommended settings:
+TURN LENGTH             30 minutes (Intermediate) / 15 minutes (Tactical)
+ORDER PHASES PER TURN   2
+WHO GOES FIRST          UK-ANZAC Forces
+
 
 **** Duelists, 1989 - United Kingdom vs. USSR ****
 AUTHOR: Mike Mykytyn
@@ -103,6 +111,16 @@ ORDER PHASES PER TURN   2
 WHO GOES FIRST          Argentina
 
 
+**** Sahel Slugfest - Sudan-China vs. France-Chad ****
+(Command LIVE: Sahel Slugfest DLC required)
+AUTHOR: WarfareSims (converted by nukkxx)
+DURATION: 2 days
+Recommended settings:
+TURN LENGTH             30 minutes (Intermediate) / 15 minutes (Tactical)
+ORDER PHASES PER TURN   2
+WHO GOES FIRST          Sudan-China
+
+
 **** Shamal, 1991 (cooperative) - USN & USAF vs. Iraq (AI) ****
 AUTHOR: Mike Mykytyn
 DURATION: 24 hours
@@ -121,6 +139,15 @@ Recommended settings:
 TURN LENGTH             30 minutes (Intermediate) / 15 minutes (Tactical)
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          Spain
+
+
+**** Gaddafi's Legacy, 2024 - Libya vs. Tunisia ****
+AUTHOR: nukkxx
+DURATION: 2 days
+Recommended settings:
+TURN LENGTH             30 minutes (Intermediate) / 15 minutes (Tactical)
+ORDER PHASES PER TURN   2
+WHO GOES FIRST          Libya
 
 
 **** Malvinas - The Pincer, 1982 - Argentina vs. Britain ****
