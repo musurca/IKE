@@ -69,6 +69,9 @@ This will produce compiled but unminified Lua code in `debug/ike_debug.lua`. _Do
 For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.52/IKE_v1.52.zip).
 
 ### VERSION HISTORY
+v1.53 (????):
+* fixed: old action events removed
+
 v1.52 (2/4/2022):
 * added: new action - About IKE (for current version info)
 * added: Bersama Lima, 2003 (Bridge/@nukkxx)

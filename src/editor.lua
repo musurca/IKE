@@ -187,7 +187,7 @@ function ExecuteAt(timetoexecute, code)
         Event_AddTrigger(evt_name, trigger_name)
 
         -- action to perform
-        local script = "__waitevt__=function()\r\n" .. code .. "\r\nend\r\npcall(__waitevt__)\r\npcall(Event_Delete, \"" .. evt_name .. "\")"
+        local script = "__waitevt__=function()\r\n" .. code .. "\r\nend\r\npcall(__waitevt__)\r\npcall(Event_Delete, \"" .. evt_name .. "\", true)"
         local action_name = Action_Create(
             uuid(),
             {
