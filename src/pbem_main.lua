@@ -160,6 +160,10 @@ function PBEM_StartTurn()
         return
     end
 
+    -- remove this temp block to keep setup phases
+    -- from overrunning
+    StoreBoolean("PBEM_SETUPBLOCK", false)
+
     local side_num = Turn_GetCurSide()
     local side_init = "PBEM_SIDE_INITIALIZED_"..side_num
     local is_first_init = GetBoolean(side_init)
@@ -269,6 +273,12 @@ end
 
 function PBEM_UpdateTick()
     -- if in setup phase, end it
+    if GetBoolean("PBEM_SETUPBLOCK") == true then
+        Input_OK(Localize("FATALERROR_CORRUPT"))
+        PBEM_SelfDestruct()
+        return
+    end
+
     local turnnum = Turn_GetTurnNumber()
     if turnnum == 0 then
         PBEM_EndSetupPhase()
@@ -386,6 +396,7 @@ function PBEM_EndSetupPhase()
     PBEM_SpecialMessage('playerside', msg, nil, true)
     PBEM_FlushSpecialMessages()
     ScenEdit_SetTime(PBEM_StartTimeToUTC())
+    StoreBoolean("PBEM_SETUPBLOCK", true)
 
     PBEM_EndAPIReplace()
 end

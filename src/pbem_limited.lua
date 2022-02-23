@@ -199,7 +199,10 @@ end
 
 function PBEM_MarkNextActionPhase()
     local exact_time = ScenEdit_CurrentTime() + 1
-    ExecuteAt(exact_time, "PBEM_StartActionPhase("..exact_time..")")
+    PBEM_EnableNextEvent(
+        exact_time,
+        "PBEM_StartActionPhase("..exact_time..")"
+    )
 end
 
 function PBEM_SwitchOrderPhase()
@@ -233,10 +236,16 @@ function PBEM_StartOrderPhase(exact_time)
 
     if flip_turn_guard then
         -- enable turn end
-        ExecuteAt(exact_time + 1, "PBEM_EndTurn()")
+        PBEM_EnableNextEvent(
+            exact_time + 1,
+            "PBEM_EndTurn()"
+        )
     else
         local etime = exact_time + 1
-        ExecuteAt(etime, "PBEM_StartActionPhase("..etime..")")
+        PBEM_EnableNextEvent(
+            etime,
+            "PBEM_StartActionPhase("..etime..")"
+        )
     end
 end
 
@@ -251,7 +260,10 @@ function PBEM_StartActionPhase(exact_time)
         -- final order phase is -1 second from normal interval
         next_time = next_time - 1
     end
-    ExecuteAt(next_time, "PBEM_StartOrderPhase("..next_time..")")
+    PBEM_EnableNextEvent(
+        next_time,
+        "PBEM_StartOrderPhase("..next_time..")"
+    )
 
     --make sure the dummy side has no RPs
     PBEM_WipeRPs()
@@ -261,4 +273,20 @@ function PBEM_StartActionPhase(exact_time)
     PBEM_CheckScheduledMessages()
     -- display all special messages at once
     PBEM_FlushSpecialMessages()
+end
+
+function PBEM_EnableNextEvent(scentime, evt_code)
+    if GetString("PBEM_NEXT_EVENTNAME") == "" then
+        StoreString(
+            "PBEM_NEXT_EVENTNAME",
+            ExecuteAt(
+                scentime,
+                "PBEM_DisableCurrentEvent()\r\n"..evt_code
+            )
+        )
+    end
+end
+
+function PBEM_DisableCurrentEvent()
+    StoreString("PBEM_NEXT_EVENTNAME", "")
 end

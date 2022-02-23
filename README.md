@@ -70,6 +70,8 @@ For detailed instructions, please refer to the manual included with the [latest 
 
 ### VERSION HISTORY
 v1.53 (????):
+* fixed: setup phase overrun
+* fixed: turn skipping
 * fixed: old action events removed
 
 v1.52 (2/4/2022):
