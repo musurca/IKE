@@ -1,9 +1,9 @@
 <p align="center"><img src="https://github.com/musurca/IKE/raw/main/logo.jpg" /></p>
 
 ## PBEM/hotseat multiplayer for *Command: Modern Operations* scenarios
-FOR PLAYERS: [**DOWNLOAD LATEST SCENARIO PACK HERE (v1.52)**](https://github.com/musurca/IKE/releases/download/v1.52-scenarios/IKE_Scenario_Pack_v1.52.zip)
+FOR PLAYERS: [**DOWNLOAD LATEST SCENARIO PACK HERE (v1.53)**](https://github.com/musurca/IKE/releases/download/v1.53-scenarios/IKE_Scenario_Pack_v1.53.zip)
 
-FOR SCENARIO AUTHORS: [**DOWNLOAD LATEST RELEASE HERE (v1.52)**](https://github.com/musurca/IKE/releases/download/v1.52/IKE_v1.52.zip)
+FOR SCENARIO AUTHORS: [**DOWNLOAD LATEST RELEASE HERE (v1.53)**](https://github.com/musurca/IKE/releases/download/v1.53/IKE_v1.53.zip)
 
 If you're a scenario author or player looking to convert a new or existing scenario for multiplayer use, you only need to download either the latest release or scenario pack using the links above. 
 
@@ -66,10 +66,12 @@ This will produce compiled but unminified Lua code in `debug/ike_debug.lua`. _Do
 **IKE** is designed primarily for scenario authors who want to create a multiplayer version of their existing scenario, but it may also be used productively by players who want to convert their favorite scenario for use with a friend.
 
 ### How do I use it?
-For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.52/IKE_v1.52.zip).
+For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.53/IKE_v1.53.zip).
 
 ### VERSION HISTORY
-v1.53 (????):
+v1.53 (3/6/2022):
+* changed: bumped minimum CMO build to 1147.42
+* changed: updated Gaddafi's Legacy, 2024 (@nukkxx)
 * fixed: setup phase overrun
 * fixed: turn skipping
 * fixed: old action events removed
