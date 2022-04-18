@@ -73,7 +73,7 @@ v1.54 (????????):
 * fixed: contact spam from friendy out-of-comms units
 * fixed: contacts from friendly sides no longer disappear
 * fixed: no delay on Special Messages when paused
-* fixed: French and Spanish localization typos (@ClaudeJ)
+* fixed: French and Spanish localization typos (@claudejdev)
 
 v1.53 (3/6/2022):
 * changed: bumped minimum CMO build to 1147.42
