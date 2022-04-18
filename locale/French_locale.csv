@@ -59,7 +59,7 @@ SHOW_REMAINING_TIME|Temps restant dans votre tour: %1:%2:%3.
 SIXTH|SIXIÈME
 SPEC_CHANGEPOST_DESC|Changez votre posture vis-à-vis d'un camp. Ceci est utile si vous avez accidentellement attaqué des civils et ne voulez plus qu'ils soient déclarés comme hostile.
 SPEC_CHANGEPOST_NAME|(PBEM) Changer de posture vis-à-vis d'un camp
-SPEC_SCHEDMSG_DESC|Envoi un message à un autre joueur qui sera remis à une heure pré-établie. Notez que la longueur maximale du message est de 280 caractères, que les tags HTML seront supprimés, et que vous ne pouvez préparer qu'un seul message à envoyer à la fois.
+SPEC_SCHEDMSG_DESC|Envoie un message à un autre joueur qui sera remis à une heure pré-établie. Notez que la longueur maximale du message est de 280 caractères, que les tags HTML seront supprimés, et que vous ne pouvez préparer qu'un seul message à envoyer à la fois.
 SPEC_SCHEDMSG_NAME|(PBEM) Préparer un message pour un autre joueur
 SPEC_SENDMSG_DESC|Envoie un message à un autre joueur. Il sera délivré au début du prochain tour. Notez que la longueur maximale du message est de 280 caractères et que les tags HTML seront supprimés.
 SPEC_SENDMSG_NAME|(PBEM) Envoyer un message à un autre joueur
