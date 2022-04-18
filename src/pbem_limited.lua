@@ -36,14 +36,28 @@ end
 
 function PBEM_MirrorSide(sidename)
     local dummy_side = PBEM_ConstructDummySideName(sidename)
-    ScenEdit_SetSidePosture(sidename, dummy_side, "F")
-    ScenEdit_SetSidePosture(dummy_side, sidename, "F")
+    if ScenEdit_GetSidePosture(sidename, dummy_side) ~= "F" then
+        ScenEdit_SetSidePosture(sidename, dummy_side, "F")
+        ScenEdit_SetSidePosture(dummy_side, sidename, "F")
+    end
     local sides = VP_GetSides()
     for i=1,#sides do
         local side = sides[i].name
         if sidename ~= side then
-            local posture = ScenEdit_GetSidePosture(sidename, side)
-            ScenEdit_SetSidePosture(dummy_side, side, posture)
+            local posture_to = ScenEdit_GetSidePosture(
+                sidename,
+                side
+            )
+            local posture_from = ScenEdit_GetSidePosture(
+                side,
+                sidename
+            )
+            if ScenEdit_GetSidePosture(dummy_side, side) ~= posture_to then
+                ScenEdit_SetSidePosture(dummy_side, side, posture_to)
+            end
+            if ScenEdit_GetSidePosture(side, dummy_side) ~= posture_from then
+                ScenEdit_SetSidePosture(side, dummy_side, posture_from)
+            end
         end
     end
 end
@@ -54,11 +68,20 @@ function PBEM_MirrorContactPostures()
     local mirrorside = PBEM_SIDENAME
     local mirrorside_guid = SideGUIDByName(mirrorside)
     for k, contact in ipairs(contacts) do
-        local unit = ScenEdit_GetUnit({guid=contact.actualunitid})
+        local unit = ScenEdit_GetUnit(
+            {
+                guid=contact.actualunitid
+            }
+        )
         if unit then
             for j, ascon in ipairs(unit.ascontact) do
                 if ascon.side == mirrorside_guid then
-                    local mcontact = ScenEdit_GetContact({side=mirrorside, guid=ascon.guid})
+                    local mcontact = ScenEdit_GetContact(
+                        {
+                            side=mirrorside,
+                            guid=ascon.guid
+                        }
+                    )
                     if mcontact then
                         if mcontact.posture ~= contact.posture then
                             contact.posture = mcontact.posture

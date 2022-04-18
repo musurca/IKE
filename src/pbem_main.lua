@@ -328,6 +328,7 @@ function PBEM_UpdateTick()
     end
 
     --mirror side score and contact postures
+    PBEM_MirrorSide(PBEM_SIDENAME)
     PBEM_MirrorSideScore()
     PBEM_MirrorContactPostures()
 

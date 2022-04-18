@@ -98,6 +98,11 @@ function PBEM_SpecialMessage(side, message, location, priority)
     else
         table.insert(PBEM_MESSAGEQUEUE, new_msg)
     end
+
+    -- if only message while paused, send it immediately
+    if VP_GetScenario().GameStatus == 0 and #PBEM_MESSAGEQUEUE == 1 then
+        PBEM_FlushSpecialMessages()
+    end
 end
 
 function PBEM_FlushSpecialMessages()

@@ -82,9 +82,24 @@ function PBEM_RegisterNewContact()
             if not actual_unit then
                 return
             end
+
+            -- do not notify if unit is on our side, or on allied side
+            -- to avoid contact spam
+            local is_allied_unit = false
             if actual_unit.side == detecting_side then
-                --it's annoying to be notified of out-of-comms contacts
-                --on our own side, so we'll just ignore them
+                is_allied_unit = true
+            else
+                local posture_to = ScenEdit_GetSidePosture(
+                    actual_unit.side,
+                    detecting_side
+                )
+                local posture_from = ScenEdit_GetSidePosture(
+                    detecting_side,
+                    actual_unit.side
+                )
+                is_allied_unit = (posture_to == "F" or posture_from == "F")
+            end
+            if is_allied_unit == true then
                 return
             end
 

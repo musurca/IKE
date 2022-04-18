@@ -69,6 +69,12 @@ This will produce compiled but unminified Lua code in `debug/ike_debug.lua`. _Do
 For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.53/IKE_v1.53.zip).
 
 ### VERSION HISTORY
+v1.54 (????????):
+* fixed: contact spam from friendy out-of-comms units
+* fixed: contacts from friendly sides no longer disappear
+* fixed: no delay on Special Messages when paused
+* fixed: French and Spanish localization typos (@ClaudeJ)
+
 v1.53 (3/6/2022):
 * changed: bumped minimum CMO build to 1147.42
 * changed: updated Gaddafi's Legacy, 2024 (@nukkxx)
