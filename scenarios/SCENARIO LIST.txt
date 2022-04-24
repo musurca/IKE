@@ -166,3 +166,14 @@ Recommended settings:
 TURN LENGTH             30 minutes (Intermediate) / 15 minutes (Tactical)
 ORDER PHASES PER TURN   2
 WHO GOES FIRST          Japan
+
+
+------------------ MEGA SCENARIOS ------------------
+
+**** The End of Françafrique, 2021 - China vs. France ****
+Author: nukkxx
+Duration: 2 days
+Recommended settings:
+TURN LENGTH             15 minutes
+ORDER PHASES PER TURN   2
+WHO GOES FIRST          China
