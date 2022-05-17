@@ -110,7 +110,9 @@ function PBEM_CustomTimeToUTC(time_secs)
 end
 
 function PBEM_StartTimeToUTC()
-    return PBEM_CustomTimeToUTC(VP_GetScenario().StartTimeNum)
+    return PBEM_CustomTimeToUTC(
+        tonumber(VP_GetScenario().StartTimeNum)
+    )
 end
 
 function PBEM_CustomTimeMilitary(currentTime)
@@ -123,7 +125,9 @@ function PBEM_CustomTimeMilitary(currentTime)
 end
 
 function PBEM_CurrentTimeMilitary()
-    return PBEM_CustomTimeMilitary(VP_GetScenario().CurrentTimeNum)
+    return PBEM_CustomTimeMilitary(
+        tonumber(VP_GetScenario().CurrentTimeNum)
+    )
 end
 
 --[[

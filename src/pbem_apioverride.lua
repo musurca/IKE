@@ -69,7 +69,7 @@ function PBEM_SpecialMessage(side, message, location, priority)
         PBEM_MESSAGEQUEUE = {}
     end
     local side_name = side
-    local special_archive = (ScenEdit_CurrentTime() == VP_GetScenario().StartTimeNum)
+    local special_archive = (ScenEdit_CurrentTime() == tonumber(VP_GetScenario().StartTimeNum))
     --make sure messages are properly delivered
     if side_name == Turn_GetCurSideName() and not special_archive then
         side_name = "playerside"
@@ -100,7 +100,7 @@ function PBEM_SpecialMessage(side, message, location, priority)
     end
 
     -- if only message while paused, send it immediately
-    if VP_GetScenario().GameStatus == 0 and #PBEM_MESSAGEQUEUE == 1 then
+    if tonumber(VP_GetScenario().GameStatus) == 0 and #PBEM_MESSAGEQUEUE == 1 then
         PBEM_FlushSpecialMessages()
     end
 end

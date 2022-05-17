@@ -351,7 +351,10 @@ function PBEM_Wizard()
 
     -- reset the scenario to its starting time
     ScenEdit_SetTime(PBEM_StartTimeToUTC())
-    StoreNumber("__CUR_TURN_TIME", VP_GetScenario().StartTimeNum)
+    StoreNumber(
+        "__CUR_TURN_TIME", 
+        tonumber(VP_GetScenario().StartTimeNum)
+    )
 
     -- finally, switch to the dummy side for scenario start
     ScenEdit_SetSideOptions({side=PBEM_DUMMY_SIDE, switchto=true})

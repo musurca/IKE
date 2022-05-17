@@ -191,7 +191,7 @@ function PBEM_KnownWeaponName(weapon_unit, detecting_side)
                     }
                 )
                 if con then
-                    if con.classificationlevel >= 3 then
+                    if tonumber(con.classificationlevel) >= 3 then
                         weap_name = weapon_unit.classname
                     end
                 end

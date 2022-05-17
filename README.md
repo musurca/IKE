@@ -69,6 +69,10 @@ This will produce compiled but unminified Lua code in `debug/ike_debug.lua`. _Do
 For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.54/IKE_v1.54.zip).
 
 ### VERSION HISTORY
+v1.55b (?????):
+* fixed: initial support for 1243.2 ("Tiny")
+* fixed: string->number conversions no longer implicit
+
 v1.54 (4/24/2022):
 * added: The End of Françafrique, 2021 (@nukkxx)
 * changed: updated Gaddafi's Legacy, 2024 (@nukkxx)
