@@ -101,7 +101,7 @@ function PBEM_CustomTimeToUTC(time_secs)
         return EpochTimeToUTC(time_secs)
     end
 
-    local date_str = os.date("!%m.%d.%Y", time_secs)
+    local date_str = os.date("!%d.%m.%Y", time_secs)
     local time_str = os.date("!%H.%M.%S", time_secs)
     return {
         Date=date_str, 
