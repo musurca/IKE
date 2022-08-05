@@ -10,11 +10,14 @@ and turn times.
 ----------------------------------------------
 ]]--
 
+IKE_DATEFORMAT = "MMDDYYYY"
+
 --[[
 A partial reimplementation of os.date() to workaround
 CMO bug with negative epoch times. Should work from
 Jan 1, 1900 00:00:00 through Feb 28, 2100 23:59:59.
 ]]--
+
 function EpochTimeToUTC(etime, date_sep, time_sep)
     date_sep = date_sep or "."
     time_sep = time_sep or "."
@@ -91,8 +94,9 @@ function EpochTimeToUTC(etime, date_sep, time_sep)
     end
 
     return {
-        Date=month..date_sep..day..date_sep..year, 
-        Time=hour..time_sep..minute..time_sep..second
+        Date=month..date_sep..day..date_sep..year,
+        Time=hour..time_sep..minute..time_sep..second,
+        DateFormat=IKE_DATEFORMAT
     }
 end
 
@@ -101,11 +105,12 @@ function PBEM_CustomTimeToUTC(time_secs)
         return EpochTimeToUTC(time_secs)
     end
 
-    local date_str = os.date("!%d.%m.%Y", time_secs)
+    local date_str = os.date("!%m.%d.%Y", time_secs)
     local time_str = os.date("!%H.%M.%S", time_secs)
     return {
-        Date=date_str, 
-        Time=time_str
+        Date=date_str,
+        Time=time_str,
+        DateFormat=IKE_DATEFORMAT
     }
 end
 

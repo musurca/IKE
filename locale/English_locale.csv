@@ -1,5 +1,4 @@
 ID|Text
-CHANGE_POSTURE|Change posture toward which side?\n\nOptions: %1
 CHAT_ALREADY_SCHEDULED|You've already scheduled a message to be delivered!
 CHAT_CANCELLED|Message cancelled.
 CHAT_MSG_FORM|Message from %1:<br/><br/>%2
@@ -40,25 +39,20 @@ NEXT_ORDER_HEADER|%1 Turn %2<br/>(%3 minutes left)<br/><br/>Order Phase %4
 NINTH|NINTH
 NO|No
 NO_EDITOR_MODE|You can't open a PBEM game in Editor mode until the scenario has ended.\n\nPlay this scenario using Start New Game or Load Saved Game from the main menu.
-NO_POSTURE_FOUND|%1 isn't a posture!
 NO_SIDE_FOUND|%1 isn't a side!
 ORDER_PHASE_DIVIDER|%1 of %2
 PASSWORDS_DIDNT_MATCH|Passwords didn't match! Please enter your password again:
-POSTURE_IS_SET|Your posture toward %1 is now %2.
 RECOMMENDED|Recommended: %1
 RESUME_ORDER_MESSAGE|You've already given orders for this phase. <b>Start the clock</b> to continue executing them.
 SCHEDULE_CHAT|How long from now should the message be delivered?\nFORMAT: hh:mm:ss
 SEC_INCORRECT|The second must be a number between 00 and 59. Try again?
 SECOND|SECOND
 SEND_CHAT|Send message to which side?\n\nOptions: %1
-SET_POSTURE|Your posture toward %1 is %2. What is your new posture?\n\nOptions: FRIENDLY, NEUTRAL, UNFRIENDLY, HOSTILE
 SETUP_PHASE_INTRO|This is the %1 setup phase.\n\nLeave the game paused until you've finished setting up your loadouts and missions.\n\nWhen you're done, click Play to end your turn.
 SEVENTH|SEVENTH
 SHOW_REMAINING_SETUP|This is the setup phase.
 SHOW_REMAINING_TIME|Time remaining in your turn: %1:%2:%3.
 SIXTH|SIXTH
-SPEC_CHANGEPOST_DESC|Changes your posture toward a side. Useful if you've accidentally attacked some civilians and don't want them to be hostile anymore.
-SPEC_CHANGEPOST_NAME|(PBEM) Change posture towards a side
 SPEC_SCHEDMSG_DESC|Sends a message to another player, to be delivered at a time you schedule. Note that the maximum message length is 280 characters, HTML tags will be removed, and that you can only schedule one message for delivery at a time.
 SPEC_SCHEDMSG_NAME|(PBEM) Schedule message for other player
 SPEC_SENDMSG_DESC|Sends a message to another player, to be delivered at the start of their next turn. Note that the maximum message length is 280 characters, and that HTML tags will be removed.

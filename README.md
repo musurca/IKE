@@ -16,16 +16,24 @@ For all others interested: welcome! Pull requests and bug reports are greatly ap
 (Please note that **IKE** is licensed under [GNU GPL v3](https://www.gnu.org/licenses/gpl-3.0-standalone.html), so if you intend to make and distribute changes, please make the source freely available or submit a pull request to this repository promptly.)
 
 ### Build prerequisites
-* A Bash shell (on Windows 10, install the [WSL](https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/))
+* A Bash shell (on Windows 10, install the [WSL](https://docs.microsoft.com/en-us/windows/wsl/install))
+* [NPM](https://www.npmjs.com/)
 * [luamin](https://github.com/mathiasbynens/luamin)
 * [Python 3](https://www.python.org/downloads/)
 
 #### Quick prerequisite install instructions on Windows 10
 
-Assuming you've installed the [WSL](https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/) and Ubuntu, run the following commands from the shell:
+1. Install the WSL
+Open a new PowerShell window with Administrator priviledges, and run the following command:
 ```
-sudo apt-get install python3 npm
-sudo npm install -g luamin
+wsl --install
+```
+When complete, restart your computer.
+
+2. Install prerequisites
+From the Ubuntu Bash shell, run the following command:
+```
+sudo apt update && sudo apt-get install python3 npm && sudo npm install -g luamin
 ```
 
 ### How to compile
@@ -70,8 +78,10 @@ For detailed instructions, please refer to the manual included with the [latest 
 
 ### VERSION HISTORY
 v1.55b (?????):
-* fixed: initial support for 1243.2 ("Tiny")
+* added: initial support for "Tiny" (minimum 1267.1)
+* changed: initial support for Pro users
 * fixed: string->number conversions no longer implicit
+* removed: special action - change posture (deprecated)
 
 v1.54 (4/24/2022):
 * added: The End of Françafrique, 2021 (@nukkxx)

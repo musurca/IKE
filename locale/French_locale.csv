@@ -1,5 +1,4 @@
 ID|Text
-CHANGE_POSTURE|Changez votre posture vis-à-vis de quel camp ?\n\nOptions: %1
 CHAT_ALREADY_SCHEDULED|Vous avez déjà préparé un message à envoyer!
 CHAT_CANCELLED|Message annulé.
 CHAT_MSG_FORM|Message de %1:<br/><br/>%2
@@ -40,25 +39,20 @@ NEXT_ORDER_HEADER|%1 tour %2<br/>(%3 minutes restantes)<br/><br/>Phase d'ordres 
 NINTH|NEUVIÈME
 NO|Non
 NO_EDITOR_MODE|Vous ne pouvez pas ouvrir une partie PBEM en mode éditeur avant la fin du scénario.\n\nJouez ce scenario avec le boutton « Start New Game » ou « Load Saved Game » dans le menu principal.
-NO_POSTURE_FOUND|%1 n'est pas une posture!
 NO_SIDE_FOUND|%1 n'est pas un camp!
 ORDER_PHASE_DIVIDER|%1 sur %2
 PASSWORDS_DIDNT_MATCH|Le mot de passe ne correspond pas! Entrez à nouveau votre mot de passe:
-POSTURE_IS_SET|Votre posture vis-à-vis de %1 est maintenant %2.
 RECOMMENDED|Recommandé: %1
 RESUME_ORDER_MESSAGE|Vous avez déjà donné vos ordres pour cette phase. <b>Lancez le jeu</b> pour en continuer l'execution.
 SCHEDULE_CHAT|Dans combien de temps le message devra-t-il être envoyé?\nFORMAT: hh:mm:ss
 SEC_INCORRECT|Les secondes doivent être un nombre entre 00 and 59. Ré-essayer?
 SECOND|DEUXIÈME
 SEND_CHAT|Envoyer le message à quel camp?\n\nOptions: %1
-SET_POSTURE|Votre posture vis-à-vis de %1 est %2. Quelle sera votre nouvelle posture?\n\nOptions: AMICAL, NEUTRE, INAMICAL, HOSTILE
 SETUP_PHASE_INTRO|Ceci est la phase de setup de %1.\n\nLaissez le jeu en pause jusqu'à ce que vous ayez terminé de choisir votre armement (loadouts) et configuré vos missions.\n\nQuand vous aurez terminé, cliquez sur « Play » pour finir votre tour.
 SEVENTH|SEPTIÈME
 SHOW_REMAINING_SETUP|Ceci est la phase de setup.
 SHOW_REMAINING_TIME|Temps restant dans votre tour: %1:%2:%3.
 SIXTH|SIXIÈME
-SPEC_CHANGEPOST_DESC|Changez votre posture vis-à-vis d'un camp. Ceci est utile si vous avez accidentellement attaqué des civils et ne voulez plus qu'ils soient déclarés comme hostile.
-SPEC_CHANGEPOST_NAME|(PBEM) Changer de posture vis-à-vis d'un camp
 SPEC_SCHEDMSG_DESC|Envoie un message à un autre joueur qui sera remis à une heure pré-établie. Notez que la longueur maximale du message est de 280 caractères, que les tags HTML seront supprimés, et que vous ne pouvez préparer qu'un seul message à envoyer à la fois.
 SPEC_SCHEDMSG_NAME|(PBEM) Préparer un message pour un autre joueur
 SPEC_SENDMSG_DESC|Envoie un message à un autre joueur. Il sera délivré au début du prochain tour. Notez que la longueur maximale du message est de 280 caractères et que les tags HTML seront supprimés.

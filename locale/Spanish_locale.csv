@@ -1,5 +1,4 @@
 ID|Text
-CHANGE_POSTURE|Cambiar postura hacía que lado?\n\nOpciones: %1
 CHAT_ALREADY_SCHEDULED|Ya tiene un mensaje a ser entregado!
 CHAT_CANCELLED|Mensaje cancelado.
 CHAT_MSG_FORM|Mensaje de %1:<br/><br/>%2
@@ -40,25 +39,20 @@ NEXT_ORDER_HEADER|%1 Turno %2<br/>(%3 minutos restantes)<br/><br/>Fase de Orden 
 NINTH|NOVENO
 NO|No
 NO_EDITOR_MODE|No se puede abrir un juego PBEM en el Editor hasta que el juego haya finalizado.\n\nJuego este escenario usando Empezar Juego Nuevo o Abrir Juego
-NO_POSTURE_FOUND|¡%1 no es una postura!
 NO_SIDE_FOUND|¡%1 no es un lado!
 ORDER_PHASE_DIVIDER|%1 de %2.
 PASSWORDS_DIDNT_MATCH|Las contraseñas no son iguales. Ingrese su contraseña nuevamente:
-POSTURE_IS_SET|Su postura hacia %1 es ahora %2.
 RECOMMENDED|Recomendación: %1
 RESUME_ORDER_MESSAGE|Ya ha dado sus órdenes para esta fase. <b>Empieza el reloj</b> para continuar ejecutando sus órdenes.
 SCHEDULE_CHAT|En cuanto tiempo se debe entregar el mensaje?\nFORMAT: hh:mm:ss
 SEC_INCORRECT|Los segundos deben ser un número entre 00 y 59. Intentar nuevamente?
 SECOND|SEGUNDO
 SEND_CHAT|¿Enviar mensaje a qué lado?\n\nOpciones: %1
-SET_POSTURE|Su postura hacia %1 es %2. ¿Cuál es su nueva postura?\n\nOpciones: AMISTOSO, NEUTRAL, NO AMISTOSO, HOSTIL
 SETUP_PHASE_INTRO|Esta es la fase de preparación %1.\n\nMantenga el juego en pausa hasta que hay terminado su preparación y misiones.\n\nCuando haya concluido, hacer clic en Play terminara su turno.
 SEVENTH|SEPTIMO
 SHOW_REMAINING_SETUP|Esta es la fase de preparación.
 SHOW_REMAINING_TIME|Tiempo restante en su turno: %1:%2:%3.
 SIXTH|SEXTO
-SPEC_CHANGEPOST_DESC|Cambios de postura hacia un lado. Útil en caso de que haya atacado a civiles accidentalmente y no quiere mantenerse hostil hacia ellos.
-SPEC_CHANGEPOST_NAME|(PBEM) Cambiar la postura hacia un lado
 SPEC_SCHEDMSG_DESC|Enviar un mensaje a otro jugador, a ser entregado en el tiempo que Ud. elige. Ojo que el mensaje solo puede contener 280 caracteres, tags HTML serán removidos y solo se puede programar un mensaje a la vez.
 SPEC_SCHEDMSG_NAME|(PBEM) Programar mensaje al otro jugador
 SPEC_SENDMSG_DESC|Enviar un mensaje a otro jugador para ser entregado al principio del próximo turno. Ojo que el mensaje solo puede contener 280 caracteres, tags HTML serán removidos.

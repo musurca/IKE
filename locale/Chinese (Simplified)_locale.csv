@@ -1,5 +1,4 @@
 ID|Text
-CHANGE_POSTURE|变更为哪一方阵营?\n\n选项: %1
 CHAT_ALREADY_SCHEDULED|您已经有一条待发送短消息！
 CHAT_CANCELLED|短消息取消.
 CHAT_MSG_FORM|短消息来自 %1:<br/><br/>%2
@@ -40,25 +39,20 @@ NEXT_ORDER_HEADER|%1 回合 %2<br/>(剩余 %3 分钟 )<br/><br/>指令阶段 %4
 NINTH|第9顺位
 NO|否
 NO_EDITOR_MODE|再游戏结束前你无法打开编辑器.\n\n请使用主菜单的 开始新游戏 或者 读取存档.
-NO_POSTURE_FOUND|%1 不是敌我关系!
 NO_SIDE_FOUND|%1 不是某个阵营!
 ORDER_PHASE_DIVIDER|%2 分之 %1 
 PASSWORDS_DIDNT_MATCH|密码不匹配! 请再次输入密码:
-POSTURE_IS_SET|对 %1 阵营的敌对关系当前为 %2.
 RECOMMENDED|推荐: %1
 RESUME_ORDER_MESSAGE|当前阶段已经完成了下达指令. 点击<b>开始运行</b> 继续游戏.
 SCHEDULE_CHAT|从现在开始计算多久之后发送消息？\n格式: hh:mm:ss
 SEC_INCORRECT|秒的数值应当介于 00 到 59 之间. 请重试?
 SECOND|第2顺位
 SEND_CHAT|向哪一方发送消息?\n\n选项: %1
-SET_POSTURE|目前你对 %1 阵营的敌对关系是 %2. 是否设置新的敌我关系?\n\n选项: 友好, 中立, 非友好, 敌对
 SETUP_PHASE_INTRO|现在是 %1 阵营的设置阶段.\n\n在完成设置挂载和任务之前请务必让游戏保持暂停状态.\n\n当完成布置,请点击Play结束此阶段.
 SEVENTH|第7顺位
 SHOW_REMAINING_SETUP|现在是布置阶段.
 SHOW_REMAINING_TIME|回合剩余时间: %1:%2:%3.
 SIXTH|第6顺位
-SPEC_CHANGEPOST_DESC|改变敌我关系. 如果你不慎攻击了民间目标，并不想继续与之敌对的话可以这样做.
-SPEC_CHANGEPOST_NAME|(邮件对战) 变更敌我关系
 SPEC_SCHEDMSG_DESC|向其他玩家发送短消息, 并按照预定时间送达. 请注意信息长度最多为280个字符且HTML标签将会被移除, 并且只能一次预定一条消息的发送时间.
 SPEC_SCHEDMSG_NAME|(邮件对战) 预订向其他玩家发送短消息
 SPEC_SENDMSG_DESC|向其他玩家发送的短消息将会在他们开启回合时显示. 请注意信息长度最多为280个字符且HTML标签将会被移除.
