@@ -23,14 +23,16 @@ For all others interested: welcome! Pull requests and bug reports are greatly ap
 
 #### Quick prerequisite install instructions on Windows 10
 
-* Install the WSL
+1. Install the WSL
+
 Open a new PowerShell window with Administrator priviledges, and run the following command:
 ```
 wsl --install
 ```
 When complete, restart your computer.
 
-* Install the prerequisites
+2. Install the prerequisites
+
 From the Ubuntu Bash shell, run the following command:
 ```
 sudo apt update && sudo apt-get install python3 npm && sudo npm install -g luamin
