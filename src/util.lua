@@ -264,7 +264,39 @@ function GetStringArray(id)
 end
 
 --[[
-Stores an array of strings persistently. 
+    Appends a string to an array of strings.
+]]--
+function AppendStringArray(id, str)
+    local arraylength = GetNumber(id.."_LENGTH")
+    arraylength = arraylength + 1
+    StoreString(id.."_"..arraylength, tostring(str))
+    StoreNumber(id.."_LENGTH", arraylength)
+end
+
+--[[
+    Deletes an array of strings.
+]]--
+function DeleteStringArray(id)
+    local arraylength = GetNumber(id.."_LENGTH")
+    for i=1,arraylength do
+        ScenEdit_ClearKeyValue(id.."_"..i)
+    end
+    ScenEdit_ClearKeyValue(id.."_LENGTH")
+end
+
+--[[
+    Clears an array of strings.
+]]--
+function ClearStringArray(id)
+    local arraylength = GetNumber(id.."_LENGTH")
+    for i=1,arraylength do
+        ScenEdit_ClearKeyValue(id.."_"..i)
+    end
+    StoreNumber(id.."_LENGTH", 0)
+end
+
+--[[
+Stores an array of numbers persistently. 
 ]]--
 function StoreNumberArray(id, arr)
     local arraylength = id.."_LENGTH"
@@ -275,7 +307,7 @@ function StoreNumberArray(id, arr)
 end
 
 --[[
-Retrieves a stored array of strings. 
+Retrieves a stored array of numbers. 
 ]]--
 function GetNumberArray(id)
     local arr = {}
