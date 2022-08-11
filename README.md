@@ -25,7 +25,7 @@ For all others interested: welcome! Pull requests and bug reports are greatly ap
 
 1. Install the WSL
 
-Open a new PowerShell window with Administrator priviledges, and run the following command:
+Open a new PowerShell window with Administrator privileges, and run the following command:
 ```
 wsl --install
 ```
@@ -81,7 +81,10 @@ For detailed instructions, please refer to the manual included with the [latest 
 ### VERSION HISTORY
 v1.55b (?????):
 * added: initial support for "Tiny" (minimum 1267.1)
-* changed: initial support for Pro users
+* added: initial support for Pro users
+* added: new action - Change user preferences
+* added: manage creation and auto-deletion of RPs marking events
+* changed: upgraded all scenarios to latest DB
 * fixed: string->number conversions no longer implicit
 * removed: special action - change posture (deprecated)
 
