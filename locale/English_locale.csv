@@ -141,3 +141,8 @@ ID_LASER|laser
 SPEC_SHOWVERSION_NAME|(PBEM) About IKE
 SPEC_SHOWVERSION_DESC|Displays information about IKE, the underlying code that powers this scenario's PBEM capabilities.
 MSG_IKE_VERSION|IKE v%1\nLicensed under GNU GPL v3.\nhttps://github.com/musurca/IKE/
+SPEC_SETPREF_NAME|(PBEM) Change user preferences
+SPEC_SETPREF_DESC|Customize your preferences for various aspects of PBEM play.
+PREFERENCES_NOW_SET|Your preferences have been saved.
+ASK_EVENT_MARK_RP|Create reference points to mark significant events that happened during the other player's turn?\n\n%1
+ASK_EVENT_RP_DELETE_ENDTURN|At the end of your turn, clear reference points that marked significant events from the previous turn?\n\n%1

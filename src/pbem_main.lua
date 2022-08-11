@@ -170,6 +170,8 @@ function PBEM_StartTurn()
     if is_first_init == false then
         --set the language for this player
         PBEM_SetLocale()
+        -- set default preferences for the player
+        PBEM_InitPreferences()
 
         if side_num == 1 then
             -- do initial scenario setup if this is the first run
@@ -246,6 +248,9 @@ function PBEM_StartTurn()
                 --remind us what order phase we were in
                 PBEM_SwitchOrderPhase()
             else
+                -- collect event RPs from previous turn
+                PBEM_CollectEventRPs()
+
                 -- turn start
                 ScenEdit_SetSideOptions({
                     side=PBEM_SIDENAME,
@@ -343,8 +348,14 @@ function PBEM_EndTurn()
     local next_turn_time = PBEM_GetNextTurnStartTime()
     local turn_num = Turn_GetTurnNumber()
     local player_side = PBEM_SIDENAME
+
+    -- Delete event RPs from previous turn if preference set
+    PBEM_HandleLastTurnEventRPs()
+
+    -- Switch to the next side
     Turn_NextSide()
 
+    -- Play the user out
     ScenEdit_PlaySound("radioChirp5.mp3")
     local msg = Message_Header(Format(Localize("END_OF_TURN_HEADER"), {
         player_side,

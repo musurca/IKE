@@ -35,6 +35,11 @@ local IKE_SPECACTIONS = {
         script = "PBEM_EnterPassword()",
         name   = Localize("SPEC_PASSCHANGE_NAME"),
         desc   = Localize("SPEC_PASSCHANGE_DESC")
+    },
+    {
+        script = "PBEM_ActionSetUserPreferences()",
+        name   = Localize("SPEC_SETPREF_NAME"),
+        desc   = Localize("SPEC_SETPREF_DESC")
     }
 }
 
@@ -588,4 +593,25 @@ function PBEM_CheckIntermediateTime()
             )
         end
     end
+end
+
+function PBEM_ActionSetUserPreferences()
+    for pref_key, _ in pairs(IKE_PREFERENCES_DEFAULT) do
+        local old_pref_val = PBEM_GetPreference(pref_key)
+        local new_pref_val = Input_YesNo(
+            Format(
+                Localize("ASK_"..pref_key),
+                {
+                    Format(
+                        Localize("RECOMMENDED"), {old_pref_val}
+                    )
+                }
+            )
+        )
+        PBEM_SetPreference(pref_key, new_pref_val)
+    end
+
+    Input_OK(
+        Localize("PREFERENCES_NOW_SET")
+    )
 end

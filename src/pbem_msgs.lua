@@ -125,22 +125,31 @@ function PBEM_RegisterNewContact()
             PBEM_SetContactRegister(sidenum, contacts)
 
             --mark contact on the map
-            ScenEdit_AddReferencePoint({
-                side=detecting_side,
-                name=Format(
-                    LocalizeForSide(
-                        detecting_side,
-                        "CONTACT_MARKER"
+            if PBEM_GetPreferenceForSide(
+                detecting_side,
+                "EVENT_MARK_RP"
+            ) then
+                local rp = ScenEdit_AddReferencePoint({
+                    side=detecting_side,
+                    name=Format(
+                        LocalizeForSide(
+                            detecting_side,
+                            "CONTACT_MARKER"
+                        ),
+                        {
+                            contactname,
+                            contacttime
+                        }
                     ),
-                    {
-                        contactname,
-                        contacttime
-                    }
-                ),
-                lat=contact.latitude,
-                lon=contact.longitude,
-                highlighted=true
-            })
+                    lat=contact.latitude,
+                    lon=contact.longitude,
+                    highlighted=true
+                })
+                PBEM_RegisterEventRPWithSide(
+                    detecting_side,
+                    rp
+                )
+            end
         end
     end
 end
@@ -345,18 +354,27 @@ function PBEM_RegisterUnitKilled()
             end
 
             --mark loss on the map
-            ScenEdit_AddReferencePoint({
-                side=killed_side,
-                name=Format(
-                    LocalizeForSide(killed_side, "LOSS_MARKER"),
-                    {
-                        killed.name
-                    }
-                ),
-                lat=killed.latitude,
-                lon=killed.longitude,
-                highlighted=true
-            })
+            if PBEM_GetPreferenceForSide(
+                killed_side,
+                "EVENT_MARK_RP"
+            ) then
+                local rp = ScenEdit_AddReferencePoint({
+                    side=killed_side,
+                    name=Format(
+                        LocalizeForSide(killed_side, "LOSS_MARKER"),
+                        {
+                            killed.name
+                        }
+                    ),
+                    lat=killed.latitude,
+                    lon=killed.longitude,
+                    highlighted=true
+                })
+                PBEM_RegisterEventRPWithSide(
+                    killed_side,
+                    rp
+                )
+            end
         end
     end
 
@@ -394,18 +412,27 @@ function PBEM_RegisterUnitKilled()
                 PBEM_SetKillRegister(sidenum, kills)
 
                 --mark kill on the map
-                ScenEdit_AddReferencePoint({
-                    side=killer_side,
-                    name=Format(
-                        LocalizeForSide(killer_side, "KILL_MARKER"),
-                        {
-                            known_name
-                        }
-                    ),
-                    lat=killed.latitude,
-                    lon=killed.longitude,
-                    highlighted=true
-                })
+                if PBEM_GetPreferenceForSide(
+                    killer_side,
+                    "EVENT_MARK_RP"
+                ) then
+                    local rp = ScenEdit_AddReferencePoint({
+                        side=killer_side,
+                        name=Format(
+                            LocalizeForSide(killer_side, "KILL_MARKER"),
+                            {
+                                known_name
+                            }
+                        ),
+                        lat=killed.latitude,
+                        lon=killed.longitude,
+                        highlighted=true
+                    })
+                    PBEM_RegisterEventRPWithSide(
+                        killer_side,
+                        rp
+                    )
+                end
             end
         end
     end
@@ -546,4 +573,37 @@ function PBEM_CheckScheduledMessages()
             table.remove(PBEM_SCHEDULED_MESSAGES, i)
         end
     end
+end
+
+function PBEM_RegisterEventRPWithSide(sidename, rp)
+    local arrname = "EVENT_RPS_"..PBEM_SideNumberByName(sidename)
+    AppendStringArray(arrname, rp.guid)
+end
+
+function PBEM_CollectEventRPs()
+    local sidenum = Turn_GetCurSide()
+    local arrname = "EVENT_RPS_"..sidenum
+    local rp_guids = GetStringArray(arrname)
+    ClearStringArray(arrname)
+    arrname = "LASTTURN_EVENT_RPS_"..sidenum
+    StoreStringArray(arrname, rp_guids)
+end
+
+function PBEM_HandleLastTurnEventRPs()
+    local sidename = Turn_GetCurSideName()
+    local arrname = "LASTTURN_EVENT_RPS_"..Turn_GetCurSide()
+    if PBEM_GetPreference("EVENT_RP_DELETE_ENDTURN") == true then
+        -- wipe all event RPs from the previous turn
+        local rp_guids = GetStringArray(arrname)
+        for k, v in ipairs(rp_guids) do
+            pcall(
+                ScenEdit_DeleteReferencePoint,
+                {
+                    side=sidename,
+                    guid=v
+                }
+            )
+        end
+    end
+    ClearStringArray(arrname)
 end
