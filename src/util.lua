@@ -274,17 +274,6 @@ function AppendStringArray(id, str)
 end
 
 --[[
-    Deletes an array of strings.
-]]--
-function DeleteStringArray(id)
-    local arraylength = GetNumber(id.."_LENGTH")
-    for i=1,arraylength do
-        ScenEdit_ClearKeyValue(id.."_"..i)
-    end
-    ScenEdit_ClearKeyValue(id.."_LENGTH")
-end
-
---[[
     Clears an array of strings.
 ]]--
 function ClearStringArray(id)
