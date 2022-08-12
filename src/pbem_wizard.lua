@@ -341,6 +341,19 @@ function PBEM_Wizard()
         PBEM_ClearScheduledMessage(i)
     end
 
+    -- next, set flag if scenario is co-operative for side
+    for i, side_a in ipairs(PBEM_PLAYABLE_SIDES) do
+        for k = 1, #PBEM_PLAYABLE_SIDES do
+            if k ~= i then
+                local side_b = PBEM_PLAYABLE_SIDES[k]
+                if ScenEdit_GetSidePosture(side_a, side_b) == "F" then
+                    StoreBoolean("__SCEN_ISCOOPFOR_"..k, true)
+                    break
+                end
+            end
+        end
+    end
+
     --initialize the first turn
     Turn_SetCurSide(1)
     local start_turn = 1

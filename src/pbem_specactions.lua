@@ -56,6 +56,14 @@ local IKE_TWOP_ACTIONS = {
     }
 }
 
+local IKE_COOP_ACTIONS = {
+    {
+        script = "PBEM_ShareMarkpoints()",
+        name   = Localize("SPEC_SHAREMP_NAME"),
+        desc   = Localize("SPEC_SHAREMP_DESC")
+    }
+}
+
 function PBEM_ShowIKEVersion()
     Input_OK(
         Format(
@@ -273,10 +281,10 @@ function PBEM_ShowRemainingTime()
     end
 end
 
-function PBEM_AddRTSide(side)
+function PBEM_AddSpecialActionTable(side, tbl)
     local ds = PBEM_ConstructDummySideName(side)
 
-    ForEachDo(IKE_SPECACTIONS, function(action)
+    ForEachDo(tbl, function(action)
         ScenEdit_AddSpecialAction({
             ActionNameOrID=action.name,
             Description=action.desc,
@@ -294,58 +302,50 @@ function PBEM_AddRTSide(side)
             ScriptText=action.script
         })
     end)
+end
+
+function PBEM_RemoveSpecialActionTable(side, tbl)
+    local ds = PBEM_ConstructDummySideName(side)
+
+    ForEachDo(tbl, function(action)
+        pcall(ScenEdit_SetSpecialAction, {
+            ActionNameOrID=action.name,
+            Side=side,
+            mode="remove"
+        })
+        pcall(ScenEdit_SetSpecialAction, {
+            ActionNameOrID=action.name,
+            Side=ds,
+            mode="remove"
+        })
+    end)
+end
+
+function PBEM_AddRTSide(side)
+    PBEM_AddSpecialActionTable(side, IKE_SPECACTIONS)
 
     if #PBEM_PLAYABLE_SIDES == 2 then
-        ForEachDo(IKE_TWOP_ACTIONS, function(action)
-            ScenEdit_AddSpecialAction({
-                ActionNameOrID=action.name,
-                Description=action.desc,
-                Side=side,
-                IsActive=true,
-                IsRepeatable=true,
-                ScriptText=action.script
-            })
-            ScenEdit_AddSpecialAction({
-                ActionNameOrID=action.name,
-                Description=action.desc,
-                Side=ds,
-                IsActive=true,
-                IsRepeatable=true,
-                ScriptText=action.script
-            })
-        end)
+        PBEM_AddSpecialActionTable(side, IKE_TWOP_ACTIONS)
+    end
+
+    if GetBoolean(
+        "__SCEN_ISCOOPFOR_"..PBEM_SideNumberByName(side)
+    ) == true then
+        PBEM_AddSpecialActionTable(side, IKE_COOP_ACTIONS)
     end
 end
 
 function PBEM_RemoveRTSide(side)
-    local ds = PBEM_ConstructDummySideName(side)
-
-    ForEachDo(IKE_SPECACTIONS, function(action)
-        pcall(ScenEdit_SetSpecialAction, {
-            ActionNameOrID=action.name,
-            Side=side,
-            mode="remove"
-        })
-        pcall(ScenEdit_SetSpecialAction, {
-            ActionNameOrID=action.name,
-            Side=ds,
-            mode="remove"
-        })
-    end)
+    PBEM_RemoveSpecialActionTable(side, IKE_SPECACTIONS)
 
     if #PBEM_PLAYABLE_SIDES == 2 then
-        ForEachDo(IKE_TWOP_ACTIONS, function(action)
-            pcall(ScenEdit_SetSpecialAction, {
-                ActionNameOrID=action.name,
-                Side=side,
-                mode="remove"
-            })
-            pcall(ScenEdit_SetSpecialAction, {
-                ActionNameOrID=action.name,
-                Side=ds,
-                mode="remove"
-            })
-        end)
+        PBEM_RemoveSpecialActionTable(side, IKE_TWOP_ACTIONS)
+    end
+
+    if GetBoolean(
+        "__SCEN_ISCOOPFOR_"..PBEM_SideNumberByName(side)
+    ) == true then
+        PBEM_RemoveSpecialActionTable(side, IKE_COOP_ACTIONS)
     end
 end
 
@@ -603,7 +603,7 @@ function PBEM_ActionSetUserPreferences()
                 Localize("ASK_"..pref_key),
                 {
                     Format(
-                        Localize("RECOMMENDED"), {old_pref_val}
+                        Localize("CURRENT_SETTING"), {old_pref_val}
                     )
                 }
             )
@@ -613,5 +613,113 @@ function PBEM_ActionSetUserPreferences()
 
     Input_OK(
         Localize("PREFERENCES_NOW_SET")
+    )
+end
+
+function PBEM_ShareMarkpoints()
+    local cursidename = Turn_GetCurSideName()
+    -- can only share reference points during the order phase
+    if __PBEM_FN_PLAYERSIDE() ~= cursidename then
+        Input_OK(Localize("SHARE_RP_NOT_ORDERPHASE"))
+        return
+    end
+
+    local sidetable = VP_GetSide({side=cursidename})
+    local selected_rps = {}
+    for k, rp in ipairs(sidetable.rps) do
+        if rp.highlighted == true then
+            table.insert(selected_rps, rp)
+        end
+    end
+    if #selected_rps == 0 then
+        Input_OK(Localize("NO_RPS_SELECTED"))
+        return
+    end
+
+    local allied_sides = {}
+    for k, side in ipairs(PBEM_PLAYABLE_SIDES) do
+        if side ~= cursidename then
+            if ScenEdit_GetSidePosture(
+                cursidename,
+                side
+            ) == "F" then
+                table.insert(allied_sides, side)
+            end
+        end
+    end
+    
+    -- make sure that an allied side exists
+    if #allied_sides == 0 then
+        Input_OK("SHARE_RP_NO_SIDE_AVAIL")
+        return
+    end
+
+    local share_side = allied_sides[1]
+    if #allied_sides > 1 then
+        -- ask user to choose an allied side
+        local sidelist = ""
+        for k, other_side in ipairs(allied_sides) do
+            sidelist = sidelist..other_side
+            if k ~= #allied_sides then
+                sidelist = sidelist..", "
+            end
+        end
+        local side_input = Input_String(
+            Format(
+                Localize("SHARE_RP_WHICH_SIDE"),
+                { sidelist }
+            )
+        )
+        side_input = RStrip(
+            string.upper(side_input)
+        )
+        if side_input == "" then
+            Input_OK(Localize("SHARE_RP_CANCELLED"))
+            return
+        end
+        --match it regardless of case
+        for k, other_side in ipairs(allied_sides) do
+            if side_input == string.upper(other_side) then
+                share_side = other_side
+                break
+            end
+        end
+        if share_side == "" then
+            Input_OK(
+                Format(
+                    Localize("NO_SIDE_FOUND"),
+                    {side_input}
+                )
+            )
+            return
+        end
+    end
+
+    local rp_list = ""
+    for k, rp in ipairs(selected_rps) do
+        pcall(
+            ScenEdit_AddReferencePoint,
+            {
+                side=share_side,
+                name=Format(
+                    LocalizeForSide(share_side, "MARKPOINT_NAME"),
+                    {share_side, rp.name}
+                ),
+                lat=rp.latitude,
+                lon=rp.longitude,
+                highlighted=true
+            }
+        )
+        rp_list = rp_list..rp.name
+        if k ~= #selected_rps then
+            rp_list = rp_list..", "
+        end
+    end
+
+    Input_OK(
+        Format(
+            Localize("SHARE_RP_SUCCESSFUL"),
+            {share_side, rp_list}
+        )
     )
 end

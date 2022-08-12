@@ -83,6 +83,7 @@ v1.55b (?????):
 * added: initial support for "Tiny" (minimum 1267.1)
 * added: initial support for Pro users
 * added: new action - Change user preferences
+* added: new action - Share reference points with allied side
 * added: manage creation and auto-deletion of RPs marking events
 * changed: upgraded all scenarios to latest DB
 * fixed: string->number conversions no longer implicit

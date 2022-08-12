@@ -139,10 +139,18 @@ ID_DEPTHCHARGE|深水炸弹
 ID_MINE|水雷
 ID_LASER|激光
 SPEC_SHOWVERSION_NAME|(邮件对战)关于IKE
-SPEC_SHOWVERSION_DESC|显示IKE相关信息，IKE支持此想定功能的基础代码。
+SPEC_SHOWVERSION_DESC|显示IKE相关信息，IKE支持此想定功能的基础代码.
 MSG_IKE_VERSION|IKE 版本%1\n 基于授权 GNU GPL v3.\nhttps://github.com/musurca/IKE/
+CURRENT_SETTING|当前设置：%1
 SPEC_SETPREF_NAME|(PBEM) 更改用户偏好
-SPEC_SETPREF_DESC|自定义您对 PBEM 游戏各个方面的偏好。
-PREFERENCES_NOW_SET|您的偏好已保存。
+SPEC_SETPREF_DESC|自定义您对 PBEM 游戏各个方面的偏好.
+PREFERENCES_NOW_SET|您的偏好已保存.
 ASK_EVENT_MARK_RP|创建参考点以标记在其他玩家回合期间发生的重大事件？\n\n%1
 ASK_EVENT_RP_DELETE_ENDTURN|在你的回合结束时，清除标记上一回合重要事件的参考点？\n\n%1
+MARKPOINT_NAME|来自%1: %2
+NO_RPS_SELECTED|您必须选择至少一个要共享的参考点.
+SHARE_RP_NOT_ORDERPHASE|您只能在订单阶段共享参考点.
+SHARE_RP_NO_SIDE_AVAIL|没有可以与您共享参考点的盟友玩家.
+SHARE_RP_WHICH_SIDE|与哪一方共享参考点?\n\n选项: %1
+SHARE_RP_CANCELLED|共享参考点已取消.
+SHARE_RP_SUCCESSFUL|%1 与 %2 共享.

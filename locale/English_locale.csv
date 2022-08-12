@@ -141,8 +141,16 @@ ID_LASER|laser
 SPEC_SHOWVERSION_NAME|(PBEM) About IKE
 SPEC_SHOWVERSION_DESC|Displays information about IKE, the underlying code that powers this scenario's PBEM capabilities.
 MSG_IKE_VERSION|IKE v%1\nLicensed under GNU GPL v3.\nhttps://github.com/musurca/IKE/
+CURRENT_SETTING|Current setting: %1
 SPEC_SETPREF_NAME|(PBEM) Change user preferences
 SPEC_SETPREF_DESC|Customize your preferences for various aspects of PBEM play.
 PREFERENCES_NOW_SET|Your preferences have been saved.
 ASK_EVENT_MARK_RP|Create reference points to mark significant events that happened during the other player's turn?\n\n%1
 ASK_EVENT_RP_DELETE_ENDTURN|At the end of your turn, clear reference points that marked significant events from the previous turn?\n\n%1
+MARKPOINT_NAME|FROM %1: %2
+NO_RPS_SELECTED|You must select at least one reference point to share.
+SHARE_RP_NOT_ORDERPHASE|You can only share reference points during your Order Phase.
+SHARE_RP_NO_SIDE_AVAIL|There are no allied players with which you can share reference points.
+SHARE_RP_WHICH_SIDE|Share reference points with which side?\n\nOptions: %1
+SHARE_RP_CANCELLED|Sharing reference points has been cancelled.
+SHARE_RP_SUCCESSFUL|%1 shared with %2.
