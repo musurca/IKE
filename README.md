@@ -80,7 +80,7 @@ For detailed instructions, please refer to the manual included with the [latest 
 
 ### VERSION HISTORY
 v1.55b (?????):
-* added: initial support for "Tiny" (minimum 1267.1)
+* added: initial support for "Tiny" (minimum build 1268.1)
 * added: initial support for Pro users
 * added: new action - Change user preferences
 * added: new action - Share reference points with allied side
