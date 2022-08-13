@@ -154,3 +154,5 @@ SHARE_RP_NO_SIDE_AVAIL|There are no allied players with which you can share refe
 SHARE_RP_WHICH_SIDE|Share reference points with which side?\n\nOptions: %1
 SHARE_RP_CANCELLED|Sharing reference points has been cancelled.
 SHARE_RP_SUCCESSFUL|%1 shared with %2.
+SPEC_SHAREMP_NAME|(PBEM) Send reference point(s) to an allied player
+SPEC_SHAREMP_DESC|Shares the selected reference point(s) with an ally.

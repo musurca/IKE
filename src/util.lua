@@ -78,7 +78,11 @@ Format("%1 %2 %3", {"ten", "little", "indians"}) == "ten little indians"
 ]]--
 function Format(str, arg)
     for i=1, #arg do
-        str = string.gsub(str, "[%%]["..i.."]", arg[i])
+        str = string.gsub(
+            str, 
+            "[%%]["..i.."]", 
+            tostring(arg[i])
+        )
     end
     return str
 end

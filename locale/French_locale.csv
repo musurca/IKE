@@ -151,6 +151,8 @@ MARKPOINT_NAME|DE %1: %2
 NO_RPS_SELECTED|Vous devez sélectionner au moins un point de référence à partager.
 SHARE_RP_NOT_ORDERPHASE|Vous ne pouvez partager des points de référence que pendant votre phase de commande.
 SHARE_RP_NO_SIDE_AVAIL|Il n'y a pas d'alliés avec qui vous pouvez partager des points de référence.
-SHARE_RP_WHICH_SIDE|Partager des points de repère avec quelle partie ?\n\Options : %1
+SHARE_RP_WHICH_SIDE|Partager des points de repère avec quelle partie ?\n\nOptions : %1
 SHARE_RP_CANCELLED|Le partage des points de référence a été annulé.
 SHARE_RP_SUCCESSFUL|%1 partagé avec %2.
+SPEC_SHAREMP_NAME|(PBEM) Envoyer des points de référence à un joueur allié
+SPEC_SHAREMP_DESC|Partage le(s) point(s) de référence sélectionné(s) avec un allié.

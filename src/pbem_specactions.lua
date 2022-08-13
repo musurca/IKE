@@ -596,14 +596,18 @@ function PBEM_CheckIntermediateTime()
 end
 
 function PBEM_ActionSetUserPreferences()
-    for pref_key, _ in pairs(IKE_PREFERENCES_DEFAULT) do
-        local old_pref_val = PBEM_GetPreference(pref_key)
+    for _, pref in ipairs(IKE_PREFERENCES_DEFAULT) do
+        local pref_key = pref[IKE_PREF_KEY]
+        local old_pref_val = BooleanToString(
+            PBEM_GetPreference(pref_key)
+        )
         local new_pref_val = Input_YesNo(
             Format(
                 Localize("ASK_"..pref_key),
                 {
                     Format(
-                        Localize("CURRENT_SETTING"), {old_pref_val}
+                        Localize("CURRENT_SETTING"), 
+                        {old_pref_val}
                     )
                 }
             )
@@ -719,7 +723,7 @@ function PBEM_ShareMarkpoints()
     Input_OK(
         Format(
             Localize("SHARE_RP_SUCCESSFUL"),
-            {share_side, rp_list}
+            {rp_list, share_side}
         )
     )
 end

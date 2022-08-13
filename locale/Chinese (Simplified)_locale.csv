@@ -154,3 +154,5 @@ SHARE_RP_NO_SIDE_AVAIL|没有可以与您共享参考点的盟友玩家.
 SHARE_RP_WHICH_SIDE|与哪一方共享参考点?\n\n选项: %1
 SHARE_RP_CANCELLED|共享参考点已取消.
 SHARE_RP_SUCCESSFUL|%1 与 %2 共享.
+SPEC_SHAREMP_NAME|(PBEM) 向友方玩家发送参考点
+SPEC_SHAREMP_DESC|与盟友共享选定的参考点.

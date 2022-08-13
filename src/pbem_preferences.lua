@@ -12,9 +12,11 @@ Defines functions related to user preferences
 
 -- default user preferences 
 IKE_PREFERENCES_DEFAULT = {
-    ["EVENT_MARK_RP"] = true,
-    ["EVENT_RP_DELETE_ENDTURN"] = true
+   { "EVENT_MARK_RP", true },
+   { "EVENT_RP_DELETE_ENDTURN", true }
 }
+IKE_PREF_KEY    = 1
+IKE_PREF_VALUE  = 2
 
 function PBEM_PreferencePrefix()
     return "PREF_"..Turn_GetCurSide().."_"
@@ -22,8 +24,11 @@ end
 
 function PBEM_InitPreferences()
     local prefix = PBEM_PreferencePrefix()
-    for key, val in pairs(IKE_PREFERENCES_DEFAULT) do
-        StoreBoolean(prefix..key, val)
+    for i, pref in ipairs(IKE_PREFERENCES_DEFAULT) do
+        StoreBoolean(
+            prefix..pref[IKE_PREF_KEY], 
+            pref[IKE_PREF_VALUE]
+        )
     end
 end
 
