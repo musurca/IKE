@@ -72,10 +72,9 @@ function PBEM_RegisterNewContact()
     end
 
     local contactname = contact.name
-    local detecting_side = contact.fromside.name
 
-    if IsIn(detecting_side, PBEM_PLAYABLE_SIDES) then
-        if detecting_side ~= Turn_GetCurSideName() then
+    local function __RegisterContactForSide(d_side)
+        if d_side ~= Turn_GetCurSideName() then
             local actual_unit = ScenEdit_GetUnit({
                 guid=contact.actualunitid
             })
@@ -86,15 +85,15 @@ function PBEM_RegisterNewContact()
             -- do not notify if unit is on our side, or on allied side
             -- to avoid contact spam
             local is_allied_unit = false
-            if actual_unit.side == detecting_side then
+            if actual_unit.side == d_side then
                 is_allied_unit = true
             else
                 local posture_to = ScenEdit_GetSidePosture(
                     actual_unit.side,
-                    detecting_side
+                    d_side
                 )
                 local posture_from = ScenEdit_GetSidePosture(
-                    detecting_side,
+                    d_side,
                     actual_unit.side
                 )
                 is_allied_unit = (posture_to == "F" or posture_from == "F")
@@ -103,7 +102,7 @@ function PBEM_RegisterNewContact()
                 return
             end
 
-            local sidenum = PBEM_SideNumberByName(detecting_side)
+            local sidenum = PBEM_SideNumberByName(d_side)
             local contacts = PBEM_GetContactRegister(sidenum)
             local detection_data = ""
             if detector then
@@ -111,7 +110,7 @@ function PBEM_RegisterNewContact()
                 if detector_unit then
                     detection_data = Format(
                         LocalizeForSide(
-                            detecting_side,
+                            d_side,
                             "DETECTED_MARKER"
                         ),
                         {
@@ -126,14 +125,14 @@ function PBEM_RegisterNewContact()
 
             --mark contact on the map
             if PBEM_GetPreferenceForSide(
-                detecting_side,
+                d_side,
                 "EVENT_MARK_RP"
             ) then
                 local rp = ScenEdit_AddReferencePoint({
-                    side=detecting_side,
+                    side=d_side,
                     name=Format(
                         LocalizeForSide(
-                            detecting_side,
+                            d_side,
                             "CONTACT_MARKER"
                         ),
                         {
@@ -146,11 +145,29 @@ function PBEM_RegisterNewContact()
                     highlighted=true
                 })
                 PBEM_RegisterEventRPWithSide(
-                    detecting_side,
+                    d_side,
                     rp
                 )
             end
         end
+    end
+
+    local detecting_side = contact.fromside.name
+
+    if not IsIn(detecting_side, PBEM_PLAYABLE_SIDES) then
+        -- if detected by AI side, then report to allied players
+        for _, sidecheck in ipairs(PBEM_PLAYABLE_SIDES) do
+            local posture = ScenEdit_GetSidePosture(
+                detecting_side,
+                sidecheck
+            )
+            if posture == "F" then
+                __RegisterContactForSide(sidecheck)
+            end
+        end
+    else
+        -- detection by player side, report it
+        __RegisterContactForSide(detecting_side)
     end
 end
 

@@ -150,7 +150,7 @@ ASK_EVENT_RP_DELETE_ENDTURN|At the end of your turn, clear reference points that
 MARKPOINT_NAME|FROM %1: %2
 NO_RPS_SELECTED|You must select at least one reference point to share.
 SHARE_RP_NOT_ORDERPHASE|You can only share reference points during your Order Phase.
-SHARE_RP_NO_SIDE_AVAIL|There are no allied players with which you can share reference points.
+SHARE_RP_NO_SIDE_AVAIL|There are no allied players with whom you can share reference points.
 SHARE_RP_WHICH_SIDE|Share reference points with which side?\n\nOptions: %1
 SHARE_RP_CANCELLED|Sharing reference points has been cancelled.
 SHARE_RP_SUCCESSFUL|%1 shared with %2.

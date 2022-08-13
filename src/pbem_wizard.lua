@@ -18,13 +18,25 @@ function PBEM_Wizard()
         Input_OK(Localize("WIZARD_BACKUP"))
         return
     end
+
+    -- prohibit excessively old clients
+    if PBEM_VerifyBuildNumber() == false then
+        Input_OK(Format(Localize("VERSION_TOO_OLD"), {
+            GetBuildNumber(),
+            PBEM_MinimumCompatibleBuild()
+        }))
+        return
+    end
+
     --designate playable sides
     local sides = VP_GetSides()
     local playableSides = {}
+    local all_sides = {}
     for i=1,#sides do
         if Input_YesNo(Format(Localize("WIZARD_PLAYABLE_SIDE"), {sides[i].name})) then
             table.insert(playableSides, sides[i].name)
         end
+        table.insert(all_sides, sides[i].name)
     end
 
     --determine whether you use constant turn lengths
@@ -302,19 +314,36 @@ function PBEM_Wizard()
         IsRepeatable=true, 
         IsShown=false
     })
-    for i=1,#PBEM_PLAYABLE_SIDES do
-        local guid = SideGUIDByName(PBEM_PLAYABLE_SIDES[i])
-        if guid then
-            for j=1,#PBEM_DETECTORS do
-                local triggername = 'PBEM_NewContact_'..i..'_'..j
-                Event_AddTrigger(contactEvent, Trigger_Create(triggername, {
-                    type="UnitDetected", 
-                    DetectorSideID=guid, 
-                    TargetFilter = {
-                        TargetType = PBEM_DETECTORS[j],
-                        TargetSubType=0
-                    }
-                }))
+    for i, side in ipairs(all_sides) do
+        local will_add = false
+        -- add detection for player sides and AI sides allied to player sides
+        if IsIn(side, PBEM_PLAYABLE_SIDES) then
+            will_add = true
+        else
+            for k, player_side in ipairs(PBEM_PLAYABLE_SIDES) do
+                if ScenEdit_GetSidePosture(
+                    side,
+                    player_side
+                ) == "F" then
+                    will_add = true
+                    break
+                end
+            end
+        end
+        if will_add == true then
+            local guid = SideGUIDByName(side)
+            if guid then
+                for j=1,#PBEM_DETECTORS do
+                    local triggername = 'PBEM_NewContact_'..i..'_'..j
+                    Event_AddTrigger(contactEvent, Trigger_Create(triggername, {
+                        type="UnitDetected", 
+                        DetectorSideID=guid, 
+                        TargetFilter = {
+                            TargetType = PBEM_DETECTORS[j],
+                            TargetSubType=0
+                        }
+                    }))
+                end
             end
         end
     end

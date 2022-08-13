@@ -10,6 +10,9 @@ can begin (passwords, build versions, etc).
 ----------------------------------------------
 ]]--
 
+IKE_MIN_ALLOWED_BUILD_MAJOR = 1268
+IKE_MIN_ALLOWED_BUILD_MINOR = 1
+
 function PBEM_EnterPassword()
     local passwordsMatch = false
     local attemptNum = 0
@@ -352,4 +355,31 @@ function PBEM_CheckDraw()
 
     StoreBoolean("__PBEM_DRAWOFFERED", false)
     return false
+end
+
+--[[
+    returns false if CMO build is too old for this version of IKE,
+    true otherwise
+]]--
+function PBEM_VerifyBuildNumber()
+    local buildnum_string = GetBuildNumber()
+    local version_div_index = string.find(buildnum_string, "%.")
+    local cmo_version_major = tonumber(
+        string.sub(buildnum_string, 1, version_div_index - 1)
+    )
+    local cmo_version_minor = tonumber(
+        string.sub(buildnum_string, version_div_index + 1, string.len(buildnum_string) )
+    )
+    if cmo_version_major < IKE_MIN_ALLOWED_BUILD_MAJOR then
+        return false
+    elseif cmo_version_major == IKE_MIN_ALLOWED_BUILD_MAJOR then
+        if cmo_version_minor < IKE_MIN_ALLOWED_BUILD_MINOR then
+            return false
+        end
+    end
+    return true
+end
+
+function PBEM_MinimumCompatibleBuild()
+    return tostring(IKE_MIN_ALLOWED_BUILD_MAJOR).."."..tostring(IKE_MIN_ALLOWED_BUILD_MINOR)
 end

@@ -85,9 +85,11 @@ v1.55b (?????):
 * added: new action - Change user preferences
 * added: new action - Share reference points with allied side
 * added: manage creation and auto-deletion of RPs marking events
-* changed: upgraded all scenarios to latest DB
+* changed: upgraded all scenarios to DB v495
+* changed: old CMO builds prohibited during scenario creation
+* fixed: new contacts from allied AI sides are reported
 * fixed: string->number conversions no longer implicit
-* removed: special action - change posture (deprecated)
+* removed: special action - Change posture (deprecated)
 
 v1.54 (4/24/2022):
 * added: The End of Françafrique, 2021 (@nukkxx)
