@@ -347,7 +347,7 @@ function PBEM_Wizard()
             if k ~= i then
                 local side_b = PBEM_PLAYABLE_SIDES[k]
                 if ScenEdit_GetSidePosture(side_a, side_b) == "F" then
-                    StoreBoolean("__SCEN_ISCOOPFOR_"..k, true)
+                    StoreBoolean("__SCEN_ISCOOPFOR_"..i, true)
                     break
                 end
             end

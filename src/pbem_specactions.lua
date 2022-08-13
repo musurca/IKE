@@ -720,6 +720,11 @@ function PBEM_ShareMarkpoints()
         end
     end
 
+    -- deselect reference points after sharing
+    for k, rp in ipairs(selected_rps) do
+        rp.highlighted = false
+    end
+
     Input_OK(
         Format(
             Localize("SHARE_RP_SUCCESSFUL"),
