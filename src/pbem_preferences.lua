@@ -13,7 +13,8 @@ Defines functions related to user preferences
 -- default user preferences 
 IKE_PREFERENCES_DEFAULT = {
    { "EVENT_MARK_RP", true },
-   { "EVENT_RP_DELETE_ENDTURN", true }
+   { "EVENT_RP_DELETE_ENDTURN", true },
+   { "AUTOSAVE_END_TURN", true }
 }
 IKE_PREF_KEY    = 1
 IKE_PREF_VALUE  = 2

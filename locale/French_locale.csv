@@ -147,6 +147,7 @@ SPEC_SETPREF_DESC|Personnalisez vos préférences pour divers aspects du jeu PBE
 PREFERENCES_NOW_SET|Vos préférences ont été enregistrées.
 ASK_EVENT_MARK_RP|Créer des points de référence pour marquer les événements significatifs qui se sont produits pendant le tour de l'autre joueur ?\n\n%1
 ASK_EVENT_RP_DELETE_ENDTURN|A la fin de votre tour, des repères clairs qui ont marqué des événements significatifs du tour précédent ?\n\n%1
+ASK_AUTOSAVE_END_TURN|A la fin de votre tour, sauvegardez automatiquement la partie dans « Scenarios/PBEM OUT » ?\n\n%1
 MARKPOINT_NAME|DE %1: %2
 NO_RPS_SELECTED|Vous devez sélectionner au moins un point de référence à partager.
 SHARE_RP_NOT_ORDERPHASE|Vous ne pouvez partager des points de référence que pendant votre phase de commande.

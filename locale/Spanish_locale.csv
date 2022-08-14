@@ -147,6 +147,7 @@ SPEC_SETPREF_DESC|Personaliza tus preferencias para varios aspectos del juego PB
 PREFERENCES_NOW_SET|Tus preferencias han sido guardadas.
 ASK_EVENT_MARK_RP|¿Crear puntos de referencia para marcar eventos significativos que ocurrieron durante el turno del otro jugador?\n\n%1
 ASK_EVENT_RP_DELETE_ENDTURN|Al final de tu turno, ¿puntos de referencia claros que marcaron eventos significativos del turno anterior?\n\n%1
+ASK_AUTOSAVE_END_TURN|Al final de tu turno, ¿guardar automáticamente el juego en \"Escenarios/PBEM FUERA\"?\n\n%1
 MARKPOINT_NAME|DE %1: %2
 NO_RPS_SELECTED|Debe seleccionar al menos un punto de referencia para compartir.
 SHARE_RP_NOT_ORDERPHASE|Solo puede compartir puntos de referencia durante su Fase de Pedido.

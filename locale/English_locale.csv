@@ -147,6 +147,7 @@ SPEC_SETPREF_DESC|Customize your preferences for various aspects of PBEM play.
 PREFERENCES_NOW_SET|Your preferences have been saved.
 ASK_EVENT_MARK_RP|Create reference points to mark significant events that happened during the other player's turn?\n\n%1
 ASK_EVENT_RP_DELETE_ENDTURN|At the end of your turn, clear reference points that marked significant events from the previous turn?\n\n%1
+ASK_AUTOSAVE_END_TURN|At the end of your turn, autosave the game to \"Scenarios/PBEM OUT\"?\n\n%1
 MARKPOINT_NAME|FROM %1: %2
 NO_RPS_SELECTED|You must select at least one reference point to share.
 SHARE_RP_NOT_ORDERPHASE|You can only share reference points during your Order Phase.

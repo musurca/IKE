@@ -326,6 +326,34 @@ function PBEM_UpdateTick()
     PBEM_FlushSpecialMessages()
 end
 
+function PBEM_AutosaveName()
+    local base_path = "Scenarios/PBEM OUT/"
+    local cur_side = Turn_GetCurSideName()
+
+    local turn_str
+    if GetBoolean("PBEM_MATCHOVER") == false then
+        local next_turn_num = tostring(Turn_GetTurnNumber())
+        
+        if next_turn_num == "0" then
+            turn_str = cur_side.." SETUP PHASE"
+        else
+            turn_str = cur_side.." TURN "..next_turn_num
+        end
+    else
+        turn_str = "Game Over"
+    end
+    
+    local scen_title = VP_GetScenario().Title
+    local name_string = scen_title.." - "..turn_str..".save"
+    
+    -- return sanitized filename
+    return base_path..string.gsub(
+        name_string, 
+        "[\\\\/:*?\"<>|]", 
+        "_"
+    )
+end
+
 function PBEM_EndTurn()
     local next_turn_time = PBEM_GetNextTurnStartTime()
     local turn_num = Turn_GetTurnNumber()
@@ -336,6 +364,9 @@ function PBEM_EndTurn()
 
     -- Switch to the next side
     Turn_NextSide()
+
+    -- generate the filename for the autosave
+    local can_save, autosave_file = pcall( PBEM_AutosaveName )
 
     -- Play the user out
     ScenEdit_PlaySound("radioChirp5.mp3")
@@ -351,12 +382,21 @@ function PBEM_EndTurn()
     StoreNumber("__CUR_TURN_TIME", next_turn_time)
     PBEM_FlushSpecialMessages()
 
+    -- Set the time on the next turn start, just in case
     ScenEdit_SetTime(
         PBEM_CustomTimeToUTC(next_turn_time)
     )
 
     -- increase turn overrun threshold
     StoreNumber("PBEM_TURNOVER", 1)
+
+    -- Autosave the game
+    if can_save == true then
+        pcall(
+            Command_SaveScen,
+            autosave_file
+        )
+    end
 
     PBEM_EndAPIReplace()
 end
@@ -381,6 +421,10 @@ function PBEM_EndSetupPhase()
     end
 
     Turn_NextSide()
+
+    -- generate the filename for the autosave
+    local can_save, autosave_file = pcall( PBEM_AutosaveName )
+
     ScenEdit_PlaySound("radioChirp5.mp3")
     local msg = Message_Header(Format(Localize("END_OF_SETUP_HEADER"), {
         sidename
@@ -391,6 +435,14 @@ function PBEM_EndSetupPhase()
     PBEM_FlushSpecialMessages()
     ScenEdit_SetTime(PBEM_StartTimeToUTC())
     StoreBoolean("PBEM_SETUPBLOCK", true)
+
+    -- Autosave the game
+    if can_save == true then
+        pcall(
+            Command_SaveScen,
+            autosave_file
+        )
+    end
 
     PBEM_EndAPIReplace()
 end

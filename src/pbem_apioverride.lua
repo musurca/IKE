@@ -203,6 +203,17 @@ function PBEM_ScenarioOver()
 
     --make sure scenario stops immediately
     PBEM_FlushSpecialMessages()
+
+    -- generate the filename for the autosave
+    local can_save, autosave_file = pcall( PBEM_AutosaveName )
+    
+    -- Autosave the game
+    if can_save == true then
+        pcall(
+            Command_SaveScen,
+            autosave_file
+        )
+    end
 end
 
 function PBEM_RandomSeed(a)

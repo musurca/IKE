@@ -147,6 +147,7 @@ SPEC_SETPREF_DESC|自定义您对 PBEM 游戏各个方面的偏好.
 PREFERENCES_NOW_SET|您的偏好已保存.
 ASK_EVENT_MARK_RP|创建参考点以标记在其他玩家回合期间发生的重大事件？\n\n%1
 ASK_EVENT_RP_DELETE_ENDTURN|在你的回合结束时，清除标记上一回合重要事件的参考点？\n\n%1
+ASK_AUTOSAVE_END_TURN|在你的回合结束时，将游戏自动保存到“Scenarios/PBEM OUT”?\n\n%1
 MARKPOINT_NAME|来自%1: %2
 NO_RPS_SELECTED|您必须选择至少一个要共享的参考点.
 SHARE_RP_NOT_ORDERPHASE|您只能在订单阶段共享参考点.
