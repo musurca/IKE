@@ -79,7 +79,7 @@ This will produce compiled but unminified Lua code in `debug/ike_debug.lua`. _Do
 For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.54/IKE_v1.54.zip).
 
 ### VERSION HISTORY
-v1.55b (?????):
+v1.55b1 (?????):
 * added: initial support for "Tiny" (minimum build 1268.1)
 * added: initial support for Pro users
 * added: new action - Change user preferences
