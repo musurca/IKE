@@ -154,9 +154,14 @@ function PBEM_RegisterNewContact()
 
     local detecting_side = contact.fromside.name
 
-    if not IsIn(detecting_side, PBEM_PLAYABLE_SIDES) then
-        -- if detected by AI side, then report to allied players
-        for _, sidecheck in ipairs(PBEM_PLAYABLE_SIDES) do
+    if IsIn(detecting_side, PBEM_PLAYABLE_SIDES) then
+        -- report it if we're a playable side
+        __RegisterContactForSide(detecting_side)
+    end
+
+    -- report to any allied players if they exist
+    for _, sidecheck in ipairs(PBEM_PLAYABLE_SIDES) do
+        if sidecheck ~= detecting_side then
             local posture = ScenEdit_GetSidePosture(
                 detecting_side,
                 sidecheck
@@ -165,9 +170,6 @@ function PBEM_RegisterNewContact()
                 __RegisterContactForSide(sidecheck)
             end
         end
-    else
-        -- detection by player side, report it
-        __RegisterContactForSide(detecting_side)
     end
 end
 
