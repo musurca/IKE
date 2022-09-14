@@ -333,7 +333,7 @@ function PBEM_AutosaveName()
     local turn_str
     if GetBoolean("PBEM_MATCHOVER") == false then
         local next_turn_num = tostring(Turn_GetTurnNumber())
-        
+
         if next_turn_num == "0" then
             turn_str = cur_side.." SETUP PHASE"
         else
@@ -342,10 +342,10 @@ function PBEM_AutosaveName()
     else
         turn_str = "Game Over"
     end
-    
+
     local scen_title = VP_GetScenario().Title
     local name_string = scen_title.." - "..turn_str..".save"
-    
+
     -- return sanitized filename
     return base_path..string.gsub(
         name_string, 
