@@ -80,13 +80,13 @@ For detailed instructions, please refer to the manual included with the [latest 
 
 ### VERSION HISTORY
 v1.55b1 (?????):
-* added: initial support for "Tiny" (minimum build 1268.1)
+* added: initial support for "Tiny" (minimum build 1276.1)
 * added: initial support for Pro users
 * added: new action - Change user preferences
 * added: new action - Share reference points with allied side
 * added: manage creation and auto-deletion of RPs marking events
 * added: option to autosave the game at the end of your turn
-* changed: upgraded all scenarios to DB v495
+* changed: upgraded most scenarios to DB v496
 * changed: old CMO builds prohibited during scenario creation
 * fixed: new contacts from allied AI sides are reported
 * fixed: string->number conversions no longer implicit

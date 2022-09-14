@@ -10,7 +10,7 @@ can begin (passwords, build versions, etc).
 ----------------------------------------------
 ]]--
 
-IKE_MIN_ALLOWED_BUILD_MAJOR = 1268
+IKE_MIN_ALLOWED_BUILD_MAJOR = 1276
 IKE_MIN_ALLOWED_BUILD_MINOR = 1
 
 function PBEM_EnterPassword()
