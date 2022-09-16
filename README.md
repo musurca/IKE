@@ -1,6 +1,15 @@
 <p align="center"><img src="https://github.com/musurca/IKE/raw/main/logo.jpg" /></p>
 
 ## PBEM/hotseat multiplayer for *Command: Modern Operations* scenarios
+
+### LATEST OPEN BETA RELEASE (CMO Build 1276.1+)
+
+FOR PLAYERS: [**DOWNLOAD LATEST SCENARIO PACK HERE (v1.55b1)**](https://github.com/musurca/IKE/releases/download/v1.55b1-scenarios/IKE_Scenario_Pack_v1.55b1.zip)
+
+FOR SCENARIO AUTHORS: [**DOWNLOAD LATEST RELEASE HERE (v1.55b1)**](https://github.com/musurca/IKE/releases/download/v1.55b1/IKE_v1.55b1.zip)
+
+### LATEST STABLE RELEASE
+
 FOR PLAYERS: [**DOWNLOAD LATEST SCENARIO PACK HERE (v1.54)**](https://github.com/musurca/IKE/releases/download/v1.54-scenarios/IKE_Scenario_Pack_v1.54.zip)
 
 FOR SCENARIO AUTHORS: [**DOWNLOAD LATEST RELEASE HERE (v1.54)**](https://github.com/musurca/IKE/releases/download/v1.54/IKE_v1.54.zip)
@@ -16,6 +25,7 @@ For all others interested: welcome! Pull requests and bug reports are greatly ap
 (Please note that **IKE** is licensed under [GNU GPL v3](https://www.gnu.org/licenses/gpl-3.0-standalone.html), so if you intend to make and distribute changes, please make the source freely available or submit a pull request to this repository promptly.)
 
 ### Build prerequisites
+
 * A Bash shell (on Windows 10, install the [WSL](https://docs.microsoft.com/en-us/windows/wsl/install))
 * [NPM](https://www.npmjs.com/)
 * [luamin](https://github.com/mathiasbynens/luamin)
@@ -26,14 +36,17 @@ For all others interested: welcome! Pull requests and bug reports are greatly ap
 1. Install the WSL
 
 Open a new PowerShell window with Administrator privileges, and run the following command:
+
 ```
 wsl --install
 ```
+
 When complete, restart your computer.
 
 2. Install the prerequisites
 
 From the Ubuntu Bash shell, run the following command:
+
 ```
 sudo apt update && sudo apt-get install python3 npm && sudo npm install -g luamin
 ```
@@ -41,13 +54,15 @@ sudo apt update && sudo apt-get install python3 npm && sudo npm install -g luami
 ### How to compile
 
 #### Release
+
 ```
 ./build.sh
 ```
 
 The compiled, minified Lua code will be placed in `release/ike_min.lua`. This is suitable for converting scenarios for PBEM play by pasting it into the Lua Code Editor and clicking RUN as the final step in the scenario creation process.
- 
+
 #### Debug
+
 ```
 ./build.sh debug
 ```
@@ -55,13 +70,17 @@ The compiled, minified Lua code will be placed in `release/ike_min.lua`. This is
 This will produce compiled but unminified Lua code in `debug/ike_debug.lua`. _Do not use this in a released scenario._ This is mostly useful to observe how the final released Lua is composed from the source files.
 
 #### Why is the build process so complicated?
+
 **IKE** works by injecting its own code into a *CMO* LuaScript event action which is executed upon every scenario load. The build process converts the **IKE** source into a minified, escaped string which is then re-embedded into its own code. (IKE-ception!)
 
 ### What is IKE?
+
 **IKE** adds PBEM (Play by E-Mail) or Hotseat play to any *Command: Modern Operations* scenario, allowing you to engage in a turn-based multiplayer game with one or more opponents by exchanging .save files.
 
 ### What does it do?
+
 **IKE**...
+
 * turns *Command: Modern Operations* into a WEGO-style multiplayer game in which players give orders in phases, then watch their units execute them.
 * keeps track of turn order and length, and stops the scenario automatically when a player’s turn is over.
 * provides a summary of any losses sustained or messages received during the last turn.
@@ -73,13 +92,17 @@ This will produce compiled but unminified Lua code in `debug/ike_debug.lua`. _Do
 * prevents players from cheating by (optionally) disabling the Editor until the scenario has ended.
 
 ### Who is it for?
+
 **IKE** is designed primarily for scenario authors who want to create a multiplayer version of their existing scenario, but it may also be used productively by players who want to convert their favorite scenario for use with a friend.
 
 ### How do I use it?
-For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.54/IKE_v1.54.zip).
+
+For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.55b1/IKE_v1.55b1.zip).
 
 ### VERSION HISTORY
-v1.55b1 (?????):
+
+v1.55b1 (9/16/2022):
+
 * added: initial support for "Tiny" (minimum build 1276.1)
 * added: initial support for Pro users
 * added: new action - Change user preferences
@@ -93,6 +116,7 @@ v1.55b1 (?????):
 * removed: special action - Change posture (deprecated)
 
 v1.54 (4/24/2022):
+
 * added: The End of Françafrique, 2021 (@nukkxx)
 * changed: updated Gaddafi's Legacy, 2024 (@nukkxx)
 * changed: bumped minimum CMO build to 1147.45
@@ -102,6 +126,7 @@ v1.54 (4/24/2022):
 * fixed: French and Spanish localization typos (@claudejdev)
 
 v1.53 (3/6/2022):
+
 * changed: bumped minimum CMO build to 1147.42
 * changed: updated Gaddafi's Legacy, 2024 (@nukkxx)
 * fixed: setup phase overrun
@@ -109,6 +134,7 @@ v1.53 (3/6/2022):
 * fixed: old action events removed
 
 v1.52 (2/4/2022):
+
 * added: new action - About IKE (for current version info)
 * added: Bersama Lima, 2003 (Bridge/@nukkxx)
 * added: Gaddafi's Legacy, 2024 (@nukkxx)
@@ -116,6 +142,7 @@ v1.52 (2/4/2022):
 * fixed: blank scenario when loading game saved during setup phase
 
 v1.51 (1/30/2022):
+
 * added: fratricides from off-turn reported
 * added: En Garde, 2013 (Molina/Perez/@nukkxx)
 * changed: class of incoming weapon hits only reported if known
@@ -126,6 +153,7 @@ v1.51 (1/30/2022):
 * fixed: end message when scenario exceeds duration
 
 v1.5 (12/21/2021):
+
 * added: optional variable turn lengths
 * added: new action - Offer a Draw
 * added: new action - Resign
@@ -147,6 +175,7 @@ v1.5 (12/21/2021):
 * removed: Unlimited Orders mode
 
 v1.42 (11/20/2021):
+
 * added: Chinese (Simplified) localization (thanks to @cristianwj!)
 * added: Chinese (Simplified) translation of Scenario Author's Manual (thanks to @GolasYH 叶含!)
 * added: Twin Head Dragon Exercise 2021 (by @cristianwj)
@@ -160,6 +189,7 @@ v1.42 (11/20/2021):
 * fixed: Event_Delete failure on self-destruct
 
 v1.41 (11/7/2021):
+
 * changed: no-editor check earlier in chain
 * fixed: enemy contact detection info appearing in log
 * fixed: ScenEdit_SpecialMessage behavior reverted
@@ -167,6 +197,7 @@ v1.41 (11/7/2021):
 * fixed: typo in French locale
 
 v1.4 (10/30/2021):
+
 * added: final order phase before the end of a turn in Limited Order mode
 * added: French localization (thanks to @nukkxx!)
 * added: Spanish localization (thanks to Jorge Arraya!)
@@ -184,11 +215,13 @@ v1.4 (10/30/2021):
 * fixed: various scenarios - late random teleportations
 
 v1.31 (5/5/2021):
+
 * change: host can now upgrade/downgrade CMO build
 * change: older CMO clients (before 1147.17) are prohibited
 * fixed: between order phases contacts will show correct posture
 
 v1.3 (3/28/2021):
+
 * added: new contacts from off-turn reported
 * added: kills made on off-turn reported
 * added: immediate and scheduled chat messages
@@ -206,9 +239,11 @@ v1.3 (3/28/2021):
 * fixed: Shamal - kills give points to correct side
 
 v1.21 (2/18/2021):
+
 * fixed: API replacements
 
 v1.2 (2/18/2021):
+
 * added: limited order mode
 * added: players can customize scenario settings
 * added: option to prevent editor mode
@@ -227,8 +262,10 @@ v1.2 (2/18/2021):
 * fixed: better random seed
 
 v1.1 (2/1/2021):
+
 * fixed: edge case for ScenEdit_SetTime() 
 * fixed: use os.date("!") to format scenario times
 
 v1.0 (1/25/2021):
+
 * Initial release.
