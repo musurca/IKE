@@ -10,7 +10,7 @@ for the IKE system.
 ----------------------------------------------
 ]]--
 
-IKE_VERSION = "1.55b1"
+IKE_VERSION = "1.55b2"
 
 PBEM_DUMMY_SIDE = '-----------'
 
