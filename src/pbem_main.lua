@@ -362,6 +362,8 @@ function PBEM_EndTurn()
     -- Delete event RPs from previous turn if preference set
     PBEM_HandleLastTurnEventRPs()
 
+    local will_autosave = PBEM_GetPreference("AUTOSAVE_END_TURN")
+
     -- Switch to the next side
     Turn_NextSide()
 
@@ -377,7 +379,7 @@ function PBEM_EndTurn()
     msg = msg..Format(Localize("END_OF_TURN_MESSAGE"), {
         Turn_GetCurSideName()
     })
-    if PBEM_GetPreference("AUTOSAVE_END_TURN") == true then
+    if can_save and will_autosave then
         msg = msg..Format(Localize("AUTOSAVE_MESSAGE"), {
             autosave_file
         })
@@ -396,13 +398,11 @@ function PBEM_EndTurn()
     StoreNumber("PBEM_TURNOVER", 1)
 
     -- Autosave the game
-    if can_save == true then
-        if PBEM_GetPreference("AUTOSAVE_END_TURN") == true then
-            pcall(
-                Command_SaveScen,
-                autosave_file
-            )
-        end
+    if can_save and will_autosave then
+        pcall(
+            Command_SaveScen,
+            autosave_file
+        )
     end
 
     PBEM_EndAPIReplace()
@@ -427,6 +427,8 @@ function PBEM_EndSetupPhase()
         end
     end
 
+    local will_autosave = PBEM_GetPreference("AUTOSAVE_END_TURN")
+
     Turn_NextSide()
 
     -- generate the filename for the autosave
@@ -438,7 +440,7 @@ function PBEM_EndSetupPhase()
     }))..Format(Localize("END_OF_TURN_MESSAGE"), {
         Turn_GetCurSideName() -- next side
     })
-    if PBEM_GetPreference("AUTOSAVE_END_TURN") == true then
+    if can_save and will_autosave then
         msg = msg..Format(Localize("AUTOSAVE_MESSAGE"), {
             autosave_file
         })
@@ -449,13 +451,11 @@ function PBEM_EndSetupPhase()
     StoreBoolean("PBEM_SETUPBLOCK", true)
 
     -- Autosave the game
-    if can_save == true then
-        if PBEM_GetPreference("AUTOSAVE_END_TURN") == true then
-            pcall(
-                Command_SaveScen,
-                autosave_file
-            )
-        end
+    if can_save and will_autosave then
+        pcall(
+            Command_SaveScen,
+            autosave_file
+        )
     end
 
     PBEM_EndAPIReplace()

@@ -152,6 +152,8 @@ function PBEM_ScenarioOver()
         return
     end
 
+    local will_autosave = PBEM_GetPreference("AUTOSAVE_END_TURN")
+
     local score_tbl
     local match_over = GetBoolean("PBEM_MATCHOVER")
     if match_over == false then
@@ -208,7 +210,7 @@ function PBEM_ScenarioOver()
     local can_save, autosave_file = pcall( PBEM_AutosaveName )
     
     -- Autosave the game
-    if can_save == true then
+    if can_save and will_autosave then
         pcall(
             Command_SaveScen,
             autosave_file

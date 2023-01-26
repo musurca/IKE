@@ -26,9 +26,12 @@ end
 function PBEM_InitPreferences()
     local prefix = PBEM_PreferencePrefix()
     for i, pref in ipairs(IKE_PREFERENCES_DEFAULT) do
+        local pref_id = pref[IKE_PREF_KEY]
+        local pref_default_val = pref[IKE_PREF_VALUE]
+        
         StoreBoolean(
-            prefix..pref[IKE_PREF_KEY], 
-            pref[IKE_PREF_VALUE]
+            prefix..pref_id, 
+            pref_default_val
         )
     end
 end

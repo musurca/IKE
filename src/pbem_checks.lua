@@ -391,9 +391,8 @@ function PBEM_GetBuildMajorMinor(buildnum_string)
         end
     else
         -- just a major version number, minor version is 0
-        cmo_version_major = tonumber(
-            string.gsub(buildnum_string, "%D", "")
-        )
+        local major_str = string.gsub(buildnum_string, "%D", "")
+        cmo_version_major = tonumber(major_str)
         if cmo_version_major == nil then
             cmo_version_major = 0
         end
