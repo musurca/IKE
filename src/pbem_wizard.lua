@@ -20,7 +20,7 @@ function PBEM_Wizard()
     end
 
     -- prohibit excessively old clients
-    if PBEM_VerifyBuildNumber() == false then
+    if PBEM_VerifyBuildNumber() < 0 then
         Input_OK(Format(Localize("VERSION_TOO_OLD"), {
             GetBuildNumber(),
             PBEM_MinimumCompatibleBuild()

@@ -276,7 +276,14 @@ function PBEM_ShowRemainingTime()
         local min = math.floor((timeLeft - hrs*60*60) / 60)
         local sec = math.floor(timeLeft - hrs*60*60 - min*60)
         
-        local msg = Format(Localize("SHOW_REMAINING_TIME"), {PadDigits(hrs), PadDigits(min), PadDigits(sec)})
+        local msg = Format(
+            Localize("SHOW_REMAINING_TIME"), 
+            {
+                PadDigits(hrs), 
+                PadDigits(min), 
+                PadDigits(sec)
+            }
+        )
         Input_OK(msg)
     end
 end

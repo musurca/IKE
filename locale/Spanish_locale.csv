@@ -63,7 +63,7 @@ START_OF_TURN_HEADER|%1 Turno %2<br/>(%3 minutos)
 START_ORDER_HEADER|%1 Turno %2<br/>(%3 minutos)<br/><br/>Fase de Orden %4
 START_ORDER_MESSAGE|Da órdenes a tus unidades. Cuando haya terminado, <b>empiece el reloj</b> para ejecutarlas.
 THIRD|TERCERO
-VERSION_MISMATCH|ERROR: Está usando la versión %1 de CMO, pero este juego PBEM fue creado en la versión %2. Todos los jugadores deben utilizar la misma versión.
+VERSION_MISMATCH|ERROR: Estás usando la compilación CMO %1, pero este juego PBEM requiere %2. Actualiza tu cliente de juego.
 VERSION_TOO_OLD|Su versión de CMO (%1) está desactualizada. Por favor actualice su versión a %2 o mayor para jugar este escenario en PBEM.
 VERSION_UPGRADE|(Su juego ha sido automáticamente actualizado a CMO versión %1.)
 WIZARD_BACKUP|Por favor guarde un backup y luego ejecute (RUN) esta herramienta nuevamente. 
@@ -157,3 +157,4 @@ SHARE_RP_CANCELLED|Se canceló el uso compartido de puntos de referencia.
 SHARE_RP_SUCCESSFUL|%1 compartido con %2.
 SPEC_SHAREMP_NAME|(PBEM) Enviar puntos de referencia a un jugador aliado
 SPEC_SHAREMP_DESC|Comparte los puntos de referencia seleccionados con un aliado.
+AUTOSAVE_MESSAGE|<br/><br/>(Para tu comodidad, tu juego ya se guardó automáticamente en %1).

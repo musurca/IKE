@@ -63,7 +63,7 @@ START_OF_TURN_HEADER|%1 回合 %2<br/>(%3 分钟)
 START_ORDER_HEADER|%1 回合 %2<br/>(%3 分钟)<br/><br/>命令阶段 %4
 START_ORDER_MESSAGE|请根据需求发布命令. 当命令设置完成后再点击<b>运行时间</b> .
 THIRD|第3顺位
-VERSION_MISMATCH|错误: 您使用的版本为%1, 但当前的对战剧本为 %2. 所有玩家必须使用相同的版本号.
+VERSION_MISMATCH|错误：您正在使用 CMO 版本 %1，但此 PBEM 游戏需要 %2。请更新您的游戏客户端。
 VERSION_TOO_OLD|您的CMO当前版本 (%1)已过时. 请升级到 %2 版本后再进行PBEM对战.
 VERSION_UPGRADE|(游戏已经自动升级至CMO 版本 %1.)
 WIZARD_BACKUP|请先进行备份保存，然后运行此插件.
@@ -157,3 +157,4 @@ SHARE_RP_CANCELLED|共享参考点已取消.
 SHARE_RP_SUCCESSFUL|%1 与 %2 共享.
 SPEC_SHAREMP_NAME|(PBEM) 向友方玩家发送参考点
 SPEC_SHAREMP_DESC|与盟友共享选定的参考点.
+AUTOSAVE_MESSAGE|<br/><br/>（为方便起见，您的游戏已自动保存到 %1。）

@@ -133,7 +133,7 @@ function PBEM_StartTurn()
     end
 
     -- prohibit excessively old clients
-    if PBEM_VerifyBuildNumber() == false then
+    if PBEM_VerifyBuildNumber() < 0 then
         Input_OK(Format(Localize("VERSION_TOO_OLD"), {
             GetBuildNumber(),
             PBEM_MinimumCompatibleBuild()
@@ -160,7 +160,7 @@ function PBEM_StartTurn()
             PBEM_SetHostBuildNumber()
             PBEM_UserCheckSettings()
             PBEM_DoInitialSetup()
-        elseif not PBEM_CheckHostBuildNumber() then
+        elseif PBEM_CheckHostBuildNumber() == false then
             -- version mismatch
             PBEM_SelfDestruct()
             return
@@ -188,8 +188,8 @@ function PBEM_StartTurn()
         StoreBoolean(side_init, true)
     else
         -- side already initialized
-        if not PBEM_CheckHostBuildNumber() then
-            -- version mismatch
+        if PBEM_CheckHostBuildNumber() == false then
+            -- CMO build too old for the save
             PBEM_SelfDestruct()
             return
         end
@@ -377,6 +377,11 @@ function PBEM_EndTurn()
     msg = msg..Format(Localize("END_OF_TURN_MESSAGE"), {
         Turn_GetCurSideName()
     })
+    if PBEM_GetPreference("AUTOSAVE_END_TURN") == true then
+        msg = msg..Format(Localize("AUTOSAVE_MESSAGE"), {
+            autosave_file
+        })
+    end
     PBEM_SpecialMessage('playerside', msg, nil, true)
     StoreString("PBEM_ENDTURN_MSG", msg)
     StoreNumber("__CUR_TURN_TIME", next_turn_time)
@@ -392,10 +397,12 @@ function PBEM_EndTurn()
 
     -- Autosave the game
     if can_save == true then
-        pcall(
-            Command_SaveScen,
-            autosave_file
-        )
+        if PBEM_GetPreference("AUTOSAVE_END_TURN") == true then
+            pcall(
+                Command_SaveScen,
+                autosave_file
+            )
+        end
     end
 
     PBEM_EndAPIReplace()
@@ -431,6 +438,11 @@ function PBEM_EndSetupPhase()
     }))..Format(Localize("END_OF_TURN_MESSAGE"), {
         Turn_GetCurSideName() -- next side
     })
+    if PBEM_GetPreference("AUTOSAVE_END_TURN") == true then
+        msg = msg..Format(Localize("AUTOSAVE_MESSAGE"), {
+            autosave_file
+        })
+    end
     PBEM_SpecialMessage('playerside', msg, nil, true)
     PBEM_FlushSpecialMessages()
     ScenEdit_SetTime(PBEM_StartTimeToUTC())
@@ -438,10 +450,12 @@ function PBEM_EndSetupPhase()
 
     -- Autosave the game
     if can_save == true then
-        pcall(
-            Command_SaveScen,
-            autosave_file
-        )
+        if PBEM_GetPreference("AUTOSAVE_END_TURN") == true then
+            pcall(
+                Command_SaveScen,
+                autosave_file
+            )
+        end
     end
 
     PBEM_EndAPIReplace()

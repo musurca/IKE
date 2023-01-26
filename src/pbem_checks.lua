@@ -68,22 +68,29 @@ function PBEM_SetHostBuildNumber()
     StoreString("__PBEM_HOST_BUILDNUM", GetBuildNumber())
 end
 
+function PBEM_GetHostBuildNumber()
+    return GetString("__PBEM_HOST_BUILDNUM")
+end
+
 function PBEM_CheckHostBuildNumber()
-    local mybuild = GetBuildNumber()
-    local hostbuild = GetString("__PBEM_HOST_BUILDNUM")
-    if Turn_GetCurSide() == 1 then
-        if hostbuild ~= mybuild then
-            PBEM_SetHostBuildNumber()
-            Input_OK(Format(Localize("VERSION_UPGRADE"), {mybuild}))
-        end
-    else
-        if mybuild ~= hostbuild then
-            Input_OK(Format(Localize("VERSION_MISMATCH"), {
-                mybuild,
-                hostbuild
-            }))
-            return false
-        end
+    local savebuild_verify = PBEM_VerifySaveBuildNumber()
+    if savebuild_verify < 0 then
+        -- CMO build is too old for this save
+        Input_OK(Format(Localize("VERSION_MISMATCH"), 
+            {
+                GetBuildNumber(),
+                PBEM_GetHostBuildNumber()
+            }
+        ))
+        return false
+    elseif savebuild_verify > 0 then
+        -- CMO build is newer than the save, update it
+        PBEM_SetHostBuildNumber()
+        Input_OK(Format(Localize("VERSION_UPGRADE"), 
+            {
+                GetBuildNumber()
+            }
+        ))
     end
     return true
 end
@@ -357,36 +364,94 @@ function PBEM_CheckDraw()
     return false
 end
 
---[[
-    returns false if CMO build is too old for this version of IKE,
-    true otherwise
-]]--
-function PBEM_VerifyBuildNumber()
-    local buildnum_string = GetBuildNumber()
-    local version_div_index = string.find(buildnum_string, "%.")
+function PBEM_GetBuildMajorMinor(buildnum_string)
     local cmo_version_major, cmo_version_minor
+
+    local version_div_index = string.find(buildnum_string, "%.")
     if version_div_index then
-        cmo_version_major = tonumber(
-            string.sub(buildnum_string, 1, version_div_index - 1)
+        -- cut major and minor version integers, and remove non-numeric characters
+        local major_str = string.sub(
+            buildnum_string, 
+            1, version_div_index - 1
         )
-        cmo_version_minor = tonumber(
-            string.sub(buildnum_string, version_div_index + 1, string.len(buildnum_string) )
+        major_str = string.gsub(major_str, "%D", "")
+        local minor_str = string.sub(
+            buildnum_string, 
+            version_div_index + 1, string.len(buildnum_string)
         )
+        minor_str = string.gsub(minor_str, "%D", "")
+
+        cmo_version_major = tonumber(major_str)
+        cmo_version_minor = tonumber(minor_str)
+        if cmo_version_major == nil then
+            cmo_version_major = 0
+        end
+        if cmo_version_minor == nil then
+            cmo_version_minor = 0
+        end
     else
-        cmo_version_major = tonumber(buildnum_string)
+        -- just a major version number, minor version is 0
+        cmo_version_major = tonumber(
+            string.gsub(buildnum_string, "%D", "")
+        )
         if cmo_version_major == nil then
             cmo_version_major = 0
         end
         cmo_version_minor = 0
     end
+
+    return cmo_version_major, cmo_version_minor
+end
+
+--[[
+    returns -1 if CMO build is too old for this version of IKE,
+    0 if CMO build matches minimum IKE build, and 1 otherwise
+]]--
+function PBEM_VerifyBuildNumber()
+    local cmo_version_major, cmo_version_minor = PBEM_GetBuildMajorMinor(
+        GetBuildNumber()
+    )
+
     if cmo_version_major < IKE_MIN_ALLOWED_BUILD_MAJOR then
-        return false
+        return -1
+    elseif cmo_version_major > IKE_MIN_ALLOWED_BUILD_MAJOR then
+        return 1
     elseif cmo_version_major == IKE_MIN_ALLOWED_BUILD_MAJOR then
         if cmo_version_minor < IKE_MIN_ALLOWED_BUILD_MINOR then
-            return false
+            return -1
+        elseif cmo_version_minor > IKE_MIN_ALLOWED_BUILD_MINOR then
+            return 1
         end
     end
-    return true
+    return 0
+end
+
+--[[
+    returns -1 if CMO build is too old for this savegame,
+    0 if CMO build matches savegame, and 1 if CMO build is newer and will
+    upgrade the save
+]]--
+function PBEM_VerifySaveBuildNumber()
+    local cmo_version_major, cmo_version_minor = PBEM_GetBuildMajorMinor(
+        GetBuildNumber()
+    )
+
+    local game_version_major, game_version_minor = PBEM_GetBuildMajorMinor(
+        PBEM_GetHostBuildNumber()
+    )
+
+    if cmo_version_major < game_version_major then
+        return -1
+    elseif cmo_version_major > game_version_major then 
+        return 1
+    elseif cmo_version_major == game_version_major then
+        if cmo_version_minor < game_version_minor then
+            return -1
+        elseif cmo_version_minor > game_version_minor then
+            return 1
+        end
+    end
+    return 0
 end
 
 function PBEM_MinimumCompatibleBuild()
