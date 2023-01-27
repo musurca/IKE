@@ -2,9 +2,9 @@
 
 ## PBEM/hotseat multiplayer for *Command: Modern Operations* scenarios
 
-FOR PLAYERS: [**DOWNLOAD LATEST SCENARIO PACK HERE (v1.55b1)**](https://github.com/musurca/IKE/releases/download/v1.55b1-scenarios/IKE_Scenario_Pack_v1.55b1.zip)
+FOR PLAYERS: [**DOWNLOAD LATEST SCENARIO PACK HERE (v1.55b2)**](https://github.com/musurca/IKE/releases/download/v1.55b2-scenarios/IKE_Scenario_Pack_v1.55b2.zip)
 
-FOR SCENARIO AUTHORS: [**DOWNLOAD LATEST RELEASE HERE (v1.55b1)**](https://github.com/musurca/IKE/releases/download/v1.55b1/IKE_v1.55b1.zip)
+FOR SCENARIO AUTHORS: [**DOWNLOAD LATEST RELEASE HERE (v1.55b2)**](https://github.com/musurca/IKE/releases/download/v1.55b2/IKE_v1.55b2.zip)
 
 If you're a scenario author or player looking to convert a new or existing scenario for multiplayer use, you only need to download either the latest release or scenario pack using the links above. 
 
@@ -89,9 +89,19 @@ This will produce compiled but unminified Lua code in `debug/ike_debug.lua`. _Do
 
 ### How do I use it?
 
-For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.55b1/IKE_v1.55b1.zip).
+For detailed instructions, please refer to the manual included with the [latest official release](https://github.com/musurca/IKE/releases/download/v1.55b2/IKE_v1.55b2.zip).
 
 ### VERSION HISTORY
+
+v1.55b2 (1/26/2023):
+
+* added: message confirming autosave location at end of turn
+* changed: minimum CMO build now 1307.0 (the "War Planner" update)
+* changed: newer clients automatically update the save to current build
+* changed: updated all scenarios to DB 498a
+* changed: En Garde, 2013 - added neutral shipping
+* fixed: fatal CMO version check bug in 1307
+* fixed: autosave preferences taken into account
 
 v1.55b1 (9/16/2022):
 
