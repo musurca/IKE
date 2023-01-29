@@ -364,6 +364,10 @@ function PBEM_CheckDraw()
     return false
 end
 
+--[[
+    Extract a major and minor version number from a build string.
+    e.g. "1307.1" -> 1307, 1
+]]--
 function PBEM_GetBuildMajorMinor(buildnum_string)
     local cmo_version_major, cmo_version_minor
 
@@ -403,7 +407,43 @@ function PBEM_GetBuildMajorMinor(buildnum_string)
 end
 
 --[[
-    returns -1 if CMO build is too old for this version of IKE,
+    Compare two minor version numbers. Returns:
+        -1, a < b
+        0, a==b
+        1,  a > b
+
+    The function properly normalizes minor version numbers,
+    such that:
+        ####.1 < ####.11
+        ####.11 < ####.2
+]]--
+function PBEM_MinorVersionCmp(a, b)
+    local a_str = tostring(a)
+    local b_str = tostring(b)
+    local a_digits = string.len(a_str)
+    local b_digits = string.len(b_str)
+
+    local digit_diff
+    local a_cmp = a
+    local b_cmp = b
+    if b_digits > a_digits then
+        digit_diff = b_digits - a_digits
+        a_cmp = a * 10^digit_diff
+    elseif a_digits > b_digits then
+        digit_diff = a_digits - b_digits
+        b_cmp = b * 10^digit_diff
+    end
+
+    if a_cmp < b_cmp then
+        return -1
+    elseif b_cmp < a_cmp then
+        return 1
+    end
+    return 0
+end
+
+--[[
+    Returns -1 if CMO build is too old for this version of IKE,
     0 if CMO build matches minimum IKE build, and 1 otherwise
 ]]--
 function PBEM_VerifyBuildNumber()
@@ -415,18 +455,16 @@ function PBEM_VerifyBuildNumber()
         return -1
     elseif cmo_version_major > IKE_MIN_ALLOWED_BUILD_MAJOR then
         return 1
-    elseif cmo_version_major == IKE_MIN_ALLOWED_BUILD_MAJOR then
-        if cmo_version_minor < IKE_MIN_ALLOWED_BUILD_MINOR then
-            return -1
-        elseif cmo_version_minor > IKE_MIN_ALLOWED_BUILD_MINOR then
-            return 1
-        end
     end
-    return 0
+    
+    return PBEM_MinorVersionCmp(
+        cmo_version_minor, 
+        IKE_MIN_ALLOWED_BUILD_MINOR
+    )
 end
 
 --[[
-    returns -1 if CMO build is too old for this savegame,
+    Returns -1 if CMO build is too old for this savegame,
     0 if CMO build matches savegame, and 1 if CMO build is newer and will
     upgrade the save
 ]]--
@@ -443,14 +481,12 @@ function PBEM_VerifySaveBuildNumber()
         return -1
     elseif cmo_version_major > game_version_major then 
         return 1
-    elseif cmo_version_major == game_version_major then
-        if cmo_version_minor < game_version_minor then
-            return -1
-        elseif cmo_version_minor > game_version_minor then
-            return 1
-        end
     end
-    return 0
+
+    return PBEM_MinorVersionCmp(
+        cmo_version_minor,
+        game_version_minor
+    )
 end
 
 function PBEM_MinimumCompatibleBuild()
