@@ -365,45 +365,65 @@ function PBEM_CheckDraw()
 end
 
 --[[
-    Extract a major and minor version number from a build string.
-    e.g. "1307.1" -> 1307, 1
+    Extract major/minor numbers from a build string.
+    Supported formats:
+      - "v1.07 - Build 1567"  => 1567, 7
+      - "v1.07 Build 1567"    => 1567, 7
+      - "Build 1567"          => 1567, 0
+      - "1307.1"              => 1307, 1
 ]]--
 function PBEM_GetBuildMajorMinor(buildnum_string)
-    local cmo_version_major, cmo_version_minor
+    local major_build_number = 0
+    local minor_version_number = 0
 
-    local version_div_index = string.find(buildnum_string, "%.")
-    if version_div_index then
-        -- cut major and minor version integers, and remove non-numeric characters
-        local major_str = string.sub(
-            buildnum_string, 
-            1, version_div_index - 1
-        )
-        major_str = string.gsub(major_str, "%D", "")
-        local minor_str = string.sub(
-            buildnum_string, 
-            version_div_index + 1, string.len(buildnum_string)
-        )
-        minor_str = string.gsub(minor_str, "%D", "")
-
-        cmo_version_major = tonumber(major_str)
-        cmo_version_minor = tonumber(minor_str)
-        if cmo_version_major == nil then
-            cmo_version_major = 0
-        end
-        if cmo_version_minor == nil then
-            cmo_version_minor = 0
-        end
-    else
-        -- just a major version number, minor version is 0
-        local major_str = string.gsub(buildnum_string, "%D", "")
-        cmo_version_major = tonumber(major_str)
-        if cmo_version_major == nil then
-            cmo_version_major = 0
-        end
-        cmo_version_minor = 0
+    if buildnum_string == nil then
+        return major_build_number, minor_version_number
     end
 
-    return cmo_version_major, cmo_version_minor
+    local raw = tostring(buildnum_string)
+    if raw == "" then
+        return major_build_number, minor_version_number
+    end
+
+    local lowered = string.lower(raw)
+
+    -- Match "vX.Y - Build Z"
+    local v_major, v_minor, build_num = string.match(
+        lowered,
+        "v(%d+)%.(%d+)%s*%-?%s*build%s*(%d+)"
+    )
+    if build_num then
+        major_build_number = tonumber(build_num) or 0
+        minor_version_number = tonumber(v_minor) or 0
+        return major_build_number, minor_version_number
+    end
+
+    -- Match "build Z"
+    local build_only = string.match(lowered, "build%s*(%d+)")
+    if build_only then
+        major_build_number = tonumber(build_only) or 0
+        local v_minor_only = string.match(lowered, "v%d+%.(%d+)")
+        minor_version_number = tonumber(v_minor_only) or 0
+        return major_build_number, minor_version_number
+    end
+
+    -- Match "1307.1"
+    local version_div_index = string.find(raw, "%.")
+    if version_div_index then
+        local major_str = string.sub(raw, 1, version_div_index - 1)
+        major_str = string.gsub(major_str, "%D", "")
+        local minor_str = string.sub(raw, version_div_index + 1)
+        minor_str = string.gsub(minor_str, "%D", "")
+
+        major_build_number = tonumber(major_str) or 0
+        minor_version_number = tonumber(minor_str) or 0
+        return major_build_number, minor_version_number
+    end
+
+    -- Match "1307"
+    local digits_only = string.gsub(raw, "%D", "")
+    major_build_number = tonumber(digits_only) or 0
+    return major_build_number, minor_version_number
 end
 
 --[[
